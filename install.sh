@@ -1,0 +1,7 @@
+ln -s "$(pwd)/zsh/zshrc" "${HOME}/.zshrc"
+ln -s "$(pwd)/zsh/adn.zsh-theme" "${HOME}/.oh-my-zsh/themes/adn.zsh-theme"
+ln -s "$(pwd)/ctags" "${HOME}/.ctags"
+ln -s "$(pwd)/psqlrc" "${HOME}/.psqlrc"
+ln -s "$(pwd)/tmux.conf" "${HOME}/.tmux.conf"
+mkdir -p "${HOME}/.config/nvim"
+ln -s "$(pwd)/vimrc" "${HOME}/.config/nvim/init.vim"
