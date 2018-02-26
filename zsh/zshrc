@@ -105,7 +105,7 @@ export PATH="$HOME/.psvm/current/bin:$PATH"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source .sp.sh
+source "${HOME}/.sp.sh"
 
 # Python virtualenvs
 export WORKON_HOME=~/.virtualenvs

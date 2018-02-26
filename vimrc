@@ -95,6 +95,9 @@ set undodir=~/.local/share/nvim/undodir/
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
 
+" Go to last edited buffer
+nnoremap <bs> <c-^>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
