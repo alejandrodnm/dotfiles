@@ -183,6 +183,9 @@ nnoremap <Leader>tc :tabclose<CR>
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" gitgutter reduce the time to make signs appear
+set updatetime=100
+
 " pgsql
 let g:sql_type_default = 'pgsql'
 
