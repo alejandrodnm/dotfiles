@@ -44,7 +44,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mix-fast vi-mode)
+plugins=(git mix-fast vi-mode docker)
 
 # vi mode timeout
 export KEYTIMEOUT=1
@@ -84,11 +84,11 @@ source $HOME/.asdf/completions/asdf.bash
 # Purescript version manager
 export PATH="$HOME/.psvm/current/bin:$PATH"
 
+# Go bin
+export PATH="$HOME/go/bin:$PATH"
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# NVIM
-# export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -106,6 +106,7 @@ export PATH="$HOME/.psvm/current/bin:$PATH"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source "${HOME}/.sp.sh"
+source "${HOME}/.minikube_completion.sh"
 
 # Python virtualenvs
 export WORKON_HOME=~/.virtualenvs

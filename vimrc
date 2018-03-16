@@ -50,6 +50,7 @@ Plugin 'plasticboy/vim-markdown'
 " Plugin 'raichoo/purescript-vim'
 Plugin 'exu/pgsql.vim'
 Plugin 'ethereum/vim-solidity'
+Plugin 'neovimhaskell/haskell-vim.git'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -94,9 +95,6 @@ set undodir=~/.local/share/nvim/undodir/
 
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
-
-" Go to last edited buffer
-nnoremap <bs> <c-^>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -258,8 +256,8 @@ let g:neomake_javascript_prettier_maker = {
     \ 'exe': 'prettier-eslint',
     \ 'args': ['--write', '%:p']
     \ }
-let g:neomake_javascript_enabled_makers = ['prettier', 'eslint']
-let g:neomake_jsx_enabled_makers = ['prettier', 'eslint']
+let g:neomake_javascript_enabled_makers = ['prettier', 'eslint', 'flow']
+let g:neomake_jsx_enabled_makers = ['prettier', 'eslint', 'flow']
 augroup neomake_augroup
   autocmd!
   autocmd BufWritePost * Neomake
@@ -285,6 +283,11 @@ let g:airline#extensions#default#section_truncate_width = {
   \ 'warning': 80,
   \ 'error': 80,
   \ }
+
+let g:airline#extensions#default#layout = [
+    \ [ 'a', 'c' ],
+    \ [ 'x', 'y', 'z', 'error', 'warning' ]
+    \ ]
 
 " NERDTree
 nmap <Leader>e :NERDTreeToggle<CR>
