@@ -44,7 +44,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mix-fast vi-mode docker)
+plugins=(git mix-fast vi-mode docker tmuxinator)
 
 # vi mode timeout
 export KEYTIMEOUT=1
@@ -109,6 +109,7 @@ source "${HOME}/.sp.sh"
 source "${HOME}/.minikube_completion.sh"
 
 # Python virtualenvs
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 export WORKON_HOME=~/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
 VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
@@ -161,3 +162,4 @@ bindkey "^[[1;5C" forward-word
 bindkey -a "^[[1;5C" forward-word
 
 unalias grv
+alias ls='exa -la --git'
