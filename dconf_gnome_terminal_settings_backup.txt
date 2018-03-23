@@ -1,0 +1,41 @@
+[legacy]
+menu-accelerator-enabled=false
+schema-version=uint32 3
+default-show-menubar=false
+
+[legacy/profiles:]
+list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', '3847f5ee-2b19-4e0a-b840-18ee75634bad']
+default='3847f5ee-2b19-4e0a-b840-18ee75634bad'
+
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+foreground-color='rgb(101,123,131)'
+rewrap-on-resize=true
+visible-name='Solarized'
+palette=['rgb(0,0,0)', 'rgb(205,0,0)', 'rgb(0,205,0)', 'rgb(205,205,0)', 'rgb(0,0,238)', 'rgb(205,0,205)', 'rgb(0,205,205)', 'rgb(229,229,229)', 'rgb(127,127,127)', 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(92,92,255)', 'rgb(255,0,255)', 'rgb(0,255,255)', 'rgb(255,255,255)']
+use-system-font=false
+use-transparent-background=false
+use-theme-colors=true
+font='Fira Mono for Powerline 10'
+allow-bold=true
+background-color='rgb(253,246,227)'
+background-transparency-percent=22
+audible-bell=false
+
+[legacy/profiles:/:3847f5ee-2b19-4e0a-b840-18ee75634bad]
+foreground-color='rgb(161,176,184)'
+visible-name='MyMaterial'
+palette=['rgb(37,37,37)', 'rgb(255,82,82)', 'rgb(195,216,44)', 'rgb(255,193,53)', 'rgb(66,165,245)', 'rgb(216,27,96)', 'rgb(0,172,193)', 'rgb(245,245,245)', 'rgb(112,130,132)', 'rgb(255,82,82)', 'rgb(195,216,44)', 'rgb(255,193,53)', 'rgb(66,165,245)', 'rgb(216,27,96)', 'rgb(0,172,193)', 'rgb(245,245,245)']
+cursor-background-color='rgb(0,0,0)'
+use-system-font=false
+cursor-colors-set=false
+highlight-colors-set=false
+use-theme-colors=true
+use-transparent-background=false
+font='Fira Mono for Powerline 10'
+cursor-foreground-color='rgb(255,255,255)'
+bold-color-same-as-fg=true
+bold-color='rgb(255,255,255)'
+background-color='rgb(38,50,56)'
+audible-bell=false
+highlight-background-color='rgb(0,0,0)'
+highlight-foreground-color='rgb(255,255,255)'
