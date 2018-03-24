@@ -1,10 +1,11 @@
-time="%{$fg_bold[magenta]%}%*%{$reset_color%}"
-user="%{$fg_bold[white]%}%n@%m"
-ret_status="%(?:%{$fg_bold[green]%}λ:%{$fg_bold[red]%}λ)"
-arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜)"
-vim_ins_mode="%{$fg_bold[cyan]%}[INSERT]%{$reset_color%}"
-vim_cmd_mode="%{$fg_bold[green]%}[NORMAL]%{$reset_color%}"
+time="%{$fg_bold[magenta]%}%*"
+user="%{$fg_bold[magenta]%}%n@%m"
+ret_status="%(?:%{$fg_bold[green]%}λ:%{$fg_bold[red]%}λ) "
+arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜) "
+vim_ins_mode="%{$fg_bold[cyan]%}[INSERT]"
+vim_cmd_mode="%{$fg_bold[green]%}[NORMAL]"
 vim_mode=$vim_ins_mode
+adn_directory="%{$fg[cyan]%}%c "
 
 function zle-keymap-select {
   vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
@@ -17,27 +18,28 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
-PROMPT='${ret_status} ${arrow} ${user} %{$fg[cyan]%}%c $(check_git_prompt_info)$(virtualenv_info)
-${ret_status} ${arrow} %{$reset_color%}'
+PROMPT='${adn_directory}$(adn::jobs)$(adn::check_git_prompt_info)$(adn::virtualenv_info)
+${ret_status}${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}${vim_mode} ${time}%{$reset_color%}%{$(echotc DO 1)%}'
 
 # Git sometimes goes into a detached head state. git_prompt_info doesn't
 # return anything in this case. So wrap it in another function and check
 # for an empty string.
-function check_git_prompt_info() {
+adn::check_git_prompt_info() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         if [[ -z $(git_prompt_info 2> /dev/null) ]]; then
-            echo "%{$fg[blue]%}detached-head%{$reset_color%}) [$(git_prompt_status)] %{$reset_color%}"
+            echo "%{$fg[blue]%}detached-head%{$reset_color%}) [$(git_prompt_status)] "
         else
-            echo "$(git_prompt_info 2> /dev/null) $(git_prompt_status) %{$reset_color%}"
+            echo "$(git_prompt_info 2> /dev/null) $(git_prompt_status) "
         fi
     else
         echo ""
     fi
 }
 
-function virtualenv_info(){
+# Show icon if there's a working jobs in the background
+adn::virtualenv_info(){
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
@@ -46,7 +48,16 @@ function virtualenv_info(){
         # In case you don't have one activated
         venv=''
     fi
-    [[ -n "$venv" ]] && echo "%{$fg_bold[white]%}🐍 $venv%{$reset_color%}"
+    [[ -n "$venv" ]] && echo "%{$fg_bold[white]%}🐍 $venv "
+}
+
+# SpaceShip - Show icon if there's a working jobs in the background
+adn::jobs() {
+  local jobs_amount=$( (jobs) | wc -l )
+
+  [[ $jobs_amount -gt 0 ]] || return
+
+  echo "%{$fg_bold[red]%}& "
 }
 
 # Format for git_prompt_status()
