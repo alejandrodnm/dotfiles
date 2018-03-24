@@ -18,7 +18,7 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
-PROMPT='${adn_directory}$(adn::jobs)$(adn::check_git_prompt_info)$(adn::virtualenv_info)
+PROMPT='${adn_directory}$(adn::jobs)$(adn::check_git_prompt_info)$(adn::virtualenv_info)$(adn::aws)
 ${ret_status}${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}${vim_mode} ${time}%{$reset_color%}%{$(echotc DO 1)%}'
@@ -40,6 +40,7 @@ adn::check_git_prompt_info() {
 
 # Show icon if there's a working jobs in the background
 adn::virtualenv_info(){
+    local venv
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
@@ -58,6 +59,19 @@ adn::jobs() {
   [[ $jobs_amount -gt 0 ]] || return
 
   echo "%{$fg_bold[red]%}& "
+}
+
+# Shows current aws role and if it has expire
+adn::aws() {
+  [[ -n "${AWS_ROLE}" ]] || return
+
+  local color="%{$fg_bold[white]%}"
+
+  if [[ $(date +"%s") -ge ${AWS_SESSION_EXPIRE} ]]
+  then
+    color="%{$fg_bold[red]%}"
+  fi
+  echo "${color}☁️  ${AWS_ROLE} "
 }
 
 # Format for git_prompt_status()
