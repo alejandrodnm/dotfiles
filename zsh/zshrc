@@ -46,6 +46,14 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git mix-fast vi-mode docker tmuxinator)
 
+# Use for git branch in theme
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git*' formats '%b'
+precmd() {
+    vcs_info
+}
+
 # vi mode timeout
 export KEYTIMEOUT=1
 

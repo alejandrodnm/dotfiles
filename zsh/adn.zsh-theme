@@ -18,25 +18,10 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
-PROMPT='${adn_directory}$(adn::jobs)$(adn::check_git_prompt_info)$(adn::virtualenv_info)$(adn::aws)
+PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::virtualenv_info)$(adn::aws)
 ${ret_status}${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}${vim_mode} ${time}%{$reset_color%}%{$(echotc DO 1)%}'
-
-# Git sometimes goes into a detached head state. git_prompt_info doesn't
-# return anything in this case. So wrap it in another function and check
-# for an empty string.
-adn::check_git_prompt_info() {
-    if git rev-parse --git-dir > /dev/null 2>&1; then
-        if [[ -z $(git_prompt_info 2> /dev/null) ]]; then
-            echo "%{$fg[blue]%}detached-head%{$reset_color%}) [$(git_prompt_status)] "
-        else
-            echo "$(git_prompt_info 2> /dev/null) $(git_prompt_status) "
-        fi
-    else
-        echo ""
-    fi
-}
 
 # Show icon if there's a working jobs in the background
 adn::virtualenv_info(){
@@ -74,15 +59,139 @@ adn::aws() {
   echo "${color}☁️  ${AWS_ROLE} "
 }
 
-# Format for git_prompt_status()
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[white]%}\ue0a0 %{$fg_bold[magenta]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY=""
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_STATUS_PREFIX="%{$fg_bold[green]%}["
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%}+"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg_bold[blue]%}!"
-ZSH_THEME_GIT_PROMPT_DELETED="%{$fg_bold[red]%}-"
-ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg_bold[magenta]%}>"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg_bold[yellow]%}#"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[cyan]%}?"
+#
+# Git status
+#
+
+# ------------------------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------------------------
+
+SPACESHIP_GIT_STATUS_SHOW="true"
+SPACESHIP_GIT_STATUS_PREFIX="["
+SPACESHIP_GIT_STATUS_SUFFIX="]"
+SPACESHIP_GIT_STATUS_COLOR="%{$fg_bold[red]%}"
+SPACESHIP_GIT_STATUS_UNTRACKED="?"
+SPACESHIP_GIT_STATUS_ADDED="+"
+SPACESHIP_GIT_STATUS_MODIFIED="!"
+SPACESHIP_GIT_STATUS_RENAMED="»"
+SPACESHIP_GIT_STATUS_DELETED="✘"
+SPACESHIP_GIT_STATUS_STASHED="$"
+SPACESHIP_GIT_STATUS_UNMERGED="="
+SPACESHIP_GIT_STATUS_AHEAD="⇡"
+SPACESHIP_GIT_STATUS_BEHIND="⇣"
+SPACESHIP_GIT_STATUS_DIVERGED="⇕"
+
+# ------------------------------------------------------------------------------
+# Section
+# ------------------------------------------------------------------------------
+
+# We used to depend on OMZ git library,
+# But it doesn't handle many of the status indicator combinations.
+# Also, It's hard to maintain external dependency.
+# See PR #147 at https://git.io/vQkkB
+# See git help status to know more about status formats
+spaceship::git_status() {
+  [[ $SPACESHIP_GIT_STATUS_SHOW == false ]] && return
+
+  command git rev-parse --is-inside-work-tree &>/dev/null || return
+
+  local INDEX git_status=""
+
+  INDEX=$(command git status --porcelain -b 2> /dev/null)
+
+  # Check for untracked files
+  if $(echo "$INDEX" | command grep -E '^\?\? ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_UNTRACKED$git_status"
+  fi
+
+  # Check for staged files
+  if $(echo "$INDEX" | command grep '^A[ MDAU] ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_ADDED$git_status"
+  elif $(echo "$INDEX" | command grep '^M[ MD] ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_ADDED$git_status"
+  elif $(echo "$INDEX" | command grep '^UA' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_ADDED$git_status"
+  fi
+
+  # Check for modified files
+  if $(echo "$INDEX" | command grep '^[ MARC]M ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_MODIFIED$git_status"
+  fi
+
+  # Check for renamed files
+  if $(echo "$INDEX" | command grep '^R[ MD] ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_RENAMED$git_status"
+  fi
+
+  # Check for deleted files
+  if $(echo "$INDEX" | command grep '^[MARCDU ]D ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_DELETED$git_status"
+  elif $(echo "$INDEX" | command grep '^D[ UM] ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_DELETED$git_status"
+  fi
+
+  # Check for stashes
+  if $(command git rev-parse --verify refs/stash >/dev/null 2>&1); then
+    git_status="$SPACESHIP_GIT_STATUS_STASHED$git_status"
+  fi
+
+  # Check for unmerged files
+  if $(echo "$INDEX" | command grep '^U[UDA] ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_UNMERGED$git_status"
+  elif $(echo "$INDEX" | command grep '^AA ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_UNMERGED$git_status"
+  elif $(echo "$INDEX" | command grep '^DD ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_UNMERGED$git_status"
+  elif $(echo "$INDEX" | command grep '^[DA]U ' &> /dev/null); then
+    git_status="$SPACESHIP_GIT_STATUS_UNMERGED$git_status"
+  fi
+
+  # Check whether branch is ahead
+  local is_ahead=false
+  if $(echo "$INDEX" | command grep '^## [^ ]\+ .*ahead' &> /dev/null); then
+    is_ahead=true
+  fi
+
+  # Check whether branch is behind
+  local is_behind=false
+  if $(echo "$INDEX" | command grep '^## [^ ]\+ .*behind' &> /dev/null); then
+    is_behind=true
+  fi
+
+  # Check wheather branch has diverged
+  if [[ "$is_ahead" == true && "$is_behind" == true ]]; then
+    git_status="$SPACESHIP_GIT_STATUS_DIVERGED$git_status"
+  else
+    [[ "$is_ahead" == true ]] && git_status="$SPACESHIP_GIT_STATUS_AHEAD$git_status"
+    [[ "$is_behind" == true ]] && git_status="$SPACESHIP_GIT_STATUS_BEHIND$git_status"
+  fi
+
+  if [[ -n $git_status ]]; then
+    # Status prefixes are colorized
+    echo "$SPACESHIP_GIT_STATUS_COLOR$SPACESHIP_GIT_STATUS_PREFIX$git_status$SPACESHIP_GIT_STATUS_SUFFIX "
+  fi
+}
+
+SPACESHIP_GIT_BRANCH_SHOW="true"
+SPACESHIP_GIT_BRANCH_PREFIX="%{$fg_bold[white]%}\ue0a0"
+SPACESHIP_GIT_BRANCH_SUFFIX=""
+SPACESHIP_GIT_BRANCH_COLOR="%{$fg_bold[magenta]%}"
+
+# ------------------------------------------------------------------------------
+# Section
+# ------------------------------------------------------------------------------
+
+spaceship::git_branch() {
+  [[ $SPACESHIP_GIT_BRANCH_SHOW == false ]] && return
+
+  local git_current_branch="$vcs_info_msg_0_"
+  [[ -z "$git_current_branch" ]] && return
+
+  git_current_branch="${git_current_branch#heads/}"
+  git_current_branch="${git_current_branch/.../}"
+
+  echo "$SPACESHIP_GIT_BRANCH_PREFIX"\
+  "$SPACESHIP_GIT_BRANCH_COLOR${git_current_branch}"\
+  "$SPACESHIP_GIT_BRANCH_SUFFIX"
+}
