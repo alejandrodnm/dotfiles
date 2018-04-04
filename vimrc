@@ -27,7 +27,7 @@ Plugin 'godlygeek/tabular'  " Autotabs for puppet
 Plugin 'airblade/vim-gitgutter'  " Shows git signs
 Plugin 'Shougo/deoplete.nvim'  " Autocomplete
 Plugin 'junegunn/fzf.vim'
-Plugin 'file:///home/adn/dev/third_party/fzf'
+Plugin 'junegunn/fzf'
 Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
 
 " Languages plugins
@@ -36,6 +36,7 @@ Plugin 'fisadev/vim-isort'  " Python imports
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'davidhalter/jedi'
 Plugin 'zchee/deoplete-jedi'
+Plugin 'ambv/black', {'rtp': 'vim'}
 " Plugin 'pbogut/deoplete-elm'
 " Plugin 'elmcast/elm-vim'
 " Plugin 'jalvesaq/Nvim-R'
@@ -256,8 +257,8 @@ let g:neomake_javascript_prettier_maker = {
     \ 'exe': 'prettier-eslint',
     \ 'args': ['--write', '%:p']
     \ }
-let g:neomake_javascript_enabled_makers = ['prettier', 'eslint', 'flow']
-let g:neomake_jsx_enabled_makers = ['prettier', 'eslint', 'flow']
+let g:neomake_javascript_enabled_makers = ['prettier', 'eslint']
+let g:neomake_jsx_enabled_makers = ['prettier', 'eslint']
 augroup neomake_augroup
   autocmd!
   autocmd BufWritePost * Neomake
