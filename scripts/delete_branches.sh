@@ -1,4 +1,4 @@
-for branch in $(git for-each-ref --shell | awk '!/master/ && !/development/ && /head/ {print $3}')
+for branch in $(git branch | awk '!/master/ && !/development/ && !/*/ {print $1}')
 do
   echo "Delete ${branch}"
   git branch -D $branch
