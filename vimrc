@@ -17,7 +17,7 @@ Plugin 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plugin 'scrooloose/nerdtree'  " File system explorer
 Plugin 'neomake/neomake'  " Linter
 Plugin 'majutsushi/tagbar'  " classes and methods list
-Plugin 'xolox/vim-misc'  " Scripts required by easytags
+" Plugin 'xolox/vim-misc'  " Scripts required by easytags
 Plugin 'tpope/vim-fugitive'  " Git support
 Plugin 'crusoexia/vim-monokai'  " Theme
 Plugin 'mileszs/ack.vim' " Search folders with ag
@@ -32,26 +32,33 @@ Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
 
 " Languages plugins
 " Plugin 'lervag/vimtex'  " Support for latex files and projects
+
+" Python
 Plugin 'fisadev/vim-isort'  " Python imports
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'davidhalter/jedi'
 Plugin 'zchee/deoplete-jedi'
 Plugin 'ambv/black', {'rtp': 'vim'}
+
 " Plugin 'pbogut/deoplete-elm'
 " Plugin 'elmcast/elm-vim'
 " Plugin 'jalvesaq/Nvim-R'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'cakebaker/scss-syntax.vim'
+" Plugin 'hail2u/vim-css3-syntax'
+" Plugin 'cakebaker/scss-syntax.vim'
+
+" Elixir
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'slashmili/alchemist.vim'
+Plugin 'mhinz/vim-mix-format'
+
 Plugin 'rodjek/vim-puppet'
 Plugin 'plasticboy/vim-markdown'
 " Plugin 'raichoo/purescript-vim'
 Plugin 'exu/pgsql.vim'
 Plugin 'ethereum/vim-solidity'
-Plugin 'neovimhaskell/haskell-vim.git'
+" Plugin 'neovimhaskell/haskell-vim.git'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -84,7 +91,7 @@ inoremap <C-p> <Nop>
 nnoremap <Leader>d :call deoplete#toggle()<CR>
 
 " sudo save
-cmap w!! w !sudo tee > /dev/null %
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " If left to auto webpack doesn't detect file changes
 set backupcopy=yes
@@ -196,6 +203,9 @@ nmap <Leader>gb :Gblame<CR>
 nmap <Leader>gr :Gread<CR>
 nmap <Leader>gw :Gwrite<CR>
 nmap <Leader>gc :Gcommit<CR>
+
+" GitGutter
+nmap <Leader>ga :GitGutterAll<CR>
 
 " Tagbar
 let g:tagbar_autofocus=1
@@ -346,13 +356,16 @@ endif
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --line-number --no-heading --hidden --follow '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --line-number --no-heading --hidden --follow '. <q-args>, 1, <bang>0)
 
 " Isort
 let g:vim_isort_python_version = 'python3'
 
 " Alchemist
 let g:alchemist#elixir_erlang_src = '/home/adn/dev/third_party/elixir_erlang_src'
+
+" Mix-format
+let g:mix_format_on_save = 1
 
 " ipdb
 " pip2 install neovim

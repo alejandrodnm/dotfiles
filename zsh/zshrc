@@ -46,6 +46,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git mix-fast vi-mode docker tmuxinator)
 
+alias gpf='git push --force-with-lease'
 # Use for git branch in theme
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
@@ -121,7 +122,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 export WORKON_HOME=~/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
 VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-source /usr/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
 
 # yarn global
 export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"

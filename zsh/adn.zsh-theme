@@ -13,11 +13,6 @@ function zle-keymap-select {
 }
 zle -N zle-keymap-select
 
-function zle-line-finish {
-  vim_mode=$vim_ins_mode
-}
-zle -N zle-line-finish
-
 PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::virtualenv_info)$(adn::aws)
 ${ret_status}${arrow}%{$reset_color%}'
 
