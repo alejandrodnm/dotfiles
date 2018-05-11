@@ -2,21 +2,28 @@ time="%{$fg_bold[magenta]%}%*"
 user="%{$fg_bold[magenta]%}%n@%m"
 ret_status="%(?:%{$fg_bold[green]%}λ:%{$fg_bold[red]%}λ) "
 arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜) "
-vim_ins_mode="%{$fg_bold[cyan]%}[INSERT]"
-vim_cmd_mode="%{$fg_bold[green]%}[NORMAL]"
-vim_mode=$vim_ins_mode
 adn_directory="%{$fg[cyan]%}%c "
-
-function zle-keymap-select {
-  vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  zle reset-prompt
-}
-zle -N zle-keymap-select
 
 PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::virtualenv_info)$(adn::aws)
 ${ret_status}${arrow}%{$reset_color%}'
 
-RPROMPT='%{$(echotc UP 1)%}${vim_mode} ${time}%{$reset_color%}%{$(echotc DO 1)%}'
+RPROMPT='%{$(echotc UP 1)%}$(spaceship::vi_mode) ${time}%{$reset_color%}%{$(echotc DO 1)%}'
+
+spaceship::vi_mode() {
+
+    local mode_indicator="%{$fg_bold[cyan]%}[INSERT]"
+
+    case "${KEYMAP}" in
+      main|viins)
+      mode_indicator="%{$fg_bold[cyan]%}[INSERT]"
+      ;;
+      vicmd)
+      mode_indicator="%{$fg_bold[green]%}[NORMAL]"
+      ;;
+    esac
+
+    echo "$mode_indicator"
+}
 
 # Show icon if there's a working jobs in the background
 adn::virtualenv_info(){
