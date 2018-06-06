@@ -126,21 +126,6 @@ set termguicolors
 " set clipboard=unnamed
 set timeoutlen=1000 ttimeoutlen=0 " for esc delay
 
-"These are to cancel the default behavior of d, D, c, C
-"  to put the text they delete in the default register.
-"  Note that this means e.g. "ad won't copy the text into
-"  register a anymore.  You have to explicitly yank it.
-" nnoremap D "_D
-" vnoremap D "_D
-" nnoremap c "_c
-" vnoremap c "_c
-" nnoremap C "_C
-" vnoremap C "_C
-" xnoremap p pgvy
-
-" NVIM supports cursors by default with the env
-"export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
 " Change cursor on insert Gnome
 let &t_SI = "\<Esc>[6 q"
 let &t_SR = "\<Esc>[4 q"
@@ -170,7 +155,14 @@ set lbr
 set colorcolumn=80
 
 set number
+set relativenumber
+set noerrorbells
 set ruler
+set scrolloff=3
+set sidescrolloff=5
+set confirm
+set exrc
+
 set hlsearch " Highlight search matches
 highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
 
