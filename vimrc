@@ -23,28 +23,28 @@ Plugin 'crusoexia/vim-monokai'  " Theme
 Plugin 'mileszs/ack.vim' " Search folders with ag
 Plugin 'tpope/vim-unimpaired'  " Mappings
 Plugin 'bling/vim-airline'  " Status line info
-Plugin 'godlygeek/tabular'  " Autotabs for puppet
 Plugin 'airblade/vim-gitgutter'  " Shows git signs
-Plugin 'Shougo/deoplete.nvim'  " Autocomplete
+" Plugin 'Shougo/deoplete.nvim'  " Autocomplete
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
 
 " Languages plugins
-" Plugin 'lervag/vimtex'  " Support for latex files and projects
 
 " Python
-Plugin 'fisadev/vim-isort'  " Python imports
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'davidhalter/jedi'
-Plugin 'zchee/deoplete-jedi'
-Plugin 'ambv/black', {'rtp': 'vim'}
+" Plugin 'fisadev/vim-isort'  " Python imports
+" Plugin 'vim-scripts/indentpython.vim'
+" Plugin 'davidhalter/jedi'
+" Plugin 'zchee/deoplete-jedi'
+" Plugin 'ambv/black', {'rtp': 'vim'}
 
+" Elm
 " Plugin 'pbogut/deoplete-elm'
 " Plugin 'elmcast/elm-vim'
-" Plugin 'jalvesaq/Nvim-R'
-Plugin 'mxw/vim-jsx'
-Plugin 'pangloss/vim-javascript'
+
+" JS and related
+" Plugin 'mxw/vim-jsx'
+" Plugin 'pangloss/vim-javascript'
 " Plugin 'hail2u/vim-css3-syntax'
 " Plugin 'cakebaker/scss-syntax.vim'
 
@@ -53,12 +53,17 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'slashmili/alchemist.vim'
 Plugin 'mhinz/vim-mix-format'
 
-Plugin 'rodjek/vim-puppet'
 Plugin 'plasticboy/vim-markdown'
-" Plugin 'raichoo/purescript-vim'
 Plugin 'exu/pgsql.vim'
 Plugin 'ethereum/vim-solidity'
+Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Plugin 'godlygeek/tabular'  " Autotabs for puppet
+" Plugin 'rodjek/vim-puppet'
+" Plugin 'raichoo/purescript-vim'
 " Plugin 'neovimhaskell/haskell-vim.git'
+" Plugin 'jalvesaq/Nvim-R'
+" Plugin 'lervag/vimtex'  " Support for latex files and projects
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
