@@ -24,6 +24,7 @@ Plugin 'mileszs/ack.vim' " Search folders with ag
 Plugin 'tpope/vim-unimpaired'  " Mappings
 Plugin 'bling/vim-airline'  " Status line info
 Plugin 'airblade/vim-gitgutter'  " Shows git signs
+Plugin 'easymotion/vim-easymotion' " highlights motions
 " Plugin 'Shougo/deoplete.nvim'  " Autocomplete
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
@@ -84,8 +85,8 @@ call vundle#end()            " required
 let g:filetype_pl="prolog"
 
 " Nvim python
-let g:python3_host_prog = '/bin/python3'
-let g:python_host_prog = '/bin/python2'
+" let g:python3_host_prog = '/bin/python3'
+" let g:python_host_prog = '/bin/python2'
 
 "Change the <leader> key to comma instead of \ "
 let mapleader=","
@@ -99,7 +100,7 @@ nnoremap <Leader>d :call deoplete#toggle()<CR>
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " If left to auto webpack doesn't detect file changes
-set backupcopy=yes
+" set backupcopy=yes
 
 set hidden
 
