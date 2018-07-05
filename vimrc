@@ -115,7 +115,7 @@ nnoremap <Space> i<Space><Right><Esc>
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
-"set background=dark
+set background=dark
 colorscheme gruvbox
 " Change bracket highlight color for monokai
 hi MatchParen ctermbg=234 ctermfg=141 cterm=bold
