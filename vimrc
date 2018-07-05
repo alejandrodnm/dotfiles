@@ -20,6 +20,7 @@ Plugin 'majutsushi/tagbar'  " classes and methods list
 " Plugin 'xolox/vim-misc'  " Scripts required by easytags
 Plugin 'tpope/vim-fugitive'  " Git support
 Plugin 'crusoexia/vim-monokai'  " Theme
+Plugin 'morhetz/gruvbox' " Theme
 Plugin 'mileszs/ack.vim' " Search folders with ag
 Plugin 'tpope/vim-unimpaired'  " Mappings
 Plugin 'bling/vim-airline'  " Status line info
@@ -115,7 +116,7 @@ nnoremap <Space> i<Space><Right><Esc>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 "set background=dark
-colorscheme monokai
+colorscheme gruvbox
 " Change bracket highlight color for monokai
 hi MatchParen ctermbg=234 ctermfg=141 cterm=bold
 hi MatchParen guifg=#ae81ff guibg=#272822 gui=bold

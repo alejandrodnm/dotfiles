@@ -64,16 +64,6 @@ export EDITOR="vim"
 
 if [[ "$(uname)" == "Linux" ]]
 then
-  # tmux italic support
-  # create the file xterm-256color-italic.terminfo with:
-  #
-  # xterm-256color-italic|xterm with 256 colors and italic,
-  #       sitm=\E[3m, ritm=\E[23m,
-  #               use=xterm-256color,
-  #
-  # tic xterm-256color-italic.terminfo
-  export TERM=xterm-256color-italic
-  alias ssh="TERM=xterm ssh"
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   # Fix Delete Home and End on vi-mode
   bindkey -a "^[[3~" delete-char
@@ -150,6 +140,28 @@ export PATH="$HOME/go/bin:$PATH"
 # export PROJECT_HOME=$HOME/Devel
 # VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 # source /usr/local/bin/virtualenvwrapper.sh
+
+# tmux italic support
+# create the file xterm-256color-italic.terminfo with:
+#
+# xterm-256color-italic|xterm with 256 colors and italic,
+#       sitm=\E[3m, ritm=\E[23m,
+#               use=xterm-256color,
+#
+# tic xterm-256color-italic.terminfo
+#
+# For osx create tmux-256color.terminfo with:
+#
+# tmux-256color|tmux with 256 colors,
+#   ritm=\E[23m, rmso=\E[27m, sitm=\E[3m, smso=\E[7m, Ms@,
+#   khome=\E[1~, kend=\E[4~,
+#   use=xterm-256color, use=screen-256color,
+#
+# For more info:
+#
+# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
+export TERM=xterm-256color-italic
+alias ssh="TERM=xterm ssh"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
