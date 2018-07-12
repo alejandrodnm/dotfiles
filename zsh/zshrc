@@ -19,7 +19,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mix-fast vi-mode docker tmuxinator minikube)
+plugins=(git mix-fast vi-mode docker tmuxinator minikube vagrant)
 
 alias gpf='git push --force-with-lease'
 # Use for git branch in theme
@@ -85,7 +85,7 @@ source $HOME/.asdf/completions/asdf.bash
 
 # Go bin
 # NOTE: I'm using asdf so I just need to reshim
-# export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 export LANG=en_US.UTF-8
 

@@ -13,23 +13,28 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
+
+" Themes
+Plugin 'crusoexia/vim-monokai'
+Plugin 'morhetz/gruvbox'
+Plugin 'jdkanani/vim-material-theme'
+
 Plugin 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plugin 'scrooloose/nerdtree'  " File system explorer
 Plugin 'neomake/neomake'  " Linter
 Plugin 'majutsushi/tagbar'  " classes and methods list
-" Plugin 'xolox/vim-misc'  " Scripts required by easytags
 Plugin 'tpope/vim-fugitive'  " Git support
-Plugin 'crusoexia/vim-monokai'  " Theme
-Plugin 'morhetz/gruvbox' " Theme
 Plugin 'mileszs/ack.vim' " Search folders with ag
 Plugin 'tpope/vim-unimpaired'  " Mappings
 Plugin 'bling/vim-airline'  " Status line info
 Plugin 'airblade/vim-gitgutter'  " Shows git signs
 Plugin 'easymotion/vim-easymotion' " highlights motions
-" Plugin 'Shougo/deoplete.nvim'  " Autocomplete
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
+
+" Plugin 'xolox/vim-misc'  " Scripts required by easytags
+" Plugin 'Shougo/deoplete.nvim'  " Autocomplete
 
 " Languages plugins
 
