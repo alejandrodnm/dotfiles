@@ -116,6 +116,11 @@ set undodir=~/.local/share/nvim/undodir/
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
 
+" Close location list
+nnoremap <Leader>l :lclose<CR>
+" Close quickfix window
+nnoremap <Leader>c :cclose<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -370,6 +375,10 @@ let g:alchemist#elixir_erlang_src = '/home/adn/dev/third_party/elixir_erlang_src
 
 " Mix-format
 let g:mix_format_on_save = 1
+let g:mix_format_silent_errors = 1
+
+"Go
+let g:go_fmt_command = "goimports"
 
 " ipdb
 " pip2 install neovim

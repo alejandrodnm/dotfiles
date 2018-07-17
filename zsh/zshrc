@@ -37,22 +37,23 @@ export KEYTIMEOUT=1
 alias vim='nvim'
 export EDITOR="vim"
 
+# Fix Delete Home and End on vi-mode
+bindkey -a "^[[3~" delete-char
+bindkey "^[[3~" delete-char
+bindkey -a "^[[H" beginning-of-line
+bindkey "^[[H" beginning-of-line
+bindkey -a "^[[F" end-of-line
+bindkey "^[[F" end-of-line
+bindkey "^K" kill-line
+# On tmux the keycodes change
+bindkey -a "^[[1~" beginning-of-line
+bindkey "^[[1~" beginning-of-line
+bindkey -a "^[[4~" end-of-line
+bindkey "^[[4~" end-of-line
+
 if [[ "$(uname)" == "Linux" ]]
 then
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  # Fix Delete Home and End on vi-mode
-  bindkey -a "^[[3~" delete-char
-  bindkey "^[[3~" delete-char
-  bindkey -a "^[[H" beginning-of-line
-  bindkey "^[[H" beginning-of-line
-  bindkey -a "^[[F" end-of-line
-  bindkey "^[[F" end-of-line
-  bindkey "^K" kill-line
-  # On tmux the keycodes change
-  bindkey -a "^[[1~" beginning-of-line
-  bindkey "^[[1~" beginning-of-line
-  bindkey -a "^[[4~" end-of-line
-  bindkey "^[[4~" end-of-line
 
   # Beginning search with arrow keys
   bindkey "^[OA" up-line-or-beginning-search
