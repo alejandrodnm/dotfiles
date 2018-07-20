@@ -1,0 +1,23 @@
+{
+	"segments": {
+		"right": [
+			{
+				"function": "powerline.segments.common.players.clementine",
+				"name": "clementine",
+        "args": {
+          "format": "{title} - {artist} - {album}"
+        }
+			},
+			{
+				"function": "powerline.segments.common.players.spotify",
+				"name": "spotify",
+        "args": {
+          "format": "{title} - {artist} - {album}"
+        }
+			},
+			{
+				"function": "powerline.segments.common.net.hostname"
+			}
+		]
+	}
+}
