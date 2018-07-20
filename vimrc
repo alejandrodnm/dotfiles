@@ -18,6 +18,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'crusoexia/vim-monokai'
 Plugin 'morhetz/gruvbox'
 Plugin 'jdkanani/vim-material-theme'
+Plugin 'trevordmiller/nova-vim'
 
 Plugin 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plugin 'scrooloose/nerdtree'  " File system explorer
