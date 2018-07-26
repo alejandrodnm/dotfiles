@@ -13,7 +13,7 @@ ZSH_THEME="adn"
 CASE_SENSITIVE="true"
 
 # Show correction on wrong commands
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -80,6 +80,7 @@ export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 
 # Elixir & Erlang
 export ERL_AFLAGS="-kernel shell_history enabled"
+export KERL_BUILD_PLT=yes
 
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -89,8 +90,8 @@ source $ZSH/oh-my-zsh.sh
 source $HOME/.asdf/asdf.sh
 source $HOME/.asdf/completions/asdf.bash
 
-# Go bin
-# NOTE: I'm using asdf so I just need to reshim
+# Go
+export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 
 export LANG=en_US.UTF-8

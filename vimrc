@@ -18,7 +18,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'crusoexia/vim-monokai'
 Plugin 'morhetz/gruvbox'
 Plugin 'jdkanani/vim-material-theme'
-Plugin 'trevordmiller/nova-vim'
 
 Plugin 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plugin 'scrooloose/nerdtree'  " File system explorer
@@ -27,9 +26,9 @@ Plugin 'majutsushi/tagbar'  " classes and methods list
 Plugin 'tpope/vim-fugitive'  " Git support
 Plugin 'mileszs/ack.vim' " Search folders with ag
 Plugin 'tpope/vim-unimpaired'  " Mappings
-Plugin 'bling/vim-airline'  " Status line info
+Plugin 'vim-airline/vim-airline'  " Status line info
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'  " Shows git signs
-Plugin 'easymotion/vim-easymotion' " highlights motions
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
@@ -57,7 +56,7 @@ Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
 " Plugin 'cakebaker/scss-syntax.vim'
 
 " Elixir
-Plugin 'elixir-lang/vim-elixir'
+Plugin 'elixir-editors/vim-elixir'
 Plugin 'slashmili/alchemist.vim'
 Plugin 'mhinz/vim-mix-format'
 
@@ -125,16 +124,14 @@ nnoremap <Leader>c :cclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline_theme='hybrid'
+set termguicolors
 syntax on
 set background=dark
-colorscheme gruvbox
-" Change bracket highlight color for monokai
-hi MatchParen ctermbg=234 ctermfg=141 cterm=bold
-hi MatchParen guifg=#ae81ff guibg=#272822 gui=bold
+colorscheme material-theme
 filetype plugin indent on
 set laststatus=2 " show status bar on single window
 set cursorline
-set termguicolors
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CURSOR
@@ -173,7 +170,6 @@ set lbr
 set colorcolumn=80
 
 set number
-set relativenumber
 set noerrorbells
 set ruler
 set scrolloff=3
@@ -199,9 +195,6 @@ nnoremap <Leader>tc :tabclose<CR>
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" gitgutter reduce the time to make signs appear
-set updatetime=100
-
 " pgsql
 let g:sql_type_default = 'pgsql'
 
@@ -216,6 +209,8 @@ nmap <Leader>gc :Gcommit<CR>
 
 " GitGutter
 nmap <Leader>ga :GitGutterAll<CR>
+" reduce the time to make signs appear
+set updatetime=100
 
 " Tagbar
 let g:tagbar_autofocus=1
@@ -242,6 +237,7 @@ let g:tagbar_type_elixir = {
 
 " Gutentags
 let g:gutentags_project_root = ['node_modules']
+let g:gutentags_cache_dir = "~/.vim/tags/"
 
 " NeoMake
 autocmd! BufWritePost * Neomake
