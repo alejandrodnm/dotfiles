@@ -124,7 +124,7 @@ nnoremap <Leader>c :cclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline_theme='hybrid'
+let g:airline_theme='deus'
 set termguicolors
 syntax on
 set background=dark
@@ -213,6 +213,7 @@ nmap <Leader>ga :GitGutterAll<CR>
 set updatetime=100
 
 " Tagbar
+let g:tagbar_left=1
 let g:tagbar_autofocus=1
 let g:tagbar_autoclose=1
 let g:tagbar_foldlevel=0
