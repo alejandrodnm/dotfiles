@@ -24,9 +24,20 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mix-fast vi-mode docker tmuxinator minikube vagrant)
+plugins=(mix-fast vi-mode docker tmuxinator vagrant zsh-autosuggestions)
 
+alias g='git'
+alias ga='git add -A -v'
+alias gs='git status'
 alias gpf='git push --force-with-lease'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gca='git commit --amend --no-edit -v'
+alias gc='git commit -m'
+alias gp='git push'
+alias gpu='git push --set-upstream origin $(git_current_branch)'
+alias gl='git log --graph --color'
+
 # Use for git branch in theme
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
@@ -55,6 +66,8 @@ bindkey -a "^[[1~" beginning-of-line
 bindkey "^[[1~" beginning-of-line
 bindkey -a "^[[4~" end-of-line
 bindkey "^[[4~" end-of-line
+
+bindkey '^E' autosuggest-accept
 
 if [[ "$(uname)" == "Linux" ]]
 then
@@ -127,6 +140,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa_adn"
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
 export TERM=xterm-256color-italic
 alias ssh="TERM=xterm ssh"
+alias vagrant="TERM=xterm vagrant"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -150,5 +164,4 @@ else
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-unalias grv
 alias ls='exa -la --git'

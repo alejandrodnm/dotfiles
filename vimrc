@@ -1,4 +1,3 @@
-set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -21,6 +20,7 @@ Plugin 'jdkanani/vim-material-theme'
 
 Plugin 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plugin 'scrooloose/nerdtree'  " File system explorer
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'neomake/neomake'  " Linter
 Plugin 'majutsushi/tagbar'  " classes and methods list
 Plugin 'tpope/vim-fugitive'  " Git support
@@ -32,11 +32,14 @@ Plugin 'airblade/vim-gitgutter'  " Shows git signs
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
+Plugin 'ntpeters/vim-better-whitespace'
 
 " Plugin 'xolox/vim-misc'  " Scripts required by easytags
-" Plugin 'Shougo/deoplete.nvim'  " Autocomplete
+Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 
 " Languages plugins
+
+Plugin 'zchee/deoplete-go', { 'do': 'make' }
 
 " Python
 " Plugin 'fisadev/vim-isort'  " Python imports
@@ -116,10 +119,15 @@ set undodir=~/.local/share/nvim/undodir/
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
 
+" Move to first character
+nnoremap <Leader>l $
+" Move to last character
+nnoremap <Leader>f ^
+
 " Close location list
-nnoremap <Leader>l :lclose<CR>
+nnoremap <Leader>cl :lclose<CR>
 " Close quickfix window
-nnoremap <Leader>c :cclose<CR>
+nnoremap <Leader>cc :cclose<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -132,6 +140,7 @@ colorscheme material-theme
 filetype plugin indent on
 set laststatus=2 " show status bar on single window
 set cursorline
+set encoding=UTF-8
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CURSOR
@@ -153,7 +162,7 @@ set clipboard+=unnamedplus
 " Text, tab and indent related
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-autocmd Filetype python,elm setlocal ts=4 sts=4 sw=4
+autocmd Filetype python,elm,groovy setlocal ts=4 sts=4 sw=4
 autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
 
 set backspace=2
@@ -180,9 +189,6 @@ set exrc
 set hlsearch " Highlight search matches
 highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
 
-" Remove trailing spaces
-autocmd BufWritePre * :%s/\s\+$//e
-
 " Splits
 set splitbelow
 set splitright
@@ -194,6 +200,10 @@ nnoremap <Leader>tc :tabclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"vim-better-whitespace
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save = 1
 
 " pgsql
 let g:sql_type_default = 'pgsql'
@@ -320,6 +330,10 @@ let g:NERDCompactSexyComs = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
 
+" Disable mappings and add Toggle manually
+let g:NERDCreateDefaultMappings = 0
+map <leader>c<space> <plug>NERDCommenterToggle
+
 " IndentLines
 let g:indentLine_enabled = 0
 nmap <Leader>i :IndentLinesToggle<CR>
@@ -369,7 +383,8 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --l
 let g:vim_isort_python_version = 'python3'
 
 " Alchemist
-let g:alchemist#elixir_erlang_src = '/home/adn/dev/third_party/elixir_erlang_src'
+let g:alchemist#elixir_erlang_src = '/Users/adonascimento/dev/third_party/elixir_erlang_src'
+let g:alchemist_tag_disable = 1
 
 " Mix-format
 let g:mix_format_on_save = 1
@@ -379,29 +394,28 @@ let g:mix_format_silent_errors = 1
 let g:go_fmt_command = "goimports"
 
 " ipdb
-" pip2 install neovim
-python << EOF
-import vim
-import re
+" python << EOF
+" import vim
+" import re
 
-ipdb_breakpoint = 'import pdb; pdb.set_trace()'
+" ipdb_breakpoint = 'import pdb; pdb.set_trace()'
 
-def set_breakpoint():
-    breakpoint_line = int(vim.eval('line(".")')) - 1
+" def set_breakpoint():
+"     breakpoint_line = int(vim.eval('line(".")')) - 1
 
-    current_line = vim.current.line
-    white_spaces = re.search('^(\s*)', current_line).group(1)
+"     current_line = vim.current.line
+"     white_spaces = re.search('^(\s*)', current_line).group(1)
 
-    vim.current.buffer.append(white_spaces + ipdb_breakpoint, breakpoint_line)
+"     vim.current.buffer.append(white_spaces + ipdb_breakpoint, breakpoint_line)
 
-vim.command('nmap <Leader>pb :py set_breakpoint()<cr>')
+" vim.command('nmap <Leader>pb :py set_breakpoint()<cr>')
 
-def remove_breakpoints():
-    op = 'g/^.*%s.*/d' % ipdb_breakpoint
-    vim.command(op)
+" def remove_breakpoints():
+"     op = 'g/^.*%s.*/d' % ipdb_breakpoint
+"     vim.command(op)
 
-vim.command('nmap <Leader>pc :py remove_breakpoints()<cr>')
-EOF
+" vim.command('nmap <Leader>pc :py remove_breakpoints()<cr>')
+" EOF
 
 function! DeleteHiddenBuffers()
     let tpbl=[]
