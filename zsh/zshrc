@@ -34,7 +34,10 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gca='git commit --amend --no-edit -v'
 alias gc='git commit -m'
+alias gch='git checkout'
+alias gchb='gch -b'
 alias gp='git push'
+alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
 
@@ -86,7 +89,7 @@ then
   bindkey -a "^[[1;5C" forward-word
 fi
 
-export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 # add texlive to PATH
 export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
@@ -104,6 +107,8 @@ source $HOME/.asdf/asdf.sh
 source $HOME/.asdf/completions/asdf.bash
 
 # Go
+export GOOS=linux
+export GOROOT="/usr/local/Cellar/go/1.10.3/libexec"
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 

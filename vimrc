@@ -24,22 +24,24 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'neomake/neomake'  " Linter
 Plugin 'majutsushi/tagbar'  " classes and methods list
 Plugin 'tpope/vim-fugitive'  " Git support
+Plugin 'tpope/vim-endwise'
 Plugin 'mileszs/ack.vim' " Search folders with ag
 Plugin 'tpope/vim-unimpaired'  " Mappings
 Plugin 'vim-airline/vim-airline'  " Status line info
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'  " Shows git signs
-Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf.vim' " Fuzzy search
 Plugin 'junegunn/fzf'
-Plugin 'ludovicchabant/vim-gutentags'  " ctags handling
-Plugin 'ntpeters/vim-better-whitespace'
-
-" Plugin 'xolox/vim-misc'  " Scripts required by easytags
+Plugin 'ludovicchabant/vim-gutentags' " ctags handling
+Plugin 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespaces
 Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 
 " Languages plugins
 
+" GO
+
 Plugin 'zchee/deoplete-go', { 'do': 'make' }
+Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Python
 " Plugin 'fisadev/vim-isort'  " Python imports
@@ -66,7 +68,6 @@ Plugin 'mhinz/vim-mix-format'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'exu/pgsql.vim'
 Plugin 'ethereum/vim-solidity'
-Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Plugin 'godlygeek/tabular'  " Autotabs for puppet
 " Plugin 'rodjek/vim-puppet'
@@ -111,18 +112,20 @@ cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 " If left to auto webpack doesn't detect file changes
 " set backupcopy=yes
 
+" Allow undisplayed buffers with unsaved changes
 set hidden
 
-set undofile " Maintain undo history between sessions
+" Maintain undo history between sessions
+set undofile
 set undodir=~/.local/share/nvim/undodir/
 
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
 
 " Move to first character
-nnoremap <Leader>l $
+nnoremap <C-l> $
 " Move to last character
-nnoremap <Leader>f ^
+nnoremap <C-h> ^
 
 " Close location list
 nnoremap <Leader>cl :lclose<CR>
@@ -137,7 +140,6 @@ set termguicolors
 syntax on
 set background=dark
 colorscheme material-theme
-filetype plugin indent on
 set laststatus=2 " show status bar on single window
 set cursorline
 set encoding=UTF-8
@@ -162,6 +164,7 @@ set clipboard+=unnamedplus
 " Text, tab and indent related
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+filetype plugin indent on
 autocmd Filetype python,elm,groovy setlocal ts=4 sts=4 sw=4
 autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
 
@@ -194,7 +197,7 @@ set splitbelow
 set splitright
 
 " Tabs
-nnoremap <Leader>tt :tabnew<CR>
+nnoremap <Leader>tt :$tabnew<CR>
 nnoremap <Leader>tc :tabclose<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -334,10 +337,6 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCreateDefaultMappings = 0
 map <leader>c<space> <plug>NERDCommenterToggle
 
-" IndentLines
-let g:indentLine_enabled = 0
-nmap <Leader>i :IndentLinesToggle<CR>
-
 " JSON FORMAT
 nmap <Leader>j :%!python -m json.tool<CR>
 
@@ -346,13 +345,13 @@ nmap <Leader>j :%!python -m json.tool<CR>
 let g:vimtex_latexmk_progname='~/.virtualenvs/neovim-remote/bin/nvr'
 
 " Elm-vim
-let g:elm_format_autosave = 1
-let g:elm_setup_keybindings = 0
-nmap <localleader>et <Plug>(elm-test)
-nmap <localleader>er <Plug>(elm-repl)
-nmap <localleader>ee <Plug>(elm-error-detail)
-nmap <localleader>ed <Plug>(elm-show-docs)
-nmap <localleader>ew <Plug>(elm-browse-docs)
+" let g:elm_format_autosave = 1
+" let g:elm_setup_keybindings = 0
+" nmap <localleader>et <Plug>(elm-test)
+" nmap <localleader>er <Plug>(elm-repl)
+" nmap <localleader>ee <Plug>(elm-error-detail)
+" nmap <localleader>ed <Plug>(elm-show-docs)
+" nmap <localleader>ew <Plug>(elm-browse-docs)
 
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
