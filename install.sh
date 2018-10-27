@@ -54,7 +54,7 @@ install_zsh() {
   fi
   ln -s "${DIRNAME}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
   if [ -z $ZSH_NAME ] ; then
-    chsh -s $(which zsh)
+    sudo chsh -s $(which zsh)
   else
     source ~/.zshrc
   fi
