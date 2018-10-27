@@ -1,11 +1,10 @@
 time="%{$fg_bold[magenta]%}%*"
 user="%{$fg_bold[magenta]%}%n@%m"
-ret_status="%(?:%{$fg_bold[green]%}λ:%{$fg_bold[red]%}λ) "
 arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜) "
 adn_directory="%{$fg[cyan]%}%c "
 
 PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::virtualenv_info)$(adn::aws)
-${ret_status}${arrow}%{$reset_color%}'
+$(adn::status)${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}$(spaceship::vi_mode) ${time}%{$reset_color%}%{$(echotc DO 1)%}'
 
@@ -23,6 +22,19 @@ spaceship::vi_mode() {
     esac
 
     echo "$mode_indicator"
+}
+
+adn::status() {
+  local ret_status
+  case whoami in
+    vagrant)
+      ret_status="%(?:%{$fg_bold[green]%}${user}:%{$fg_bold[red]%}${user}) "
+      ;;
+    *)
+      ret_status="%(?:%{$fg_bold[green]%}λ:%{$fg_bold[red]%}λ) "
+      ;;
+    esac
+  echo "${ret_status}"
 }
 
 # Show icon if there's a working jobs in the background
