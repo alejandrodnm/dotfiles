@@ -13,10 +13,14 @@ DIRNAME=$(dirname $(readlink -f $0))
 
 main() {
   local install_exa=no
+  local install_from_cargo=no
   for arg in $0 ; do
     case $arg in
       --exa)
         install_exa=yes
+        ;;
+      --install-from-cargo)
+        insta_from_cargo=yes
         ;;
     esac
   done
@@ -25,7 +29,7 @@ main() {
   if [ "${install_exa}" = "yes" ] ; then
     install_exa
   fi
-  install_ripgrep
+  install_ripgrep $install_from_cargo
   install_vim
   install_zsh
   touch "${DIRNAME}/install_successful"
@@ -66,7 +70,6 @@ install_vim() {
 
   mkdir -p ~/.config/nvim
   if [ -e ~/.config/nvim/init.vim ] || [ -L ~/.config/nvim/init.vim ] ; then
-    echo "delete"
     rm ~/.config/nvim/init.vim
   fi
   ln -s "${DIRNAME}/vimrc"  ~/.config/nvim/init.vim
@@ -111,9 +114,17 @@ cargo_install() {
 }
 
 install_ripgrep() {
-  echo "Installing ripgrep"
-  if ! install_packages ripgrep ; then
-    cargo_install ripgrep
+  echo "Installing ripgrep: from cargo? ${1}"
+  if ! command -v rg >/dev/null 2>&1 ; then
+    if [ "${1}" = "yes" ]  ; then
+      if ! install_packages ripgrep ; then
+        cargo_install ripgrep
+      fi
+    else
+      curl -L -o /tmp/rg.tar.gz https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz
+      sudo tar -xzf /tmp/rg.tar.gz -C /opt/
+      sudo ln -s /opt/ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
+    fi
   fi
 }
 
