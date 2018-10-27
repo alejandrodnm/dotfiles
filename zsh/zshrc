@@ -169,4 +169,8 @@ else
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-alias ls='exa -la --git'
+if command -v exa >/dev/null 2>&1 ; then
+  alias ls='exa -la --git'
+else
+  alias ls='ls -al'
+fi
