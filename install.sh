@@ -28,6 +28,7 @@ main() {
   install_ripgrep
   install_vim
   install_zsh
+  touch "${DIRNAME}/install_successful"
 }
 
 install_packages() {
