@@ -11,20 +11,31 @@
 PACKAGES="curl vim zsh neovim gcc cmake"
 DIRNAME=$(dirname $(readlink -f $0))
 
+main() {
+  local install_exa=no
+  for arg in $0 ; do
+    case $arg in
+      --exa)
+        install_exa=yes
+        ;;
+    esac
+  done
+  install_packages $PACKAGES
+  install_fzf
+  if [ "${install_exa}" = "yes" ] ; then
+    install_exa
+  fi
+  install_ripgrep
+  install_vim
+  install_zsh
+}
+
 install_packages() {
   echo "Installing packages $@"
   if command -v apt >/dev/null 2>&1 ; then
     sudo apt install -y $@
   elif command -v dnf >/dev/null 2>&1 ; then
     sudo dnf install -y $@ python2-neovim python3-neovim
-  fi
-}
-
-package_manager() {
-  if command -v apt >/dev/null 2>&1 ; then
-    echo "apt"
-  elif command -v dnf >/dev/null 2>&1 ; then
-    echo "dnf"
   fi
 }
 
@@ -36,16 +47,16 @@ install_zsh() {
   if [ -e ~/.zshrc ] || [ -L ~/.zshrc ] ; then
     rm ~/.zshrc
   fi
-  echo "1"
   ln -s "${DIRNAME}/zsh/zshrc" ~/.zshrc
-  echo "2"
   if [ -e ~/.oh-my-zsh/themes/adn.zsh-theme ] || [  -L ~/.oh-my-zsh/themes/adn.zsh-theme ] ; then
     rm ~/.oh-my-zsh/themes/adn.zsh-theme
   fi
   ln -s "${DIRNAME}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
-  # TODO check my shell and source or change
-  source ~/.zshrc
-  chsh -s $(which zsh)
+  if [ -z $ZSH_NAME ] ; then
+    chsh -s $(which zsh)
+  else
+    source ~/.zshrc
+  fi
 }
 
 install_vim() {
@@ -76,7 +87,7 @@ install_fzf() {
   fi
   if ! install_packages fzf && [ ! -d ~/.fzf ] ; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
+    ~/.fzf/install --all
   fi
 }
 
@@ -84,7 +95,7 @@ install_rust() {
   echo "Check Rust installation"
   if ! command -v cargo >/dev/null 2>&1 && [ ! -e ~/.cargo/bin/cargo ] ; then
     echo "Rust is not installed. Installing it via sh.rustup.rs"
-    curl https://sh.rustup.rs -sSf | sh
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
   fi
 }
 
@@ -110,9 +121,4 @@ install_exa() {
   cargo_install exa
 }
 
-# install_packages $PACKAGES
-# install_fzf
-# install_exa
-# install_ripgrep
-# install_vim
-install_zsh
+main $@ || exit 1

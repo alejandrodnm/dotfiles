@@ -26,7 +26,7 @@ spaceship::vi_mode() {
 
 adn::status() {
   local ret_status
-  case whoami in
+  case $(whoami) in
     vagrant)
       ret_status="%(?:%{$fg_bold[green]%}${user}:%{$fg_bold[red]%}${user}) "
       ;;
