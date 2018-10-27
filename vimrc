@@ -128,7 +128,7 @@ nnoremap <C-l> $
 nnoremap <C-h> ^
 
 " Close location list
-nnoremap <Leader>cl :lclose<CR>
+nnoremap <Leader>lc :lclose<CR>
 " Close quickfix window
 nnoremap <Leader>cc :cclose<CR>
 
