@@ -19,3 +19,13 @@ fzf
 # PIP
 ranger
 grip
+
+# OSX
+
+dash
+spectacles
+paragon NTFS
+karabiner
+iterm
+Amazon Photos
+Box

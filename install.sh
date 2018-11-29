@@ -41,6 +41,8 @@ install_packages() {
     sudo apt install -y $@
   elif command -v dnf >/dev/null 2>&1 ; then
     sudo dnf install -y $@ python2-neovim python3-neovim
+  elif command -v yum >/dev/null 2>&1 ; then
+    sudo yum install -y $@ python2-neovim python3-neovim
   fi
 }
 

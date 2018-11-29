@@ -35,6 +35,7 @@ Plugin 'junegunn/fzf'
 Plugin 'ludovicchabant/vim-gutentags' " ctags handling
 Plugin 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespaces
 Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
+Plugin 'rizzatti/dash.vim'
 
 " Languages plugins
 
@@ -104,7 +105,6 @@ let maplocalleader="\\"
 
 " Disable keyword completition
 inoremap <C-p> <Nop>
-nnoremap <Leader>d :call deoplete#toggle()<CR>
 
 " sudo save
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
@@ -131,6 +131,16 @@ nnoremap <C-h> ^
 nnoremap <Leader>lc :lclose<CR>
 " Close quickfix window
 nnoremap <Leader>cc :cclose<CR>
+
+" Paste from 0 register
+nnoremap <Leader>p "0p<CR>
+vnoremap <Leader>p "0p<CR>
+
+" Search word under cursor
+nnoremap <Leader>a :Ack<CR>
+
+" Seach in Dash
+nnoremap <Leader>d :Dash<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -206,7 +216,7 @@ nnoremap <Leader>tc :tabclose<CR>
 
 "vim-better-whitespace
 let g:better_whitespace_enabled=1
-let g:strip_whitespace_on_save = 1
+let g:strip_whitespace_on_save=1
 
 " pgsql
 let g:sql_type_default = 'pgsql'
@@ -391,6 +401,7 @@ let g:mix_format_silent_errors = 1
 
 "Go
 let g:go_fmt_command = "goimports"
+let g:go_def_mapping_enabled = 0
 
 " ipdb
 " python << EOF
