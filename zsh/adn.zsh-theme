@@ -3,7 +3,7 @@ user="%{$fg_bold[magenta]%}%n@%m"
 arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜) "
 adn_directory="%{$fg[cyan]%}%c "
 
-PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::virtualenv_info)$(adn::aws)
+PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)
 $(adn::status)${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}$(spaceship::vi_mode) ${time}%{$reset_color%}%{$(echotc DO 1)%}'
@@ -37,7 +37,7 @@ adn::status() {
   echo "${ret_status}"
 }
 
-# Show icon if there's a working jobs in the background
+# Python virtualenv
 adn::virtualenv_info(){
     local venv
     # Get Virtual Env
@@ -106,6 +106,12 @@ SPACESHIP_GIT_STATUS_DIVERGED="%{$fg_bold[red]%}⇕"
 # See PR #147 at https://git.io/vQkkB
 # See git help status to know more about status formats
 spaceship::git_status() {
+
+  if [ $(whoami) = "vagrant" ] ; then
+    echo ""
+    return 0
+  fi
+
   [[ $SPACESHIP_GIT_STATUS_SHOW == false ]] && return
 
   command git rev-parse --is-inside-work-tree &>/dev/null || return

@@ -20,7 +20,7 @@ main() {
         install_exa=yes
         ;;
       --install-from-cargo)
-        insta_from_cargo=yes
+        install_from_cargo=yes
         ;;
     esac
   done

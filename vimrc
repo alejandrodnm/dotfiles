@@ -70,6 +70,10 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'exu/pgsql.vim'
 Plugin 'ethereum/vim-solidity'
 
+" Haskell
+Plugin 'bitc/vim-hdevtools'
+Plugin 'neovimhaskell/haskell-vim'
+
 " Plugin 'godlygeek/tabular'  " Autotabs for puppet
 " Plugin 'rodjek/vim-puppet'
 " Plugin 'raichoo/purescript-vim'
@@ -213,6 +217,9 @@ nnoremap <Leader>tc :tabclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"vim-hdevtools
+let g:hdevtools_stack = 1
 
 "vim-better-whitespace
 let g:better_whitespace_enabled=1
