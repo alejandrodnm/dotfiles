@@ -14,6 +14,9 @@ DIRNAME=$(dirname $(readlink -f $0))
 main() {
   local install_exa=no
   local install_from_cargo=no
+  local rpm_fusion=no
+  local vbox_guest_additions=no
+
   for arg in $0 ; do
     case $arg in
       --exa)
@@ -22,8 +25,21 @@ main() {
       --install-from-cargo)
         install_from_cargo=yes
         ;;
+      --rpm-fusion)
+        rpm_fusion=yes
+        ;;
+      --vbox)
+        rpm_fusion=yes
+        vbox_guest_additions=yes
+        ;;
     esac
   done
+  if [ "${rpm_fusion}" = "yes" ] ; then
+    rpm_fusion
+  fi
+  if [ "${vbox_guest_additions}" = "yes" ] ; then
+    install_packages akmod-VirtualBox
+  fi
   install_packages $PACKAGES
   install_fzf
   if [ "${install_exa}" = "yes" ] ; then
@@ -33,6 +49,12 @@ main() {
   install_vim
   install_zsh
   touch "${DIRNAME}/install_successful"
+}
+
+rpm_fusion() {
+  if command -v dnf >/dev/null 2>&1 ; then
+    sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  fi
 }
 
 install_packages() {

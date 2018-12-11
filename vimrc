@@ -71,13 +71,12 @@ Plugin 'exu/pgsql.vim'
 Plugin 'ethereum/vim-solidity'
 
 " Haskell
-Plugin 'bitc/vim-hdevtools'
+Plugin 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plugin 'neovimhaskell/haskell-vim'
 
 " Plugin 'godlygeek/tabular'  " Autotabs for puppet
 " Plugin 'rodjek/vim-puppet'
 " Plugin 'raichoo/purescript-vim'
-" Plugin 'neovimhaskell/haskell-vim.git'
 " Plugin 'jalvesaq/Nvim-R'
 " Plugin 'lervag/vimtex'  " Support for latex files and projects
 
@@ -219,7 +218,7 @@ nnoremap <Leader>tc :tabclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "vim-hdevtools
-let g:hdevtools_stack = 1
+au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
 
 "vim-better-whitespace
 let g:better_whitespace_enabled=1
@@ -229,7 +228,7 @@ let g:strip_whitespace_on_save=1
 let g:sql_type_default = 'pgsql'
 
 " Fugitive
-nmap <Leader>gs :Gstatus<CR>
+nmap <Leader>gt :Gstatus<CR>
 nmap <Leader>gd :Gdiff<CR>
 nmap <Leader>gl :Glog<CR>
 nmap <Leader>gb :Gblame<CR>
@@ -238,7 +237,12 @@ nmap <Leader>gw :Gwrite<CR>
 nmap <Leader>gc :Gcommit<CR>
 
 " GitGutter
+let g:gitgutter_map_keys = 0
 nmap <Leader>ga :GitGutterAll<CR>
+nmap <Leader>gs <Plug>GitGutterStageHunk
+nmap <Leader>gu <Plug>GitGutterUndoHunk
+nmap <Leader>gp <Plug>GitGutterPreviewHunk
+
 " reduce the time to make signs appear
 set updatetime=100
 

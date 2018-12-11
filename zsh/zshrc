@@ -105,7 +105,7 @@ source $ZSH/oh-my-zsh.sh
 # https://gist.github.com/rubencaro/6a28138a40e629b06470
 source $HOME/.asdf/asdf.sh
 source $HOME/.asdf/completions/asdf.bash
-
+export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
 # Go
 export GOROOT="/usr/local/Cellar/go/1.10.3/libexec"
 export GOPATH="$HOME/go"
