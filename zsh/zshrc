@@ -40,6 +40,7 @@ alias gp='git push'
 alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
+alias gfo='g fetch origin'
 
 # Use for git branch in theme
 autoload -Uz vcs_info
@@ -74,8 +75,6 @@ bindkey '^E' autosuggest-accept
 
 if [[ "$(uname)" == "Linux" ]]
 then
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
   # Beginning search with arrow keys
   bindkey "^[OA" up-line-or-beginning-search
   bindkey "^[OB" down-line-or-beginning-search
@@ -103,9 +102,11 @@ source $ZSH/oh-my-zsh.sh
 
 # asdf version manager for elm elixir erlang
 # https://gist.github.com/rubencaro/6a28138a40e629b06470
-source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
-export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
+if [ -e $HOME/.asdf/asdf.sh ] ; then
+  source $HOME/.asdf/asdf.sh
+  source $HOME/.asdf/completions/asdf.bash
+  export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
+fi
 # Go
 export GOROOT="/usr/local/Cellar/go/1.10.3/libexec"
 export GOPATH="$HOME/go"
@@ -162,10 +163,9 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if [[ "$(uname)" == "Linux" ]]
-then
+if [ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
+elif [ -e /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 

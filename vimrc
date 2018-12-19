@@ -66,13 +66,14 @@ Plugin 'elixir-editors/vim-elixir'
 Plugin 'slashmili/alchemist.vim'
 Plugin 'mhinz/vim-mix-format'
 
-Plugin 'plasticboy/vim-markdown'
-Plugin 'exu/pgsql.vim'
-Plugin 'ethereum/vim-solidity'
-
 " Haskell
 Plugin 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plugin 'neovimhaskell/haskell-vim'
+Plugin 'nbouscal/vim-stylish-haskell'
+
+Plugin 'plasticboy/vim-markdown'
+Plugin 'exu/pgsql.vim'
+" Plugin 'ethereum/vim-solidity'
 
 " Plugin 'godlygeek/tabular'  " Autotabs for puppet
 " Plugin 'rodjek/vim-puppet'
@@ -131,9 +132,9 @@ nnoremap <C-l> $
 nnoremap <C-h> ^
 
 " Close location list
-nnoremap <Leader>lc :lclose<CR>
+nnoremap <Leader>l :lclose<CR>
 " Close quickfix window
-nnoremap <Leader>cc :cclose<CR>
+nnoremap <Leader>c :cclose<CR>
 
 " Paste from 0 register
 nnoremap <Leader>p "0p<CR>
@@ -217,7 +218,7 @@ nnoremap <Leader>tc :tabclose<CR>
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"vim-hdevtools
+" ghcid
 au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
 
 "vim-better-whitespace
@@ -238,6 +239,8 @@ nmap <Leader>gc :Gcommit<CR>
 
 " GitGutter
 let g:gitgutter_map_keys = 0
+nmap ]c <Plug>GitGutterNextHunk
+nmap [c <Plug>GitGutterPrevHunk
 nmap <Leader>ga :GitGutterAll<CR>
 nmap <Leader>gs <Plug>GitGutterStageHunk
 nmap <Leader>gu <Plug>GitGutterUndoHunk
@@ -277,6 +280,8 @@ let g:gutentags_cache_dir = "~/.vim/tags/"
 " NeoMake
 autocmd! BufWritePost * Neomake
 let g:neomake_open_list = 2
+
+let g:neomake_haskell_enabled_makers = ['hlint']
 
 let g:neomake_elixir_enabled_makers = ['mycredo']
 function! NeomakeCredoErrorType(entry)
