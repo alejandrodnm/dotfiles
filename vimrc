@@ -126,6 +126,9 @@ set undodir=~/.local/share/nvim/undodir/
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
 
+" Only
+nnoremap <Leader>o :only<CR>
+
 " Move to first character
 nnoremap <C-l> $
 " Move to last character
@@ -361,7 +364,7 @@ let g:NERDDefaultAlign = 'left'
 
 " Disable mappings and add Toggle manually
 let g:NERDCreateDefaultMappings = 0
-map <leader>c<space> <plug>NERDCommenterToggle
+map <leader>x<space> <plug>NERDCommenterToggle
 
 " JSON FORMAT
 nmap <Leader>j :%!python -m json.tool<CR>

@@ -34,7 +34,7 @@ main() {
         ;;
     esac
   done
-  if [ "${rpm_fusion}" = "yes" ] ; then
+  if [[ $(cat /etc/redhat-release) =~ "Fedora" ]] ; then
     rpm_fusion
   fi
   if [ "${vbox_guest_additions}" = "yes" ] ; then
