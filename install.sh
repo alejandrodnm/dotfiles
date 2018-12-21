@@ -12,16 +12,12 @@ PACKAGES="curl vim zsh neovim gcc cmake"
 DIRNAME=$(dirname $(readlink -f $0))
 
 main() {
-  local install_exa=no
   local install_from_cargo=no
   local rpm_fusion=no
   local vbox_guest_additions=no
 
   for arg in $0 ; do
     case $arg in
-      --exa)
-        install_exa=yes
-        ;;
       --install-from-cargo)
         install_from_cargo=yes
         ;;
@@ -42,9 +38,7 @@ main() {
   fi
   install_packages $PACKAGES
   install_fzf
-  if [ "${install_exa}" = "yes" ] ; then
-    install_exa
-  fi
+  install_exa $install_from_cargo
   install_ripgrep $install_from_cargo
   install_vim
   install_zsh
@@ -104,7 +98,9 @@ install_vim() {
 
   if [ ! -d ~/.vim/bundle/Vundle.vim ] ; then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    sed -i 's/colorscheme/"colorscheme/' ~/.config/nvim/init.vim
     nvim +PluginInstall +qall
+    sed -i 's/"colorscheme/colorscheme/' ~/.config/nvim/init.vim
   fi
 }
 
@@ -140,21 +136,27 @@ cargo_install() {
 install_ripgrep() {
   echo "Installing ripgrep: from cargo? ${1}"
   if ! command -v rg >/dev/null 2>&1 ; then
-    if [ "${1}" = "yes" ]  ; then
-      if ! install_packages ripgrep ; then
-        cargo_install ripgrep
+    if ! install_packages ripgrep ; then
+      if [ "${1}" = "yes" ]  ; then
+          cargo_install ripgrep
+      else
+        curl -L -o /tmp/rg.tar.gz https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz
+        sudo tar -xzf /tmp/rg.tar.gz -C /opt/
+        sudo ln -s /opt/ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
       fi
-    else
-      curl -L -o /tmp/rg.tar.gz https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz
-      sudo tar -xzf /tmp/rg.tar.gz -C /opt/
-      sudo ln -s /opt/ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
     fi
   fi
 }
 
 install_exa() {
-  echo "Installing exa"
-  cargo_install exa
+  echo "Installing exa: from cargo? ${1}"
+  if ! command -v exa >/dev/null 2>&1 ; then
+    if ! install_packages exa ; then
+      if [ "${1}" = "yes" ]  ; then
+        cargo_install exa
+      fi
+    fi
+  fi
 }
 
 main $@ || exit 1

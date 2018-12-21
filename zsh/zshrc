@@ -169,6 +169,10 @@ elif [ -e /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
+if command -v bat >/dev/null 2>&1 ; then
+  alias cat='bat'
+fi
+
 if command -v exa >/dev/null 2>&1 ; then
   alias ls='exa -la --git'
 else
