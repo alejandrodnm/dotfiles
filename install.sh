@@ -75,11 +75,9 @@ install_zsh() {
     rm ~/.oh-my-zsh/themes/adn.zsh-theme
   fi
   ln -s "${DIRNAME}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
-  if [ -z $ZSH_NAME ] ; then
-    sudo chsh -s $(which zsh)
-  else
-    source ~/.zshrc
-  fi
+
+  chsh -s $(which zsh)
+  source ~/.zshrc
 }
 
 install_vim() {

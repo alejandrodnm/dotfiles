@@ -364,7 +364,7 @@ let g:NERDDefaultAlign = 'left'
 
 " Disable mappings and add Toggle manually
 let g:NERDCreateDefaultMappings = 0
-map <leader>x<space> <plug>NERDCommenterToggle
+map <leader>v<space> <plug>NERDCommenterToggle
 
 " JSON FORMAT
 nmap <Leader>j :%!python -m json.tool<CR>
