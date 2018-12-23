@@ -8,7 +8,7 @@
 # tic -x iterm/xterm-256color-italic.terminfo
 # tic -x iterm/tmux-256color.terminfo
 
-PACKAGES="curl vim zsh neovim gcc cmake"
+PACKAGES="curl vim zsh neovim gcc cmake bat"
 DIRNAME=$(dirname $(readlink -f $0))
 
 main() {
