@@ -42,6 +42,8 @@ alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
 alias gfo='g fetch origin'
 
+alias k='kubectl'
+
 # Use for git branch in theme
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
@@ -108,7 +110,7 @@ if [ -e $HOME/.asdf/asdf.sh ] ; then
   export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
 fi
 # Go
-export GOROOT="/usr/local/Cellar/go/1.10.3/libexec"
+export GOROOT="/usr/local/Cellar/go/1.11.5/libexec"
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 
@@ -197,3 +199,29 @@ if command -v exa >/dev/null 2>&1 ; then
 else
   alias ls='ls -al'
 fi
+
+qq() {
+  clear
+
+  logpath="$TMPDIR/q"
+  if [[ -z "$TMPDIR" ]]; then
+    logpath="/tmp/q"
+  fi
+
+  if [[ ! -f "$logpath" ]]; then
+    echo 'Q LOG' > "$logpath"
+  fi
+
+  tail -100f -- "$logpath"
+}
+
+rmqq() {
+  logpath="$TMPDIR/q"
+  if [[ -z "$TMPDIR" ]]; then
+    logpath="/tmp/q"
+  fi
+  if [[ -f "$logpath" ]]; then
+    rm "$logpath"
+  fi
+  qq
+}

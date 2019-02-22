@@ -60,19 +60,6 @@ adn::jobs() {
   echo "%{$fg_bold[red]%}& "
 }
 
-# Shows current aws role and if it has expire
-adn::aws() {
-  [[ -n "${AWS_ROLE}" ]] || return
-
-  local color="%{$fg_bold[white]%}"
-
-  if [[ $(date +"%s") -ge ${AWS_SESSION_EXPIRE} ]]
-  then
-    color="%{$fg_bold[red]%}"
-  fi
-  echo "${color}☁️  ${AWS_ROLE} "
-}
-
 #
 # Git status
 #
@@ -214,4 +201,31 @@ spaceship::git_branch() {
   echo "$SPACESHIP_GIT_BRANCH_PREFIX"\
   "$SPACESHIP_GIT_BRANCH_COLOR${git_current_branch}"\
   "$SPACESHIP_GIT_BRANCH_SUFFIX"
+}
+
+#
+#  Kubernetes (kubectl)
+#
+# Kubernetes is an open-source system for deployment, scaling,
+# and management of containerized applications.
+# Link: https://kubernetes.io/
+# Additional space is added because ☸️ is much bigger than the other symbols
+# See: https://github.com/denysdovhan/spaceship-prompt/pull/432
+SPACESHIP_KUBECONTEXT_SYMBOL="${SPACESHIP_KUBECONTEXT_SYMBOL="☸️  "}"
+
+# Show current context in kubectl
+spaceship::kubecontext() {
+
+  command -v kubectl > /dev/null 2>&1 || return
+
+  local kube_context=$(kubectl config current-context 2>/dev/null)
+  [[ -z $kube_context ]] && return
+
+  local kube_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
+  [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
+
+
+  local color="%{$fg_bold[white]%}"
+
+  echo "${color}${SPACESHIP_KUBECONTEXT_SYMBOL}${kube_context}"
 }

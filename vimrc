@@ -99,16 +99,13 @@ call vundle#end()            " required
 " Use pl for prolog and not perl
 let g:filetype_pl="prolog"
 
-" Nvim python
-" let g:python3_host_prog = '/bin/python3'
-" let g:python_host_prog = '/bin/python2'
-
 "Change the <leader> key to comma instead of \ "
 let mapleader=","
 let maplocalleader="\\"
 
 " Disable keyword completition
 inoremap <C-p> <Nop>
+nnoremap <Leader>z :call deoplete#toggle()<CR>
 
 " sudo save
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
@@ -126,6 +123,8 @@ set undodir=~/.local/share/nvim/undodir/
 " Insert space in normal mode
 nnoremap <Space> i<Space><Right><Esc>
 
+" Quit
+nnoremap <Leader>q :quit<CR>
 " Only
 nnoremap <Leader>o :only<CR>
 
@@ -144,7 +143,9 @@ nnoremap <Leader>p "0p<CR>
 vnoremap <Leader>p "0p<CR>
 
 " Search word under cursor
-nnoremap <Leader>a :Ack<CR>
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<CR>
+nnoremap <Leader>f :Files<CR>
 
 " Seach in Dash
 nnoremap <Leader>d :Dash<CR>
@@ -182,7 +183,7 @@ set clipboard+=unnamedplus
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 filetype plugin indent on
-autocmd Filetype python,elm,groovy setlocal ts=4 sts=4 sw=4
+autocmd Filetype python,elm,groovy,haskell setlocal ts=4 sts=4 sw=4
 autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
 
 set backspace=2
@@ -232,7 +233,7 @@ let g:strip_whitespace_on_save=1
 let g:sql_type_default = 'pgsql'
 
 " Fugitive
-nmap <Leader>gt :Gstatus<CR>
+nmap <Leader>gs :Gstatus<CR>
 nmap <Leader>gd :Gdiff<CR>
 nmap <Leader>gl :Glog<CR>
 nmap <Leader>gb :Gblame<CR>
@@ -244,8 +245,8 @@ nmap <Leader>gc :Gcommit<CR>
 let g:gitgutter_map_keys = 0
 nmap ]c <Plug>GitGutterNextHunk
 nmap [c <Plug>GitGutterPrevHunk
-nmap <Leader>ga :GitGutterAll<CR>
-nmap <Leader>gs <Plug>GitGutterStageHunk
+nmap <Leader>gg :GitGutterAll<CR>
+nmap <Leader>ga <Plug>GitGutterStageHunk
 nmap <Leader>gu <Plug>GitGutterUndoHunk
 nmap <Leader>gp <Plug>GitGutterPreviewHunk
 
@@ -419,8 +420,18 @@ let g:mix_format_on_save = 1
 let g:mix_format_silent_errors = 1
 
 "Go
-let g:go_fmt_command = "goimports"
-let g:go_def_mapping_enabled = 0
+au FileType go nmap <Leader>se :GoDeclsDir<CR>
+au FileType go nmap <Leader>si <Plug>(go-info)
+au FileType go nmap <Leader>sm <Plug>(go-implements)
+au FileType go nmap <leader>st <Plug>(go-test-func)
+au FileType go nmap <leader>sd <Plug>(go-doc)
+au FileType go nmap <leader>sc <Plug>(go-channelpeers)
+au FileType go nmap <leader>xb <Plug>(go-debug-breakpoint)
+au FileType go nmap <leader>xn <Plug>(go-debug-next)
+au FileType go nmap <leader>xs <Plug>(go-debug-step)
+au FileType go nmap <leader>xc <Plug>(go-debug-continue)
+au FileType go nmap <leader>xo <Plug>(go-debug-stepout)
+au FileType go nmap <leader>xp <Plug>(go-debug-print)
 
 " ipdb
 " python << EOF
