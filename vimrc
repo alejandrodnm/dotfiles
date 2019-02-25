@@ -423,10 +423,13 @@ let g:mix_format_on_save = 1
 let g:mix_format_silent_errors = 1
 
 "Go
+let g:go_fmt_command = "goimports"
+
 au FileType go nmap <Leader>se :GoDeclsDir<CR>
 au FileType go nmap <Leader>si <Plug>(go-info)
 au FileType go nmap <Leader>sm <Plug>(go-implements)
 au FileType go nmap <leader>st <Plug>(go-test-func)
+au FileType go nmap <leader>sy <Plug>(go-test)
 au FileType go nmap <leader>sd <Plug>(go-doc)
 au FileType go nmap <leader>sc <Plug>(go-channelpeers)
 au FileType go nmap <leader>xb <Plug>(go-debug-breakpoint)
