@@ -9,7 +9,6 @@ tokei
 zsh
 jq
 tq
-powerline
 
 # GIT
 
@@ -17,7 +16,6 @@ grv
 fzf
 
 # PIP
-ranger
 grip
 
 # OSX
@@ -41,3 +39,4 @@ ranger
 rip-grep
 zsh-syntax-highlighting
 zsh-completions
+up

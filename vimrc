@@ -9,10 +9,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-
 " Themes
 Plugin 'crusoexia/vim-monokai'
 Plugin 'morhetz/gruvbox'
@@ -40,7 +36,6 @@ Plugin 'rizzatti/dash.vim'
 " Languages plugins
 
 " GO
-
 Plugin 'zchee/deoplete-go', { 'do': 'make' }
 Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -67,13 +62,18 @@ Plugin 'slashmili/alchemist.vim'
 Plugin 'mhinz/vim-mix-format'
 
 " Haskell
-Plugin 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+" Plugin 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plugin 'neovimhaskell/haskell-vim'
-Plugin 'nbouscal/vim-stylish-haskell'
+" Plugin 'nbouscal/vim-stylish-haskell'
+" If the binary is not found generate it manually
+Plugin 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': './install.sh'
+    \ }
+
 
 Plugin 'plasticboy/vim-markdown'
 Plugin 'exu/pgsql.vim'
-" Plugin 'ethereum/vim-solidity'
 
 " Plugin 'godlygeek/tabular'  " Autotabs for puppet
 " Plugin 'rodjek/vim-puppet'
@@ -103,10 +103,6 @@ let g:filetype_pl="prolog"
 let mapleader=","
 let maplocalleader="\\"
 
-" Disable keyword completition
-inoremap <C-p> <Nop>
-nnoremap <Leader>z :call deoplete#toggle()<CR>
-
 " sudo save
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
@@ -134,9 +130,10 @@ nnoremap <C-l> $
 nnoremap <C-h> ^
 
 " Close location list
-nnoremap <Leader>l :lclose<CR>
+nnoremap <Leader>cl :lclose<CR>
 " Close quickfix window
-nnoremap <Leader>c :cclose<CR>
+nnoremap <Leader>cc :cclose<CR>
+nnoremap <Leader>cp :pclose<CR>
 
 " Paste from 0 register
 nnoremap <Leader>p "0p<CR>
@@ -222,8 +219,10 @@ nnoremap <Leader>tc :tabclose<CR>
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" ghcid
-au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
+" Deoplete
+"" Disable keyword completition
+inoremap <C-p> <Nop>
+nnoremap <Leader>z :call deoplete#toggle()<CR>
 
 "vim-better-whitespace
 let g:better_whitespace_enabled=1
@@ -253,7 +252,7 @@ nmap <Leader>ga <Plug>GitGutterStageHunk
 nmap <Leader>gu <Plug>GitGutterUndoHunk
 nmap <Leader>gp <Plug>GitGutterPreviewHunk
 
-" reduce the time to make signs appear
+"" reduce the time to make signs appear
 set updatetime=100
 
 " Tagbar
@@ -280,15 +279,62 @@ let g:tagbar_type_elixir = {
     \ ]
 \ }
 
+let g:tagbar_type_haskell = {
+  \ 'ctagsbin'    : 'hasktags',
+  \ 'ctagsargs'   : '-x -c -o-',
+  \ 'kinds'       : [
+      \  'm:modules:0:1',
+      \  'd:data:0:1',
+      \  'd_gadt:data gadt:0:1',
+      \  'nt:newtype:0:1',
+      \  'c:classes:0:1',
+      \  'i:instances:0:1',
+      \  'cons:constructors:0:1',
+      \  'c_gadt:constructor gadt:0:1',
+      \  'c_a:constructor accessors:1:1',
+      \  't:type names:0:1',
+      \  'pt:pattern types:0:1',
+      \  'pi:pattern implementations:0:1',
+      \  'ft:function types:0:1',
+      \  'fi:function implementations:0:1',
+      \  'o:others:0:1'
+  \ ],
+  \ 'sro'          : '.',
+  \ 'kind2scope'   : {
+      \ 'm'        : 'module',
+      \ 'd'        : 'data',
+      \ 'd_gadt'   : 'd_gadt',
+      \ 'c_gadt'   : 'c_gadt',
+      \ 'nt'       : 'newtype',
+      \ 'cons'     : 'cons',
+      \ 'c_a'      : 'accessor',
+      \ 'c'        : 'class',
+      \ 'i'        : 'instance'
+  \ },
+  \ 'scope2kind'   : {
+      \ 'module'   : 'm',
+      \ 'data'     : 'd',
+      \ 'newtype'  : 'nt',
+      \ 'cons'     : 'c_a',
+      \ 'd_gadt'   : 'c_gadt',
+      \ 'class'    : 'ft',
+      \ 'instance' : 'ft'
+  \ }
+\ }
+
 " Gutentags
 let g:gutentags_project_root = ['node_modules']
 let g:gutentags_cache_dir = "~/.vim/tags/"
 
+"" Needs to have installed and compiled
+"" stack install gutenhasktags hasktags ghcid stylish-haskell hlint
+let g:gutentags_project_info = [ {'type': 'haskell', 'file': 'Setup.hs'} ]
+let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
+
 " NeoMake
-autocmd! BufWritePost * Neomake
 let g:neomake_open_list = 2
 
-let g:neomake_haskell_enabled_makers = ['hlint']
+au FileType elixir call neomake#configure#automake('nrwi', 500)<CR>
 
 let g:neomake_elixir_enabled_makers = ['mycredo']
 function! NeomakeCredoErrorType(entry)
@@ -313,25 +359,7 @@ let g:neomake_elixir_mycredo_maker = {
       \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
       \ 'postprocess': function('NeomakeCredoErrorType')
       \ }
-
 let g:neomake_python_enabled_makers = ['flake8']
-
-let g:neomake_javascript_prettier_maker = {
-    \ 'exe': 'prettier-eslint',
-    \ 'args': ['--write', '%:p']
-    \ }
-let g:neomake_javascript_enabled_makers = ['prettier', 'eslint']
-let g:neomake_jsx_enabled_makers = ['prettier', 'eslint']
-augroup neomake_augroup
-  autocmd!
-  autocmd BufWritePost * Neomake
-  autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
-  function! s:Neomake_callback(options)
-    if (a:options.name ==? 'prettier') && (a:options.status == 0)
-      edit
-    endif
-  endfunction
-augroup END
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -422,6 +450,23 @@ let g:alchemist_tag_disable = 1
 let g:mix_format_on_save = 1
 let g:mix_format_silent_errors = 1
 
+" Haskell
+
+autocmd! BufWritePre *.hs :call LanguageClient#textDocument_formatting_sync()
+
+"" ghcid
+au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
+
+"" hie
+let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
+nnoremap <Leader>lc :call LanguageClient_contextMenu()<CR>
+au FileType haskell map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+au FileType haskell map <Leader>ld :call LanguageClient#textDocument_definition()<CR>
+au FileType haskell map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+au FileType haskell map <Leader>lr :call LanguageClient#textDocument_references()<CR>
+au FileType haskell map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+au FileType haskell map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+
 "Go
 let g:go_fmt_command = "goimports"
 
@@ -431,13 +476,17 @@ au FileType go nmap <Leader>sm <Plug>(go-implements)
 au FileType go nmap <leader>st <Plug>(go-test-func)
 au FileType go nmap <leader>sy <Plug>(go-test)
 au FileType go nmap <leader>sd <Plug>(go-doc)
-au FileType go nmap <leader>sc <Plug>(go-channelpeers)
+au FileType go nmap <leader>sp <Plug>(go-channelpeers)
+au FileType go nmap <leader>sc <Plug>(go-callers)
 au FileType go nmap <leader>xb <Plug>(go-debug-breakpoint)
 au FileType go nmap <leader>xn <Plug>(go-debug-next)
 au FileType go nmap <leader>xs <Plug>(go-debug-step)
 au FileType go nmap <leader>xc <Plug>(go-debug-continue)
 au FileType go nmap <leader>xo <Plug>(go-debug-stepout)
 au FileType go nmap <leader>xp <Plug>(go-debug-print)
+
+autocmd BufRead /home/adonascimento/go/src/go.datanerd.us/p/meatballs/infra-agent/*.go
+  \ GoGuruScope go.datanerd.us/p/meatballs/infra-agent/...,-go.datanerd.us/p/meatballs/infra-agent/vendor/...
 
 " ipdb
 " python << EOF

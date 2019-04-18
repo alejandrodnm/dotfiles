@@ -40,9 +40,15 @@ alias gp='git push'
 alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
-alias gfo='g fetch origin'
+alias gfo='git fetch origin'
+alias gri='git rebase -i'
+alias gst='git stash'
+alias gstp='git stash pop'
+alias gstd='git stash drop'
 
 alias k='kubectl'
+# Fix minikube date
+alias minikube-date='DSTR=$(date -u); minikube ssh "sudo date --set=\"$DSTR\""'
 
 # Use for git branch in theme
 autoload -Uz vcs_info
@@ -57,6 +63,8 @@ export KEYTIMEOUT=1
 
 # User configuration
 alias vim='nvim'
+# TODO change to brew version after release
+alias vim='~/dev/third_party/nvim-osx64/bin/nvim'
 export EDITOR="vim"
 
 # Fix Delete Home and End on vi-mode
@@ -109,8 +117,11 @@ if [ -e $HOME/.asdf/asdf.sh ] ; then
   source $HOME/.asdf/completions/asdf.bash
   export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
 fi
+# Haskell
+# https://github.com/haskell/haskell-ide-engine/issues/1158
+export HIE_HOOGLE_DATABASE=/Users/adonascimento/dev/third_party/haskell-ide-engine/.stack-work/hoogle/x86_64-osx/lts-13.10/8.6.3/database.hoo
+
 # Go
-export GOROOT="/usr/local/Cellar/go/1.11.5/libexec"
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 
