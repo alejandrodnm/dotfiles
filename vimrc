@@ -65,6 +65,7 @@ Plugin 'mhinz/vim-mix-format'
 " Plugin 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plugin 'neovimhaskell/haskell-vim'
 " Plugin 'nbouscal/vim-stylish-haskell'
+
 " If the binary is not found generate it manually
 Plugin 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -75,8 +76,8 @@ Plugin 'autozimu/LanguageClient-neovim', {
 Plugin 'plasticboy/vim-markdown'
 Plugin 'exu/pgsql.vim'
 
-" Plugin 'godlygeek/tabular'  " Autotabs for puppet
-" Plugin 'rodjek/vim-puppet'
+Plugin 'godlygeek/tabular'  " Autotabs for puppet
+Plugin 'rodjek/vim-puppet'
 " Plugin 'raichoo/purescript-vim'
 " Plugin 'jalvesaq/Nvim-R'
 " Plugin 'lervag/vimtex'  " Support for latex files and projects
