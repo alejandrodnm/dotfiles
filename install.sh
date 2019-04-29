@@ -76,8 +76,10 @@ install_zsh() {
   fi
   ln -s "${DIRNAME}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
 
-  chsh -s $(which zsh)
-  source ~/.zshrc
+  if [ "${whoami}" != "vagrant" ] ; then
+    chsh -s $(which zsh)
+    source ~/.zshrc
+  fi
 }
 
 install_vim() {
