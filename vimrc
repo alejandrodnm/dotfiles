@@ -140,10 +140,12 @@ nnoremap <Leader>cp :pclose<CR>
 nnoremap <Leader>p "0p<CR>
 vnoremap <Leader>p "0p<CR>
 
-" Search word under cursor
+" Search
 cnoreabbrev Ack Ack!
+"" word under cursor
 nnoremap <Leader>a :Ack!<CR>
 nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
 
 " Seach in Dash
 nnoremap <Leader>d :Dash<CR>
@@ -261,7 +263,7 @@ let g:tagbar_left=1
 let g:tagbar_autofocus=1
 let g:tagbar_autoclose=1
 let g:tagbar_foldlevel=0
-nmap <Leader>b :TagbarToggle<CR>
+nmap <Leader>tb :TagbarToggle<CR>
 let g:tagbar_type_elixir = {
     \ 'ctagstype' : 'elixir',
     \ 'kinds' : [
@@ -422,9 +424,6 @@ let g:vim_markdown_folding_disabled = 1
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
-" if executable('ag')
-"   let g:ackprg = 'ag --vimgrep'
-" endif
 
 " fzf
 " --column: Show column number
