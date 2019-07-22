@@ -3,7 +3,7 @@ user="%{$fg_bold[magenta]%}%n@%m"
 arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜) "
 adn_directory="%{$fg[cyan]%}%c "
 
-PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)
+PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::kubecontext)
 $(adn::status)${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}$(spaceship::vi_mode) ${time}%{$reset_color%}%{$(echotc DO 1)%}'
@@ -203,20 +203,25 @@ spaceship::git_branch() {
   "$SPACESHIP_GIT_BRANCH_SUFFIX"
 }
 
-#
-#  Kubernetes (kubectl)
-#
-# Kubernetes is an open-source system for deployment, scaling,
-# and management of containerized applications.
-# Link: https://kubernetes.io/
-# Additional space is added because ☸️ is much bigger than the other symbols
-# See: https://github.com/denysdovhan/spaceship-prompt/pull/432
-SPACESHIP_KUBECONTEXT_SYMBOL="${SPACESHIP_KUBECONTEXT_SYMBOL="☸️  "}"
+# Kubernetes namespace and context
+
+ADN_KUBECONTEXT_SYMBOL="${SPACESHIP_KUBECONTEXT_SYMBOL="%{$fg_bold[magenta]%}⎈ "}"
+ADN_PS1_SHOW_K8S=~/.adn_ps1_k8s
+
+adn::kubeon() {
+  touch $ADN_PS1_SHOW_K8S > /dev/null 2>&1
+}
+
+adn::kubeoff() {
+  rm -f $ADN_PS1_SHOW_K8S > /dev/null 2>&1
+}
 
 # Show current context in kubectl
-spaceship::kubecontext() {
+adn::kubecontext() {
 
   command -v kubectl > /dev/null 2>&1 || return
+
+  [[ -f $ADN_PS1_SHOW_K8S ]] || return
 
   local kube_context=$(kubectl config current-context 2>/dev/null)
   [[ -z $kube_context ]] && return
@@ -224,8 +229,7 @@ spaceship::kubecontext() {
   local kube_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
   [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
 
-
   local color="%{$fg_bold[white]%}"
 
-  echo "${color}${SPACESHIP_KUBECONTEXT_SYMBOL}${kube_context}"
+  echo "${ADN_KUBECONTEXT_SYMBOL}${color}${kube_context}"
 }

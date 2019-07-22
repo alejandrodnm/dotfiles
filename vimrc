@@ -32,6 +32,8 @@ Plugin 'ludovicchabant/vim-gutentags' " ctags handling
 Plugin 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespaces
 Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plugin 'rizzatti/dash.vim'
+Plugin 'https://github.com/alok/notational-fzf-vim' " Note taking
+Plugin 'szw/vim-maximizer'
 
 " Languages plugins
 
@@ -221,6 +223,14 @@ nnoremap <Leader>tc :tabclose<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Maximizer
+let g:maximizer_set_default_mapping = 0
+nnoremap <silent><C-w>z :MaximizerToggle!<CR>
+let g:maximizer_set_mapping_with_bang = 1
+
+" Notational
+let g:nv_search_paths = ['/Users/adonascimento/dev/adn/notes']
+let g:nv_use_short_pathnames = 1
 
 " Deoplete
 "" Disable keyword completition
@@ -337,31 +347,12 @@ let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 " NeoMake
 let g:neomake_open_list = 2
 
-au FileType elixir call neomake#configure#automake('nrwi', 500)<CR>
+au FileType elixir :call neomake#configure#automake('nrwi', 500)
 
-let g:neomake_elixir_enabled_makers = ['mycredo']
-function! NeomakeCredoErrorType(entry)
-    if a:entry.type ==# 'F'      " Refactoring opportunities
-        let type = 'W'
-    elseif a:entry.type ==# 'D'  " Software design suggestions
-        let type = 'I'
-    elseif a:entry.type ==# 'W'  " Warnings
-        let type = 'W'
-    elseif a:entry.type ==# 'R'  " Readability suggestions
-        let type = 'I'
-    elseif a:entry.type ==# 'C'  " Convention violation
-        let type = 'W'
-    else
-        let type = 'M'           " Everything else is a message
-    endif
-    let a:entry.type = type
-endfunction
-let g:neomake_elixir_mycredo_maker = {
-      \ 'exe': 'mix',
-      \ 'args': ['credo', 'list', '%:p', '--format=oneline', '--strict'],
-      \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
-      \ 'postprocess': function('NeomakeCredoErrorType')
-      \ }
+let g:neomake_elixir_enabled_makers = ['credo']
+
+let g:neomake_elixir_credo_args = neomake#makers#ft#elixir#credo().args + ['--strict']
+
 let g:neomake_python_enabled_makers = ['flake8']
 
 " Airline
@@ -484,9 +475,6 @@ au FileType go nmap <leader>xs <Plug>(go-debug-step)
 au FileType go nmap <leader>xc <Plug>(go-debug-continue)
 au FileType go nmap <leader>xo <Plug>(go-debug-stepout)
 au FileType go nmap <leader>xp <Plug>(go-debug-print)
-
-autocmd BufRead /home/adonascimento/go/src/go.datanerd.us/p/meatballs/infra-agent/*.go
-  \ GoGuruScope go.datanerd.us/p/meatballs/infra-agent/...,-go.datanerd.us/p/meatballs/infra-agent/vendor/...
 
 " ipdb
 " python << EOF

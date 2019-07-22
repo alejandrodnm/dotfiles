@@ -46,6 +46,24 @@ alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
 
+
+# REVIEW_BASE is used by the aliases set in .gitconfig, by default
+# is set to master. To review changes made by the last commit of this
+# branch set it to:
+# REVIEW_BASE=HEAD^ git stat
+export REVIEW_BASE=master
+
+# Delete all the git branches except master
+function grm () {
+  git checkout master > /dev/null 2>&1
+  for b in $(git branch) ; do
+    if [[ "${b}" != '*' && "${b}" != "master" ]] ; then
+      echo "Deleting ${b}"
+      git branch -D $b
+    fi
+  done
+}
+
 alias k='kubectl'
 # Fix minikube date
 alias minikube-date='DSTR=$(date -u); minikube ssh "sudo date --set=\"$DSTR\""'
@@ -236,3 +254,9 @@ rmqq() {
   fi
   qq
 }
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/completion.zsh.inc'; fi
