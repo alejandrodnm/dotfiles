@@ -205,7 +205,7 @@ spaceship::git_branch() {
 
 # Kubernetes namespace and context
 
-ADN_KUBECONTEXT_SYMBOL="${SPACESHIP_KUBECONTEXT_SYMBOL="%{$fg_bold[magenta]%}⎈ "}"
+ADN_KUBECONTEXT_SYMBOL="${SPACESHIP_KUBECONTEXT_SYMBOL="%{$fg_bold[blue]%}⎈ "}"
 ADN_PS1_SHOW_K8S=~/.adn_ps1_k8s
 
 adn::kubeon() {

@@ -187,6 +187,7 @@ set clipboard+=unnamedplus
 filetype plugin indent on
 autocmd Filetype python,elm,groovy,haskell setlocal ts=4 sts=4 sw=4
 autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
+autocmd FileType markdown setl ts=2 sw=2 sts=2 et tw=79
 
 set backspace=2
 " Use spaces instead of tabs
@@ -460,6 +461,9 @@ au FileType haskell map <Leader>ls :call LanguageClient#textDocument_documentSym
 
 "Go
 let g:go_fmt_command = "goimports"
+let g:go_metalinter_command = "golangci-lint"
+let g:go_jump_to_error = 0
+let g:go_metalinter_autosave = 1
 
 au FileType go nmap <Leader>se :GoDeclsDir<CR>
 au FileType go nmap <Leader>si <Plug>(go-info)
