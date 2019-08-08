@@ -1,103 +1,88 @@
-filetype off                  " required
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " Themes
-Plugin 'crusoexia/vim-monokai'
-Plugin 'morhetz/gruvbox'
-Plugin 'jdkanani/vim-material-theme'
+Plug 'crusoexia/vim-monokai'
+Plug 'morhetz/gruvbox'
+Plug 'jdkanani/vim-material-theme'
+Plug 'kaicataldo/material.vim'
 
-Plugin 'scrooloose/nerdcommenter'  " Comment blocks of codes
-Plugin 'scrooloose/nerdtree'  " File system explorer
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'neomake/neomake'  " Linter
-Plugin 'majutsushi/tagbar'  " classes and methods list
-Plugin 'tpope/vim-fugitive'  " Git support
-Plugin 'tpope/vim-endwise'
-Plugin 'mileszs/ack.vim' " Search folders with ag
-Plugin 'tpope/vim-unimpaired'  " Mappings
-Plugin 'vim-airline/vim-airline'  " Status line info
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'airblade/vim-gitgutter'  " Shows git signs
-Plugin 'junegunn/fzf.vim' " Fuzzy search
-Plugin 'junegunn/fzf'
-Plugin 'ludovicchabant/vim-gutentags' " ctags handling
-Plugin 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespaces
-Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
-Plugin 'rizzatti/dash.vim'
-Plugin 'https://github.com/alok/notational-fzf-vim' " Note taking
-Plugin 'szw/vim-maximizer'
-
-" Languages plugins
-
-" GO
-Plugin 'zchee/deoplete-go', { 'do': 'make' }
-Plugin 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-" Python
-" Plugin 'fisadev/vim-isort'  " Python imports
-" Plugin 'vim-scripts/indentpython.vim'
-" Plugin 'davidhalter/jedi'
-" Plugin 'zchee/deoplete-jedi'
-" Plugin 'ambv/black', {'rtp': 'vim'}
-
-" Elm
-" Plugin 'pbogut/deoplete-elm'
-" Plugin 'elmcast/elm-vim'
-
-" JS and related
-" Plugin 'mxw/vim-jsx'
-" Plugin 'pangloss/vim-javascript'
-" Plugin 'hail2u/vim-css3-syntax'
-" Plugin 'cakebaker/scss-syntax.vim'
-
-" Elixir
-Plugin 'elixir-editors/vim-elixir'
-Plugin 'slashmili/alchemist.vim'
-Plugin 'mhinz/vim-mix-format'
-
-" Haskell
-" Plugin 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
-Plugin 'neovimhaskell/haskell-vim'
-" Plugin 'nbouscal/vim-stylish-haskell'
+Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
+Plug 'scrooloose/nerdtree'  " File system explorer
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'neomake/neomake'  " Linter
+Plug 'majutsushi/tagbar'  " classes and methods list
+Plug 'tpope/vim-fugitive'  " Git support
+Plug 'tpope/vim-endwise'
+Plug 'mileszs/ack.vim' " Search folders with ag
+Plug 'tpope/vim-unimpaired'  " Mappings
+Plug 'vim-airline/vim-airline'  " Status line info
+Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter'  " Shows git signs
+Plug 'junegunn/fzf.vim' " Fuzzy search
+Plug 'junegunn/fzf'
+Plug 'ludovicchabant/vim-gutentags' " ctags handling
+Plug 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespaces
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
+Plug 'rizzatti/dash.vim'
+Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
+Plug 'szw/vim-maximizer'
 
 " If the binary is not found generate it manually
-Plugin 'autozimu/LanguageClient-neovim', {
+Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': './install.sh'
     \ }
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plugin 'plasticboy/vim-markdown'
-Plugin 'exu/pgsql.vim'
+" Languages plugins
 
-Plugin 'godlygeek/tabular'  " Autotabs for puppet
-Plugin 'rodjek/vim-puppet'
-" Plugin 'raichoo/purescript-vim'
-" Plugin 'jalvesaq/Nvim-R'
-" Plugin 'lervag/vimtex'  " Support for latex files and projects
+" GO
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
+" Python
+" Plug 'fisadev/vim-isort'  " Python imports
+" Plug 'vim-scripts/indentpython.vim'
+" Plug 'davidhalter/jedi'
+" Plug 'zchee/deoplete-jedi'
+" Plug 'ambv/black', {'rtp': 'vim'}
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+" Elm
+" Plug 'pbogut/deoplete-elm'
+" Plug 'elmcast/elm-vim'
+
+" JS and related
+" Plug 'pangloss/vim-javascript'
+" Plug 'hail2u/vim-css3-syntax'
+" Plug 'cakebaker/scss-syntax.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
+
+" Elixir
+Plug 'elixir-editors/vim-elixir'
+Plug 'slashmili/alchemist.vim'
+Plug 'mhinz/vim-mix-format'
+" Haskell
+" Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+Plug 'neovimhaskell/haskell-vim'
+" Plug 'nbouscal/vim-stylish-haskell'
+
+Plug 'plasticboy/vim-markdown'
+Plug 'exu/pgsql.vim'
+
+Plug 'godlygeek/tabular'  " Autotabs for puppet
+Plug 'rodjek/vim-puppet'
+" Plug 'raichoo/purescript-vim'
+" Plug 'jalvesaq/Nvim-R'
+" Plug 'lervag/vimtex'  " Support for latex files and projects
+call plug#end()
 
 " Use pl for prolog and not perl
 let g:filetype_pl="prolog"
@@ -109,10 +94,8 @@ let maplocalleader="\\"
 " sudo save
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
-" If left to auto webpack doesn't detect file changes
-" set backupcopy=yes
-
-" Allow undisplayed buffers with unsaved changes
+set nobackup
+set nowritebackup
 set hidden
 
 " Maintain undo history between sessions
@@ -155,14 +138,19 @@ nnoremap <Leader>d :Dash<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline_theme='deus'
-set termguicolors
-syntax on
-set background=dark
-colorscheme material-theme
 set laststatus=2 " show status bar on single window
 set cursorline
 set encoding=UTF-8
+syntax on
+let g:airline_theme='deus'
+set background=dark
+colorscheme material-theme
+" Complement material-theme colors
+hi Visual  guifg=White guibg=LightBlue gui=none
+hi MatchParen gui=bold guibg=none guifg=LightMagenta
+
+set termguicolors
+highlight Comment cterm=italic gui=italic
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CURSOR
@@ -173,9 +161,9 @@ set encoding=UTF-8
 set timeoutlen=1000 ttimeoutlen=0 " for esc delay
 
 " Change cursor on insert Gnome
-let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[2 q"
+" let &t_SI = \"\<Esc>[6 q"
+" let &t_SR = \"\<Esc>[4 q"
+" let &t_EI = \"\<Esc>[2 q"
 
 " Copy to clipboard requires clipboard provider. Try :CheckHealth
 set clipboard+=unnamedplus
@@ -248,16 +236,17 @@ let g:show_spaces_that_precede_tabs=1
 " pgsql
 let g:sql_type_default = 'pgsql'
 
-" Fugitive
+" Git
+"" Fugitive
 nmap <Leader>gs :Gstatus<CR>
 nmap <Leader>gd :Gdiff<CR>
-nmap <Leader>gl :Glog<CR>
+nmap <Leader>gl :0Glog<CR>
 nmap <Leader>gb :Gblame<CR>
 nmap <Leader>gr :Gread<CR>
 nmap <Leader>gw :Gwrite<CR>
 nmap <Leader>gc :Gcommit<CR>
 
-" GitGutter
+"" GitGutter
 let g:gitgutter_map_keys = 0
 nmap ]c <Plug>GitGutterNextHunk
 nmap [c <Plug>GitGutterPrevHunk
@@ -266,8 +255,12 @@ nmap <Leader>ga <Plug>GitGutterStageHunk
 nmap <Leader>gu <Plug>GitGutterUndoHunk
 nmap <Leader>gp <Plug>GitGutterPreviewHunk
 
-"" reduce the time to make signs appear
-set updatetime=100
+set updatetime=100 " reduce the time to make signs appear
+nmap <Leader>gm :Gdiff master <bar> let g:gitgutter_diff_base = master<CR>
+
+"" Search modified git files
+nmap <Leader>gf :GFiles?<CR>
+
 
 " Tagbar
 let g:tagbar_left=1
@@ -346,15 +339,11 @@ let g:gutentags_project_info = [ {'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 " NeoMake
-let g:neomake_open_list = 2
-
-au FileType elixir :call neomake#configure#automake('nrwi', 500)
-
-let g:neomake_elixir_enabled_makers = ['credo']
-
-let g:neomake_elixir_credo_args = neomake#makers#ft#elixir#credo().args + ['--strict']
-
-let g:neomake_python_enabled_makers = ['flake8']
+" let g:neomake_open_list = 2
+" au FileType elixir :call neomake#configure#automake('nrwi', 500)
+" let g:neomake_elixir_enabled_makers = ['credo']
+" let g:neomake_elixir_credo_args = neomake#makers#ft#elixir#credo().args + ['--strict']
+" let g:neomake_python_enabled_makers = ['flake8']
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -431,6 +420,106 @@ endif
 
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --line-number --no-heading --hidden --follow '. <q-args>, 1, <bang>0)
 
+" LanguageClient
+let g:LanguageClient_serverCommands = {
+    \ 'elixir': ['/Users/adonascimento/dev/third_party/elixir-ls/bin/language_server.sh'],
+    \ 'haskell': ['hie-wrapper'],
+    \ }
+
+let g:LanguageClient_rootMarkers = {
+    \ 'elixir': ['mix.exs'],
+    \ }
+
+nnoremap <Leader>lc :call LanguageClient_contextMenu()<CR>
+au FileType haskell,elixir map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+au FileType haskell,elixir map <Leader>ld :call LanguageClient#textDocument_definition()<CR>
+au FileType haskell,elixir map <Leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+au FileType haskell,elixir map <Leader>li :call LanguageClient#textDocument_implementation()<CR>
+au FileType haskell,elixir map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+au FileType haskell,elixir map <Leader>lr :call LanguageClient#textDocument_references()<CR>
+au FileType haskell,elixir map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+au FileType haskell,elixir map <Leader>lk :call LanguageClient#textDocument_documentSymbol()<CR>
+au FileType haskell,elixir map <Leader>le :call LanguageClient#explainErrorAtPoint()<CR>
+
+autocmd! BufWritePre haskell :call LanguageClient#textDocument_formatting_sync()
+
+" coc-nvim
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+" inoremap <silent><expr> <CR>
+"   \ pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Remap key
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+nmap <leader>ld <Plug>(coc-definition)
+nmap <leader>lt <Plug>(coc-type-definition)
+nmap <leader>li <Plug>(coc-implementation)
+nmap <leader>lr <Plug>(coc-references)
+nmap <leader>lr <Plug>(coc-rename)
+xmap <leader>la  <Plug>(coc-codeaction-selected)
+nmap <leader>la  <Plug>(coc-codeaction-selected)
+" Remap for do codeAction of current line
+nmap <leader>lac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>lqf  <Plug>(coc-fix-current)
+
+" Use K to show documentation in preview window
+nnoremap <leader>lk :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <leader>lld :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <leader>lle :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <leader>lls :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>llw :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <leader>llj :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <leader>llk :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <leader>llp :<C-u>CocListResume<CR>
+
 " Isort
 let g:vim_isort_python_version = 'python3'
 
@@ -442,22 +531,8 @@ let g:alchemist_tag_disable = 1
 let g:mix_format_on_save = 1
 let g:mix_format_silent_errors = 1
 
-" Haskell
-
-autocmd! BufWritePre *.hs :call LanguageClient#textDocument_formatting_sync()
-
 "" ghcid
 au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
-
-"" hie
-let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
-nnoremap <Leader>lc :call LanguageClient_contextMenu()<CR>
-au FileType haskell map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-au FileType haskell map <Leader>ld :call LanguageClient#textDocument_definition()<CR>
-au FileType haskell map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-au FileType haskell map <Leader>lr :call LanguageClient#textDocument_references()<CR>
-au FileType haskell map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-au FileType haskell map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 
 "Go
 let g:go_fmt_command = "goimports"

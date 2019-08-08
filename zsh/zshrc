@@ -41,6 +41,7 @@ alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
 alias gfo='git fetch origin'
+alias gfu='git fetch upstream'
 alias gri='git rebase -i'
 alias gst='git stash'
 alias gstp='git stash pop'
@@ -81,8 +82,6 @@ export KEYTIMEOUT=1
 
 # User configuration
 alias vim='nvim'
-# TODO change to brew version after release
-alias vim='~/dev/third_party/nvim-osx64/bin/nvim'
 export EDITOR="vim"
 
 # Fix Delete Home and End on vi-mode
@@ -174,12 +173,10 @@ export SSH_KEY_PATH="~/.ssh/id_rsa_adn"
 # For more info:
 #
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-if [[ $(whoami) != "vagrant" ]] ; then
-  export TERM=xterm-256color-italic
-  alias ssh="TERM=xterm ssh"
-  alias up="TERM=xterm up"
-  alias vagrant="TERM=xterm vagrant"
-fi
+export TERM=xterm-256color-italic
+alias ssh="TERM=xterm ssh"
+alias up="TERM=xterm up"
+alias vagrant="TERM=xterm vagrant"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -229,6 +226,10 @@ else
   alias ls='ls -al'
 fi
 
+if command -v gsed >/dev/null 2>&1 ; then
+  alias sed=gsed
+fi
+
 qq() {
   clear
 
@@ -254,6 +255,8 @@ rmqq() {
   fi
   qq
 }
+
+export MANPAGER="nvim -c 'set ft=man' -"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc'; fi
