@@ -8,9 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 " Themes
 Plug 'crusoexia/vim-monokai'
-Plug 'morhetz/gruvbox'
 Plug 'jdkanani/vim-material-theme'
-Plug 'kaicataldo/material.vim'
 
 Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plug 'scrooloose/nerdtree'  " File system explorer
@@ -32,16 +30,15 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 Plug 'rizzatti/dash.vim'
 Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
-
-" If the binary is not found generate it manually
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': './install.sh'
-    \ }
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'Yggdroot/indentLine'
+Plug 'neoclide/coc.nvim', {
+      \'branch': 'release'
+      \}
 
 " Languages plugins
+
+" Kotlin
+" Plug 'udalov/kotlin-vim'
 
 " GO
 Plug 'zchee/deoplete-go', { 'do': 'make' }
@@ -62,8 +59,11 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'pangloss/vim-javascript'
 " Plug 'hail2u/vim-css3-syntax'
 " Plug 'cakebaker/scss-syntax.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'ianks/vim-tsx'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'ianks/vim-tsx'
+
+" ReasonML
+" Plug 'reasonml-editor/vim-reason-plus'
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'
@@ -77,11 +77,14 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'exu/pgsql.vim'
 
-Plug 'godlygeek/tabular'  " Autotabs for puppet
-Plug 'rodjek/vim-puppet'
+" Plug 'godlygeek/tabular'  " Autotabs for puppet
+" Plug 'rodjek/vim-puppet'
 " Plug 'raichoo/purescript-vim'
 " Plug 'jalvesaq/Nvim-R'
 " Plug 'lervag/vimtex'  " Support for latex files and projects
+
+Plug 'rust-lang/rust.vim'
+
 call plug#end()
 
 " Use pl for prolog and not perl
@@ -91,9 +94,6 @@ let g:filetype_pl="prolog"
 let mapleader=","
 let maplocalleader="\\"
 
-" sudo save
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
 set nobackup
 set nowritebackup
 set hidden
@@ -102,38 +102,55 @@ set hidden
 set undofile
 set undodir=~/.local/share/nvim/undodir/
 
-" Insert space in normal mode
-nnoremap <Space> i<Space><Right><Esc>
+filetype plugin indent on
 
-" Quit
-nnoremap <Leader>q :quit<CR>
-" Only
-nnoremap <Leader>o :only<CR>
+aug adn_standard
+  au!
+  " Insert space in normal mode
+  nnoremap <Space> i<Space><Right><Esc>
 
-" Move to first character
-nnoremap <C-l> $
-" Move to last character
-nnoremap <C-h> ^
+  " Quit
+  nnoremap <Leader>q :quit<CR>
+  " Only
+  nnoremap <Leader>o :only<CR>
 
-" Close location list
-nnoremap <Leader>cl :lclose<CR>
-" Close quickfix window
-nnoremap <Leader>cc :cclose<CR>
-nnoremap <Leader>cp :pclose<CR>
+  " Move to first character
+  nnoremap <C-l> $
+  " Move to last character
+  nnoremap <C-h> ^
 
-" Paste from 0 register
-nnoremap <Leader>p "0p<CR>
-vnoremap <Leader>p "0p<CR>
+  " Close location list
+  nnoremap <Leader>cl :lclose<CR>
+  " Close quickfix window
+  nnoremap <Leader>cc :cclose<CR>
+  nnoremap <Leader>cp :pclose<CR>
 
-" Search
-cnoreabbrev Ack Ack!
-"" word under cursor
-nnoremap <Leader>a :Ack!<CR>
-nnoremap <Leader>f :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
+  " Paste from 0 register
+  nnoremap <Leader>p "0p<CR>
+  vnoremap <Leader>p "0p<CR>
 
-" Seach in Dash
-nnoremap <Leader>d :Dash<CR>
+  " Search
+  cnoreabbrev Ack Ack!
+  "" word under cursor
+  nnoremap <Leader>a :Ack!<CR>
+  nnoremap <Leader>f :Files<CR>
+  nnoremap <Leader>b :Buffers<CR>
+  "" set :/ into :Ack!
+  cnoreabbrev <expr> / ((getcmdtype() is# ':' && getcmdline() is# '/')?('Ack!'):('/'))
+
+  " Seach in Dash
+  nnoremap <Leader>d :Dash<CR>
+
+  " sudo save
+  cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
+  " Tabs
+  nnoremap <Leader>tt :$tabnew<CR>
+  nnoremap <Leader>tc :tabclose<CR>
+
+  " Replace \n with enter
+  nnoremap <Leader>n :'<,'>s/\\n/^M/g
+aug END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -151,6 +168,9 @@ hi MatchParen gui=bold guibg=none guifg=LightMagenta
 
 set termguicolors
 highlight Comment cterm=italic gui=italic
+
+set hlsearch " Highlight search matches
+highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CURSOR
@@ -172,7 +192,6 @@ set clipboard+=unnamedplus
 " Text, tab and indent related
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-filetype plugin indent on
 autocmd Filetype python,elm,groovy,haskell setlocal ts=4 sts=4 sw=4
 autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
 autocmd FileType markdown setl ts=2 sw=2 sts=2 et tw=79
@@ -198,20 +217,17 @@ set sidescrolloff=5
 set confirm
 set exrc
 
-set hlsearch " Highlight search matches
-highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
-
 " Splits
 set splitbelow
 set splitright
 
-" Tabs
-nnoremap <Leader>tt :$tabnew<CR>
-nnoremap <Leader>tc :tabclose<CR>
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Indent
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled = 0
+
 " Maximizer
 let g:maximizer_set_default_mapping = 0
 nnoremap <silent><C-w>z :MaximizerToggle!<CR>
@@ -238,29 +254,33 @@ let g:sql_type_default = 'pgsql'
 
 " Git
 "" Fugitive
-nmap <Leader>gs :Gstatus<CR>
-nmap <Leader>gd :Gdiff<CR>
-nmap <Leader>gl :0Glog<CR>
-nmap <Leader>gb :Gblame<CR>
-nmap <Leader>gr :Gread<CR>
-nmap <Leader>gw :Gwrite<CR>
-nmap <Leader>gc :Gcommit<CR>
+aug adn_fugitive
+  au!
+  nmap <Leader>gs :Gstatus<CR>
+  nmap <Leader>gd :Gdiff<CR>
+  nmap <Leader>gl :0Glog<CR>
+  nmap <Leader>gb :Gblame<CR>
+  nmap <Leader>gr :Gread<CR>
+  nmap <Leader>gw :Gwrite<CR>
+  nmap <Leader>gc :Gcommit<CR>
+aug END
 
 "" GitGutter
 let g:gitgutter_map_keys = 0
-nmap ]c <Plug>GitGutterNextHunk
-nmap [c <Plug>GitGutterPrevHunk
-nmap <Leader>gg :GitGutterAll<CR>
-nmap <Leader>ga <Plug>GitGutterStageHunk
-nmap <Leader>gu <Plug>GitGutterUndoHunk
-nmap <Leader>gp <Plug>GitGutterPreviewHunk
+aug adn_gitgutter
+  nmap ]c <Plug>(GitGutterNextHunk)
+  nmap [c <Plug>(GitGutterPrevHunk)
+  nmap <Leader>gg :GitGutterAll<CR>
+  nmap <Leader>ga <Plug>(GitGutterStageHunk)
+  nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+  nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+  nmap <Leader>gm :Gdiff master <bar> let g:gitgutter_diff_base = master<CR>
+aug END
 
 set updatetime=100 " reduce the time to make signs appear
-nmap <Leader>gm :Gdiff master <bar> let g:gitgutter_diff_base = master<CR>
 
 "" Search modified git files
 nmap <Leader>gf :GFiles?<CR>
-
 
 " Tagbar
 let g:tagbar_left=1
@@ -420,29 +440,6 @@ endif
 
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --line-number --no-heading --hidden --follow '. <q-args>, 1, <bang>0)
 
-" LanguageClient
-let g:LanguageClient_serverCommands = {
-    \ 'elixir': ['/Users/adonascimento/dev/third_party/elixir-ls/bin/language_server.sh'],
-    \ 'haskell': ['hie-wrapper'],
-    \ }
-
-let g:LanguageClient_rootMarkers = {
-    \ 'elixir': ['mix.exs'],
-    \ }
-
-nnoremap <Leader>lc :call LanguageClient_contextMenu()<CR>
-au FileType haskell,elixir map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-au FileType haskell,elixir map <Leader>ld :call LanguageClient#textDocument_definition()<CR>
-au FileType haskell,elixir map <Leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-au FileType haskell,elixir map <Leader>li :call LanguageClient#textDocument_implementation()<CR>
-au FileType haskell,elixir map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-au FileType haskell,elixir map <Leader>lr :call LanguageClient#textDocument_references()<CR>
-au FileType haskell,elixir map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-au FileType haskell,elixir map <Leader>lk :call LanguageClient#textDocument_documentSymbol()<CR>
-au FileType haskell,elixir map <Leader>le :call LanguageClient#explainErrorAtPoint()<CR>
-
-autocmd! BufWritePre haskell :call LanguageClient#textDocument_formatting_sync()
-
 " coc-nvim
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -450,35 +447,57 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-" inoremap <silent><expr> <CR>
-"   \ pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 Format :call CocAction('format')
 
 " Remap key
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
-nmap <leader>ld <Plug>(coc-definition)
-nmap <leader>lt <Plug>(coc-type-definition)
-nmap <leader>li <Plug>(coc-implementation)
-nmap <leader>lr <Plug>(coc-references)
-nmap <leader>lr <Plug>(coc-rename)
-xmap <leader>la  <Plug>(coc-codeaction-selected)
-nmap <leader>la  <Plug>(coc-codeaction-selected)
-" Remap for do codeAction of current line
-nmap <leader>lac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>lqf  <Plug>(coc-fix-current)
+aug adn_coc
+  au!
+  nmap <silent> [d <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]d <Plug>(coc-diagnostic-next)
+  nmap <leader>ld <Plug>(coc-definition)
+  nmap <leader>lt <Plug>(coc-type-definition)
+  nmap <leader>li <Plug>(coc-implementation)
+  nmap <leader>lr <Plug>(coc-references)
+  nmap <leader>ln <Plug>(coc-rename)
+  xmap <leader>la <Plug>(coc-codeaction-selected)
+  nmap <leader>la <Plug>(coc-codeaction-selected)
+  " Remap for do codeAction of current line
+  nmap <leader>lac  <Plug>(coc-codeaction)
+  " Fix autofix problem of current line
+  nmap <leader>lqf  <Plug>(coc-fix-current)
 
-" Use K to show documentation in preview window
-nnoremap <leader>lk :call <SID>show_documentation()<CR>
+  " Use K to show documentation in preview window
+  nnoremap <leader>lk :call <SID>show_documentation()<CR>
+
+  " Highlight symbol under cursor on CursorHold
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Using CocList
+  " Show all diagnostics
+  nnoremap <silent> <leader>lld :<C-u>CocList diagnostics<cr>
+  " Manage extensions
+  nnoremap <silent> <leader>lle :<C-u>CocList extensions<cr>
+  " Show commands
+  nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
+  " Find symbol of current document
+  nnoremap <silent> <leader>lls :<C-u>CocList outline<cr>
+  " Search workspace symbols
+  nnoremap <silent> <leader>llw :<C-u>CocList -I symbols<cr>
+  " Do default action for next item.
+  nnoremap <silent> <leader>llj :<C-u>CocNext<CR>
+  " Do default action for previous item.
+  nnoremap <silent> <leader>llk :<C-u>CocPrev<CR>
+  " Resume latest coc list
+  nnoremap <silent> <leader>llp :<C-u>CocListResume<CR>
+aug END
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -487,38 +506,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <leader>lld :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <leader>lle :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>lls :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>llw :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>llj :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>llk :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>llp :<C-u>CocListResume<CR>
 
 " Isort
 let g:vim_isort_python_version = 'python3'
