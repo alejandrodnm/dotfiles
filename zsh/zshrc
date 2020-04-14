@@ -82,6 +82,7 @@ alias minikube-stop='minikube stop && adn::kubeoff'
 export PATH="/Applications/VMware Fusion.app/Contents/Library:$PATH"
 # Minishift
 export MINISHIFT_GITHUB_API_TOKEN=$(cat ~/.git-tokens/minishift)
+export PATH="/Users/adonascimento/.minishift/cache/oc/v3.11.0/darwin:$PATH"
 
 # Use for git branch in theme
 autoload -Uz vcs_info

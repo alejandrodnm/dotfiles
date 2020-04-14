@@ -18,6 +18,10 @@ fzf
 # PIP
 grip
 
+# NPM
+
+tldr
+
 # OSX
 
 dash
@@ -40,3 +44,8 @@ rip-grep
 zsh-syntax-highlighting
 zsh-completions
 up
+navi
+k9s
+dive
+kubectx
+broot
