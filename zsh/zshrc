@@ -27,8 +27,12 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(mix-fast vi-mode docker vagrant zsh-autosuggestions)
+plugins=(mix-fast vi-mode docker vagrant zsh-autosuggestions asdf)
 
+alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
+
+# Git
+alias git='/usr/local/bin/git' # Use git from brew
 alias g='git'
 alias ga='git add -A -v'
 alias gau='git add -u -v'
@@ -40,6 +44,9 @@ alias gca='git commit --amend --no-edit -v'
 alias gc='git commit -m'
 alias gch='git checkout'
 alias gchb='gch -b'
+alias gr='git restore'
+alias gsw='git switch'
+alias gswc='gsw -c'
 alias gp='git push'
 alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
@@ -50,16 +57,8 @@ alias gri='git rebase -i'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
-
-
-# REVIEW_BASE is used by the aliases set in .gitconfig, by default
-# is set to master. To review changes made by the last commit of this
-# branch set it to:
-# REVIEW_BASE=HEAD^ git stat
-export REVIEW_BASE=master
-
 # Delete all the git branches except master
-function grm () {
+function gclean () {
   git checkout master > /dev/null 2>&1
   for b in $(git branch) ; do
     if [[ "${b}" != '*' && "${b}" != "master" ]] ; then
@@ -69,11 +68,19 @@ function grm () {
   done
 }
 
+# REVIEW_BASE is used by the aliases set in .gitconfig, by default
+# is set to master. To review changes made by the last commit of this
+# branch set it to:
+# REVIEW_BASE=HEAD^ git stat
+export REVIEW_BASE=master
+
 # Kubernetes
 alias k='kubectl'
-alias kl='kubectl logs -f'
 alias k9s='TERM=xterm k9s'
 alias helm-delete-all="helm delete \$(helm list | awk  '{ print \$1 }' | tail -n +2)"
+alias helm2="/usr/local/opt/helm@2/bin/helm"
+export PATH="${PATH}:${HOME}/.krew/bin"
+
 # Fix minikube date
 alias minikube-date='DSTR=$(date -u); minikube ssh "sudo date --set=\"$DSTR\""'
 alias minikube-start='minikube start --kubernetes-version=v1.14.8 && minikube-date && adn::kubeon'
@@ -149,8 +156,6 @@ source $ZSH/oh-my-zsh.sh
 # asdf version manager for elm elixir erlang
 # https://gist.github.com/rubencaro/6a28138a40e629b06470
 if [ -e $HOME/.asdf/asdf.sh ] ; then
-  source $HOME/.asdf/asdf.sh
-  source $HOME/.asdf/completions/asdf.bash
   export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
 fi
 # Haskell

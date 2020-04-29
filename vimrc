@@ -56,11 +56,11 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'elmcast/elm-vim'
 
 " JS and related
-" Plug 'pangloss/vim-javascript'
-" Plug 'hail2u/vim-css3-syntax'
-" Plug 'cakebaker/scss-syntax.vim'
-" Plug 'leafgarland/typescript-vim'
-" Plug 'ianks/vim-tsx'
+Plug 'pangloss/vim-javascript'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
 
 " ReasonML
 " Plug 'reasonml-editor/vim-reason-plus'
@@ -133,6 +133,7 @@ aug adn_standard
   cnoreabbrev Ack Ack!
   "" word under cursor
   nnoremap <Leader>a :Ack!<CR>
+  nnoremap <Leader>s :Rg<CR>
   nnoremap <Leader>f :Files<CR>
   nnoremap <Leader>b :Buffers<CR>
   "" set :/ into :Ack!
@@ -256,13 +257,13 @@ let g:sql_type_default = 'pgsql'
 "" Fugitive
 aug adn_fugitive
   au!
-  nmap <Leader>gs :Gstatus<CR>
-  nmap <Leader>gd :Gdiff<CR>
+  nmap <Leader>gs :Git<CR>
+  nmap <Leader>gd :Gvdiffsplit<CR>
   nmap <Leader>gl :0Glog<CR>
-  nmap <Leader>gb :Gblame<CR>
+  nmap <Leader>gb :Git blame<CR>
   nmap <Leader>gr :Gread<CR>
   nmap <Leader>gw :Gwrite<CR>
-  nmap <Leader>gc :Gcommit<CR>
+  nmap <Leader>gc :Git commit<CR>
 aug END
 
 "" GitGutter
@@ -437,7 +438,6 @@ endif
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --line-number --no-heading --hidden --follow '. <q-args>, 1, <bang>0)
 
 " coc-nvim

@@ -1,1 +1,1 @@
-rsync -av Pictures Movies Wallpapers Books 'Calibre Library' /Volumes/Untitled/adn/
+rsync -av ~/Pictures ~/Movies ~/Wallpapers ~/Books /Volumes/Untitled/adn/
