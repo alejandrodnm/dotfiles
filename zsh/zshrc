@@ -28,12 +28,14 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(mix-fast vi-mode docker vagrant zsh-autosuggestions asdf)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 
 # Git
 alias git='/usr/local/bin/git' # Use git from brew
 alias g='git'
+alias gbd='git branch -D'
 alias ga='git add -A -v'
 alias gau='git add -u -v'
 alias gs='git status'
@@ -41,19 +43,21 @@ alias gpf='git push --force-with-lease'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gca='git commit --amend --no-edit -v'
-alias gc='git commit -m'
+alias gc='git commit'
 alias gch='git checkout'
-alias gchb='gch -b'
+alias gcm='git commit -m'
 alias gr='git restore'
-alias gsw='git switch'
-alias gswc='gsw -c'
+alias gw='git switch'
+alias gwc='gw -c'
 alias gp='git push'
 alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
 alias gfo='git fetch origin'
+alias grom='gfo && git rebase origin/master'
 alias gfu='git fetch upstream'
 alias gri='git rebase -i'
+alias grc='git rebase --continue'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
@@ -120,7 +124,6 @@ bindkey -a "^[[1~" beginning-of-line
 bindkey "^[[1~" beginning-of-line
 bindkey -a "^[[4~" end-of-line
 bindkey "^[[4~" end-of-line
-
 bindkey '^E' autosuggest-accept
 
 if [[ "$(uname)" == "Linux" ]]
@@ -152,6 +155,9 @@ export AWS_PAGER=bat
 
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+# Disable the forward-char autosuggest
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
 
 # asdf version manager for elm elixir erlang
 # https://gist.github.com/rubencaro/6a28138a40e629b06470
@@ -287,6 +293,9 @@ docker::cleanup(){
 
 export MANPAGER="nvim -c 'set ft=man' -"
 
+# NewRelic
+alias nr="cd ~/dev/new_relic/"
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -294,3 +303,6 @@ if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc' ]; 
 if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/completion.zsh.inc'; fi
 
 source /Users/adonascimento/Library/Preferences/org.dystroy.broot/launcher/bash/br
+
+# added by travis gem
+[ ! -s /Users/adonascimento/.travis/travis.sh ] || source /Users/adonascimento/.travis/travis.sh

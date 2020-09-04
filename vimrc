@@ -9,7 +9,10 @@ call plug#begin('~/.vim/plugged')
 " Themes
 Plug 'crusoexia/vim-monokai'
 Plug 'jdkanani/vim-material-theme'
+Plug 'nvim-treesitter/nvim-treesitter' " Experimental syntaxt
 
+Plug 'vim-test/vim-test'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plug 'scrooloose/nerdtree'  " File system explorer
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -34,7 +37,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'neoclide/coc.nvim', {
       \'branch': 'release'
       \}
-
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 " Languages plugins
 
 " Kotlin
@@ -57,17 +60,17 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " JS and related
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'jparise/vim-graphql'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'cakebaker/scss-syntax.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'ianks/vim-tsx'
 
 " ReasonML
 " Plug 'reasonml-editor/vim-reason-plus'
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'
-Plug 'slashmili/alchemist.vim'
 Plug 'mhinz/vim-mix-format'
 " Haskell
 " Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
@@ -77,7 +80,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'exu/pgsql.vim'
 
-" Plug 'godlygeek/tabular'  " Autotabs for puppet
+Plug 'godlygeek/tabular'  " Autotabs for puppet and markdown table format
 " Plug 'rodjek/vim-puppet'
 " Plug 'raichoo/purescript-vim'
 " Plug 'jalvesaq/Nvim-R'
@@ -118,6 +121,11 @@ aug adn_standard
   nnoremap <C-l> $
   " Move to last character
   nnoremap <C-h> ^
+
+  " Move to first character
+  nnoremap <C-j> <C-e>
+  " Move to last character
+  nnoremap <C-k> <C-y>
 
   " Close location list
   nnoremap <Leader>cl :lclose<CR>
@@ -225,6 +233,25 @@ set splitright
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Typescript/Javascript
+
+"" set filetypes as typescript.tsx
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+
+"" dark red
+hi tsxTagName guifg=#E06C75
+
+"" orange
+hi tsxCloseString guifg=#F99575
+hi tsxCloseTag guifg=#F99575
+hi tsxCloseTagName guifg=#F99575
+hi tsxAttributeBraces guifg=#F99575
+hi tsxEqual guifg=#F99575
+
+"" yellow
+hi tsxAttrib guifg=#F8BD7F cterm=italic
+
 " Indent
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_enabled = 0
@@ -368,8 +395,7 @@ let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 " Airline
 let g:airline_powerline_fonts = 1
-" disable tagbar extension
-let g:airline#extensions#tagbar#enabled = 0
+
 " Line numbers
 let g:airline_section_z = '%3p%% %4l%#__accent_bold#/%L%{g:airline_symbols.maxlinenr}%#__restore__# %3v'
 let g:airline#extensions#default#section_truncate_width = {
@@ -383,13 +409,24 @@ let g:airline#extensions#default#section_truncate_width = {
 
 let g:airline#extensions#default#layout = [
     \ [ 'a', 'c' ],
-    \ [ 'x', 'y', 'z', 'error', 'warning' ]
+    \ [ 'x', 'z', 'error', 'warning' ]
     \ ]
 
 " NERDTree
-nmap <Leader>e :NERDTreeToggle<CR>
+nmap <Leader>e :CHADopen<CR>
+let g:chadtree_settings={'keymap': {'primary': ['<enter>', 'o'], 'open_sys': ['O']}}
 let NERDTreeIgnore=['\.pyc$', '__pycache__']
 noremap <Leader>E :Explore<CR>
+
+" Syntax highlight
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "java",     -- one of "all", "language", or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+  },
+}
+EOF
 
 " NERDCommenter
 " Add spaces after comment delimiters by default
@@ -443,10 +480,16 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --l
 " coc-nvim
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" This has issues with endwise mapping of CR see https://github.com/tpope/vim-endwise/issues/109
+let g:endwise_no_mappings = v:true
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <Plug>CustomCocCR pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+imap <CR> <Plug>CustomCocCR<Plug>DiscretionaryEnd
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -456,6 +499,24 @@ endfunction
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 Format :call CocAction('format')
+
+" Vim test
+if filereadable("./gradlew")
+    let test#java#runner = 'gradletest'
+    let test#java#gradletest#executable = './gradlew test --info'
+endif
+
+let test#strategy = "neovim"
+
+aug adn_vim_test
+  au!
+  " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+  nmap <silent> t<C-n> :TestNearest<CR>
+  nmap <silent> t<C-f> :TestFile<CR>
+  nmap <silent> t<C-s> :TestSuite<CR>
+  nmap <silent> t<C-l> :TestLast<CR>
+  nmap <silent> t<C-g> :TestVisit<CR>
+aug END
 
 " Remap key
 aug adn_coc
@@ -475,7 +536,7 @@ aug adn_coc
   nmap <leader>lqf  <Plug>(coc-fix-current)
 
   " Use K to show documentation in preview window
-  nnoremap <leader>lk :call <SID>show_documentation()<CR>
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
 
   " Highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -488,9 +549,9 @@ aug adn_coc
   " Show commands
   nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
   " Find symbol of current document
-  nnoremap <silent> <leader>lls :<C-u>CocList outline<cr>
+  nnoremap <silent> <leader>ls :<C-u>CocList outline<cr>
   " Search workspace symbols
-  nnoremap <silent> <leader>llw :<C-u>CocList -I symbols<cr>
+  nnoremap <silent> <leader>ly :<C-u>CocList -I symbols<cr>
   " Do default action for next item.
   nnoremap <silent> <leader>llj :<C-u>CocNext<CR>
   " Do default action for previous item.

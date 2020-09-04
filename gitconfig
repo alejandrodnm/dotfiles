@@ -29,3 +29,5 @@
 	protocol = ssh
 [url "git@source.datanerd.us:"]
 	insteadOf = https://source.datanerd.us/
+[core]
+	excludesfile = /Users/adonascimento/.gitignore_global

@@ -225,7 +225,7 @@ adn::kubecontext() {
 
   # local kube_context=$(kubectl config current-context 2>/dev/null)
   local kube_context=$(rg -r '$1' 'current-context: (.+)' ~/.kube/config 2>/dev/null)
-  [[ -z $kube_context ]] && return
+  [[ -z $kube_context ]] || [[ $kube_context = "\"\"" ]] && return
 
   # local kube_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
   # [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
