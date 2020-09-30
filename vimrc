@@ -11,11 +11,13 @@ Plug 'crusoexia/vim-monokai'
 Plug 'jdkanani/vim-material-theme'
 Plug 'nvim-treesitter/nvim-treesitter' " Experimental syntaxt
 
+Plug 'junegunn/vim-peekaboo'
 Plug 'vim-test/vim-test'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plug 'scrooloose/nerdtree'  " File system explorer
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
 " Plug 'neomake/neomake'  " Linter
 Plug 'majutsushi/tagbar'  " classes and methods list
 Plug 'tpope/vim-fugitive'  " Git support
@@ -114,6 +116,7 @@ aug adn_standard
 
   " Quit
   nnoremap <Leader>q :quit<CR>
+  nnoremap <Leader>x :bd<CR>
   " Only
   nnoremap <Leader>o :only<CR>
 
@@ -127,11 +130,8 @@ aug adn_standard
   " Move to last character
   nnoremap <C-k> <C-y>
 
-  " Close location list
-  nnoremap <Leader>cl :lclose<CR>
-  " Close quickfix window
-  nnoremap <Leader>cc :cclose<CR>
-  nnoremap <Leader>cp :pclose<CR>
+  " Close lists
+  nnoremap <Leader>c :lclose <bar> cclose <bar> pclose<CR>
 
   " Paste from 0 register
   nnoremap <Leader>p "0p<CR>
@@ -413,9 +413,10 @@ let g:airline#extensions#default#layout = [
     \ ]
 
 " NERDTree
-nmap <Leader>e :CHADopen<CR>
+nmap <Leader>e :NERDTreeToggle<CR>
 let g:chadtree_settings={'keymap': {'primary': ['<enter>', 'o'], 'open_sys': ['O']}}
 let NERDTreeIgnore=['\.pyc$', '__pycache__']
+let NERDTreeWinSize=50
 noremap <Leader>E :Explore<CR>
 
 " Syntax highlight
@@ -521,22 +522,19 @@ aug END
 " Remap key
 aug adn_coc
   au!
-  nmap <silent> [d <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]d <Plug>(coc-diagnostic-next)
-  nmap <leader>ld <Plug>(coc-definition)
+  nmap <silent>[d <Plug>(coc-diagnostic-prev)
+  nmap <silent>]d <Plug>(coc-diagnostic-next)
+  nmap <C-]> <Plug>(coc-definition)
   nmap <leader>lt <Plug>(coc-type-definition)
   nmap <leader>li <Plug>(coc-implementation)
   nmap <leader>lr <Plug>(coc-references)
   nmap <leader>ln <Plug>(coc-rename)
-  xmap <leader>la <Plug>(coc-codeaction-selected)
-  nmap <leader>la <Plug>(coc-codeaction-selected)
-  " Remap for do codeAction of current line
-  nmap <leader>lac  <Plug>(coc-codeaction)
+  nmap <leader>la  <Plug>(coc-codeaction)
   " Fix autofix problem of current line
-  nmap <leader>lqf  <Plug>(coc-fix-current)
+  nmap <leader>lf  <Plug>(coc-fix-current)
 
   " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  nnoremap <silent>K :call <SID>show_documentation()<CR>
 
   " Highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -544,8 +542,6 @@ aug adn_coc
   " Using CocList
   " Show all diagnostics
   nnoremap <silent> <leader>lld :<C-u>CocList diagnostics<cr>
-  " Manage extensions
-  nnoremap <silent> <leader>lle :<C-u>CocList extensions<cr>
   " Show commands
   nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
   " Find symbol of current document
@@ -634,3 +630,28 @@ function! DeleteHiddenBuffers()
         silent execute 'bwipeout' buf
     endfor
 endfunction
+
+function! CreateCenteredFloatingWindow()
+    let width = float2nr(&columns * 0.6)
+    let height = float2nr(&lines * 0.6)
+    let top = ((&lines - height) / 2) - 1
+    let left = (&columns - width) / 2
+    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
+
+    let top = "╭" . repeat("─", width - 2) . "╮"
+    let mid = "│" . repeat(" ", width - 2) . "│"
+    let bot = "╰" . repeat("─", width - 2) . "╯"
+    let lines = [top] + repeat([mid], height - 2) + [bot]
+    let s:buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+    call nvim_open_win(s:buf, v:true, opts)
+    set winhl=Normal:Floating
+    let opts.row += 1
+    let opts.height -= 2
+    let opts.col += 2
+    let opts.width -= 4
+    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+    au BufWipeout <buffer> exe 'bw '.s:buf
+endfunction
+
+let g:peekaboo_window="call CreateCenteredFloatingWindow()"

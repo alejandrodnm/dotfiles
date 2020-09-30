@@ -31,3 +31,5 @@
 	insteadOf = https://source.datanerd.us/
 [core]
 	excludesfile = /Users/adonascimento/.gitignore_global
+[pull]
+	rebase = false
