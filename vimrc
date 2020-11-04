@@ -39,15 +39,14 @@ Plug 'Yggdroot/indentLine'
 Plug 'neoclide/coc.nvim', {
       \'branch': 'release'
       \}
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
-" Languages plugins
+Plug 'simnalamburt/vim-mundo'
 
 " Kotlin
 " Plug 'udalov/kotlin-vim'
 
 " GO
 Plug 'zchee/deoplete-go', { 'do': 'make' }
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go'
 
 " Python
 " Plug 'fisadev/vim-isort'  " Python imports
@@ -116,7 +115,7 @@ aug adn_standard
 
   " Quit
   nnoremap <Leader>q :quit<CR>
-  nnoremap <Leader>x :bd<CR>
+  nnoremap <Leader>w :bd<CR>
   " Only
   nnoremap <Leader>o :only<CR>
 
@@ -428,6 +427,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+nmap <Leader>ja :write <bar> edit <bar> TSBufEnable highlight<CR>
 
 " NERDCommenter
 " Add spaces after comment delimiters by default
@@ -507,16 +507,14 @@ if filereadable("./gradlew")
     let test#java#gradletest#executable = './gradlew test --info'
 endif
 
-let test#strategy = "neovim"
-
 aug adn_vim_test
   au!
   " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
-  nmap <silent> t<C-n> :TestNearest<CR>
-  nmap <silent> t<C-f> :TestFile<CR>
-  nmap <silent> t<C-s> :TestSuite<CR>
-  nmap <silent> t<C-l> :TestLast<CR>
-  nmap <silent> t<C-g> :TestVisit<CR>
+  nmap <leader>xn :TestNearest<CR>
+  nmap <leader>xf :TestFile<CR>
+  nmap <leader>xs :TestSuite<CR>
+  nmap <leader>xl :TestLast<CR>
+  nmap <leader>xg :TestVisit<CR>
 aug END
 
 " Remap key
@@ -529,7 +527,9 @@ aug adn_coc
   nmap <leader>li <Plug>(coc-implementation)
   nmap <leader>lr <Plug>(coc-references)
   nmap <leader>ln <Plug>(coc-rename)
-  nmap <leader>la  <Plug>(coc-codeaction)
+  nmap <leader>la  <Plug>(coc-codeaction-line)
+  xmap <leader>la  <Plug>(coc-codeaction-selected)
+  nmap <leader>lac <Plug>(coc-codelens-action)
   " Fix autofix problem of current line
   nmap <leader>lf  <Plug>(coc-fix-current)
 
@@ -549,11 +549,14 @@ aug adn_coc
   " Search workspace symbols
   nnoremap <silent> <leader>ly :<C-u>CocList -I symbols<cr>
   " Do default action for next item.
-  nnoremap <silent> <leader>llj :<C-u>CocNext<CR>
+  nnoremap <silent> <leader>lln :<C-u>CocNext<CR>
   " Do default action for previous item.
-  nnoremap <silent> <leader>llk :<C-u>CocPrev<CR>
+  nnoremap <silent> <leader>llp :<C-u>CocPrev<CR>
   " Resume latest coc list
-  nnoremap <silent> <leader>llp :<C-u>CocListResume<CR>
+  nnoremap <silent> <leader>lll :<C-u>CocListResume<CR>
+
+  xmap <leader>lp  <Plug>(coc-format-selected)
+  nmap <leader>lp <Plug>(coc-format)
 aug END
 
 function! s:show_documentation()
@@ -598,6 +601,12 @@ au FileType go nmap <leader>xs <Plug>(go-debug-step)
 au FileType go nmap <leader>xc <Plug>(go-debug-continue)
 au FileType go nmap <leader>xo <Plug>(go-debug-stepout)
 au FileType go nmap <leader>xp <Plug>(go-debug-print)
+
+aug adn_plugins
+  au!
+  " Mundo
+  nmap <leader>m :MundoToggle<CR>
+aug END
 
 " ipdb
 " python << EOF

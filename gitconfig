@@ -33,3 +33,5 @@
 	excludesfile = /Users/adonascimento/.gitignore_global
 [pull]
 	rebase = false
+[rebase]
+	autosquash = true

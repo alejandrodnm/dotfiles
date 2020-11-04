@@ -44,8 +44,9 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gca='git commit --amend --no-edit -v'
 alias gc='git commit'
-alias gch='git checkout'
+alias gcf='git commit --fixup'
 alias gcm='git commit -m'
+alias gch='git checkout'
 alias gr='git restore'
 alias gw='git switch'
 alias gwc='gw -c'
@@ -61,6 +62,7 @@ alias grc='git rebase --continue'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
+alias gprl='git log --pretty=format:"# %s %n %n %b" --reverse origin/master..HEAD | pbcopy'
 # Delete all the git branches except master
 function gclean () {
   git checkout master > /dev/null 2>&1
