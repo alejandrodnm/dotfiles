@@ -9,8 +9,9 @@ call plug#begin('~/.vim/plugged')
 " Themes
 Plug 'crusoexia/vim-monokai'
 Plug 'jdkanani/vim-material-theme'
-Plug 'nvim-treesitter/nvim-treesitter' " Experimental syntaxt
+Plug 'nvim-treesitter/nvim-treesitter' " Experimental syntax
 
+Plug 'liuchengxu/vim-which-key' " leader key suggestions
 Plug 'junegunn/vim-peekaboo'
 Plug 'vim-test/vim-test'
 Plug 'terryma/vim-multiple-cursors'
@@ -31,22 +32,29 @@ Plug 'junegunn/fzf.vim' " Fuzzy search
 Plug 'junegunn/fzf'
 Plug 'ludovicchabant/vim-gutentags' " ctags handling
 Plug 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespaces
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
-Plug 'rizzatti/dash.vim'
 Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
+" LSP
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
+" Plug 'neovim/nvim-lspconfig'
 Plug 'neoclide/coc.nvim', {
       \'branch': 'release'
       \}
-Plug 'simnalamburt/vim-mundo'
+Plug 'simnalamburt/vim-mundo' " undo visualization
+
+" Debugger
+" Plug 'mfussenegger/nvim-dap' " debugger
+" Plug 'theHamsta/nvim-dap-virtual-text'
+Plug 'puremourning/vimspector'
 
 " Kotlin
 " Plug 'udalov/kotlin-vim'
 
 " GO
-Plug 'zchee/deoplete-go', { 'do': 'make' }
+" Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'fatih/vim-go'
+Plug 'sebdah/vim-delve'
 
 " Python
 " Plug 'fisadev/vim-isort'  " Python imports
@@ -96,6 +104,7 @@ let g:filetype_pl="prolog"
 
 "Change the <leader> key to comma instead of \ "
 let mapleader=","
+nnoremap <silent> <leader> :WhichKey ','<CR>
 let maplocalleader="\\"
 
 set nobackup
@@ -115,7 +124,7 @@ aug adn_standard
 
   " Quit
   nnoremap <Leader>q :quit<CR>
-  nnoremap <Leader>w :bd<CR>
+  nnoremap <Leader>k :bd<CR>
   " Only
   nnoremap <Leader>o :only<CR>
 
@@ -136,19 +145,6 @@ aug adn_standard
   nnoremap <Leader>p "0p<CR>
   vnoremap <Leader>p "0p<CR>
 
-  " Search
-  cnoreabbrev Ack Ack!
-  "" word under cursor
-  nnoremap <Leader>a :Ack!<CR>
-  nnoremap <Leader>s :Rg<CR>
-  nnoremap <Leader>f :Files<CR>
-  nnoremap <Leader>b :Buffers<CR>
-  "" set :/ into :Ack!
-  cnoreabbrev <expr> / ((getcmdtype() is# ':' && getcmdline() is# '/')?('Ack!'):('/'))
-
-  " Seach in Dash
-  nnoremap <Leader>d :Dash<CR>
-
   " sudo save
   cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
@@ -163,6 +159,7 @@ aug END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors
 set laststatus=2 " show status bar on single window
 set cursorline
 set encoding=UTF-8
@@ -171,12 +168,9 @@ let g:airline_theme='deus'
 set background=dark
 colorscheme material-theme
 " Complement material-theme colors
-hi Visual  guifg=White guibg=LightBlue gui=none
+hi Visual guifg=White guibg=LightBlue gui=none
 hi MatchParen gui=bold guibg=none guifg=LightMagenta
-
-set termguicolors
 highlight Comment cterm=italic gui=italic
-
 set hlsearch " Highlight search matches
 highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
 
@@ -186,7 +180,7 @@ highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
 
 " Copy to both clipboards at the same time
 " set clipboard=unnamed
-set timeoutlen=1000 ttimeoutlen=0 " for esc delay
+set timeoutlen=500 ttimeoutlen=0 " for esc delay
 
 " Change cursor on insert Gnome
 " let &t_SI = \"\<Esc>[6 q"
@@ -267,7 +261,7 @@ let g:nv_use_short_pathnames = 1
 " Deoplete
 "" Disable keyword completition
 inoremap <C-p> <Nop>
-nnoremap <Leader>z :call deoplete#toggle()<CR>
+" nnoremap <Leader>z :call deoplete#toggle()<CR>
 
 "vim-better-whitespace
 let g:better_whitespace_enabled=1
@@ -413,21 +407,36 @@ let g:airline#extensions#default#layout = [
 
 " NERDTree
 nmap <Leader>e :NERDTreeToggle<CR>
+noremap <Leader>E :NERDTreeFind<CR>
 let g:chadtree_settings={'keymap': {'primary': ['<enter>', 'o'], 'open_sys': ['O']}}
 let NERDTreeIgnore=['\.pyc$', '__pycache__']
 let NERDTreeWinSize=50
-noremap <Leader>E :Explore<CR>
 
 " Syntax highlight
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "java",     -- one of "all", "language", or a list of languages
+  ensure_installed = {"java", "go"},     -- one of "all", "language", or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
 }
 EOF
-nmap <Leader>ja :write <bar> edit <bar> TSBufEnable highlight<CR>
+nmap <Leader>lh :write <bar> edit <bar> TSBufEnable highlight<CR>
+
+" lua <<EOF
+" require'lspconfig'.jdtls.setup{}
+" EOF
+
+" autocmd Filetype java setlocal omnifunc=v:lua.vim.lsp.omnifunc
+" nnoremap <leader>dd  <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <leader>do     <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <leader>di    <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <leader>dh <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <leader>dt   <cmd>lua vim.lsp.buf.type_definition()<CR>
+" nnoremap <leader>dr    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <leader>ds    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <leader>dw    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <leader>de   <cmd>lua vim.lsp.buf.declaration()<CR>
 
 " NERDCommenter
 " Add spaces after comment delimiters by default
@@ -439,7 +448,7 @@ let g:NERDDefaultAlign = 'left'
 
 " Disable mappings and add Toggle manually
 let g:NERDCreateDefaultMappings = 0
-map <leader>v<space> <plug>NERDCommenterToggle
+map <leader>v <plug>NERDCommenterToggle
 
 " JSON FORMAT
 nmap <Leader>j :%!python -m json.tool<CR>
@@ -460,12 +469,24 @@ let g:vimtex_latexmk_progname='~/.virtualenvs/neovim-remote/bin/nvr'
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
 
+" search
 " Ack
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
-" fzf
+aug adn_fzf
+  " Search
+  cnoreabbrev Ack Ack!
+  "" word under cursor
+  nnoremap <Leader>a :Ack!<CR>
+  nnoremap <Leader>s :Rg<CR>
+  nnoremap <Leader>f :Files<CR>
+  nnoremap <Leader>b :Buffers<CR>
+  "" set :/ into :Ack!
+  cnoreabbrev <expr> / ((getcmdtype() is# ':' && getcmdline() is# '/')?('Ack!'):('/'))
+aug END
+
 " --column: Show column number
 " --line-number: Show line number
 " --no-heading: Do not show file headings in results
@@ -477,6 +498,13 @@ endif
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --color "always" --line-number --no-heading --hidden --follow '. <q-args>, 1, <bang>0)
+
+" make Rg ignore the filename
+command! -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+  \   1,
+  \   {'options': '--delimiter : --nth 2..'})
 
 " coc-nvim
 " Use tab for trigger completion with characters ahead and navigate.
@@ -501,11 +529,17 @@ endfunction
 command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 Format :call CocAction('format')
 
-" Vim test
+" vim-test
 if filereadable("./gradlew")
     let test#java#runner = 'gradletest'
     let test#java#gradletest#executable = './gradlew test --info'
 endif
+
+function! DebugNearest()
+  let g:test#go#runner = 'delve'
+  TestNearest
+  unlet g:test#go#runner
+endfunction
 
 aug adn_vim_test
   au!
@@ -514,7 +548,9 @@ aug adn_vim_test
   nmap <leader>xf :TestFile<CR>
   nmap <leader>xs :TestSuite<CR>
   nmap <leader>xl :TestLast<CR>
-  nmap <leader>xg :TestVisit<CR>
+  nmap <leader>xv :TestVisit<CR>
+  nmap <leader>xg :call DebugNearest()<CR>
+  nmap <leader>xgb :DlvToggleBreakpoint<CR>
 aug END
 
 " Remap key
@@ -529,7 +565,7 @@ aug adn_coc
   nmap <leader>ln <Plug>(coc-rename)
   nmap <leader>la  <Plug>(coc-codeaction-line)
   xmap <leader>la  <Plug>(coc-codeaction-selected)
-  nmap <leader>lac <Plug>(coc-codelens-action)
+  nmap <leader>le <Plug>(coc-codelens-action)
   " Fix autofix problem of current line
   nmap <leader>lf  <Plug>(coc-fix-current)
 
@@ -545,9 +581,9 @@ aug adn_coc
   " Show commands
   nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
   " Find symbol of current document
-  nnoremap <silent> <leader>ls :<C-u>CocList outline<cr>
+  nnoremap <silent> <leader>ly :<C-u>CocList outline<cr>
   " Search workspace symbols
-  nnoremap <silent> <leader>ly :<C-u>CocList -I symbols<cr>
+  nnoremap <silent> <leader>lw :<C-u>CocList -I symbols<cr>
   " Do default action for next item.
   nnoremap <silent> <leader>lln :<C-u>CocNext<CR>
   " Do default action for previous item.
@@ -595,12 +631,21 @@ au FileType go nmap <leader>sy <Plug>(go-test)
 au FileType go nmap <leader>sd <Plug>(go-doc)
 au FileType go nmap <leader>sp <Plug>(go-channelpeers)
 au FileType go nmap <leader>sc <Plug>(go-callers)
-au FileType go nmap <leader>xb <Plug>(go-debug-breakpoint)
-au FileType go nmap <leader>xn <Plug>(go-debug-next)
-au FileType go nmap <leader>xs <Plug>(go-debug-step)
-au FileType go nmap <leader>xc <Plug>(go-debug-continue)
-au FileType go nmap <leader>xo <Plug>(go-debug-stepout)
-au FileType go nmap <leader>xp <Plug>(go-debug-print)
+
+aug adn_vimspector
+  nmap <leader>ic <Plug>VimspectorContinue
+  nmap <leader>is <Plug>VimspectorStop
+  nmap <leader>ir <Plug>VimspectorRestart
+  nmap <leader>ip <Plug>VimspectorPause
+  nmap <leader>ib <Plug>VimspectorToggleBreakpoint
+  nmap <leader>iv <Plug>VimspectorToggleConditionalBreakpoint
+  nmap <leader>if <Plug>VimspectorAddFunctionBreakpoint
+  nmap <leader>io <Plug>VimspectorStepOver
+  nmap <leader>ii <Plug>VimspectorStepInto
+  nmap <leader>iu <Plug>VimspectorStepOut
+  nmap <leader>it <Plug>VimspectorRunToCursor
+  nmap <leader>ij :CocCommand java.debug.vimspector.start<CR>
+aug END
 
 aug adn_plugins
   au!
@@ -608,29 +653,7 @@ aug adn_plugins
   nmap <leader>m :MundoToggle<CR>
 aug END
 
-" ipdb
-" python << EOF
-" import vim
-" import re
-
-" ipdb_breakpoint = 'import pdb; pdb.set_trace()'
-
-" def set_breakpoint():
-"     breakpoint_line = int(vim.eval('line(".")')) - 1
-
-"     current_line = vim.current.line
-"     white_spaces = re.search('^(\s*)', current_line).group(1)
-
-"     vim.current.buffer.append(white_spaces + ipdb_breakpoint, breakpoint_line)
-
-" vim.command('nmap <Leader>pb :py set_breakpoint()<cr>')
-
-" def remove_breakpoints():
-"     op = 'g/^.*%s.*/d' % ipdb_breakpoint
-"     vim.command(op)
-
-" vim.command('nmap <Leader>pc :py remove_breakpoints()<cr>')
-" EOF
+let g:vimspector_enable_mappings = 'HUMAN'
 
 function! DeleteHiddenBuffers()
     let tpbl=[]

@@ -62,9 +62,9 @@ alias grc='git rebase --continue'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
-alias gprl='git log --pretty=format:"# %s %n %n %b" --reverse origin/master..HEAD | pbcopy'
+alias gprl='git log --pretty=format:"### %s %n %n %b" --reverse origin/master..HEAD | pbcopy'
 # Delete all the git branches except master
-function gclean () {
+function git::clean () {
   git checkout master > /dev/null 2>&1
   for b in $(git branch) ; do
     if [[ "${b}" != '*' && "${b}" != "master" ]] ; then
@@ -291,6 +291,14 @@ rmqq() {
 docker::cleanup(){
     docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
     docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
+}
+
+function nr1 {
+  _l=$((${#1} % 4))
+  if [ $_l -eq 2 ]; then _s="$1"'=='
+  elif [ $_l -eq 3 ]; then _s="$1"'='
+  else _s="$1" ; fi
+  echo "$_s" | tr '_-' '/+' | openssl enc -d -a -A
 }
 
 export MANPAGER="nvim -c 'set ft=man' -"
