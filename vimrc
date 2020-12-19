@@ -84,7 +84,6 @@ Plug 'mhinz/vim-mix-format'
 " Haskell
 " Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 Plug 'neovimhaskell/haskell-vim'
-" Plug 'nbouscal/vim-stylish-haskell'
 
 Plug 'plasticboy/vim-markdown'
 Plug 'exu/pgsql.vim'
@@ -106,7 +105,9 @@ let g:filetype_pl="prolog"
 let mapleader=","
 nnoremap <silent> <leader> :WhichKey ','<CR>
 let maplocalleader="\\"
+nnoremap <silent> <localleader> :WhichKey '\\'<CR>
 
+set noswapfile
 set nobackup
 set nowritebackup
 set hidden
@@ -139,7 +140,7 @@ aug adn_standard
   nnoremap <C-k> <C-y>
 
   " Close lists
-  nnoremap <Leader>c :lclose <bar> cclose <bar> pclose<CR>
+  nnoremap <Leader>c :lclose <bar> cclose <bar> pclose <bar> NERDTreeClose <CR>
 
   " Paste from 0 register
   nnoremap <Leader>p "0p<CR>
@@ -194,7 +195,7 @@ set clipboard+=unnamedplus
 " Text, tab and indent related
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-autocmd Filetype python,elm,groovy,haskell setlocal ts=4 sts=4 sw=4
+autocmd Filetype python,elm,groovy setlocal ts=4 sts=4 sw=4
 autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
 autocmd FileType markdown setl ts=2 sw=2 sts=2 et tw=79
 
@@ -408,14 +409,13 @@ let g:airline#extensions#default#layout = [
 " NERDTree
 nmap <Leader>e :NERDTreeToggle<CR>
 noremap <Leader>E :NERDTreeFind<CR>
-let g:chadtree_settings={'keymap': {'primary': ['<enter>', 'o'], 'open_sys': ['O']}}
 let NERDTreeIgnore=['\.pyc$', '__pycache__']
 let NERDTreeWinSize=50
 
 " Syntax highlight
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"java", "go"},     -- one of "all", "language", or a list of languages
+  ensure_installed = {"java", "go", "haskell", "rust", "kotlin", "typescript"},     -- one of "all", "language", or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
@@ -529,6 +529,16 @@ endfunction
 command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 Format :call CocAction('format')
 
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
 " vim-test
 if filereadable("./gradlew")
     let test#java#runner = 'gradletest'
@@ -551,6 +561,7 @@ aug adn_vim_test
   nmap <leader>xv :TestVisit<CR>
   nmap <leader>xg :call DebugNearest()<CR>
   nmap <leader>xgb :DlvToggleBreakpoint<CR>
+  nmap <leader>xgc :DlvClearAll<CR>
 aug END
 
 " Remap key
