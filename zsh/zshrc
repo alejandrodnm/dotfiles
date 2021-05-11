@@ -91,11 +91,6 @@ export PATH="${PATH}:${HOME}/.krew/bin"
 alias minikube-date='DSTR=$(date -u); minikube ssh "sudo date --set=\"$DSTR\""'
 alias minikube-start='minikube start --kubernetes-version=v1.14.8 && minikube-date && adn::kubeon'
 alias minikube-stop='minikube stop && adn::kubeoff'
-# VMWare Fusion
-export PATH="/Applications/VMware Fusion.app/Contents/Library:$PATH"
-# Minishift
-export MINISHIFT_GITHUB_API_TOKEN=$(cat ~/.git-tokens/minishift)
-export PATH="/Users/adonascimento/.minishift/cache/oc/v3.11.0/darwin:$PATH"
 
 # Use for git branch in theme
 autoload -Uz vcs_info
@@ -173,6 +168,9 @@ export HIE_HOOGLE_DATABASE=/Users/adonascimento/dev/third_party/haskell-ide-engi
 # Go
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
+
+# Java
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
 
 export LANG=en_US.UTF-8
 

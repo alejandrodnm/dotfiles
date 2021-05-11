@@ -9,7 +9,7 @@ call plug#begin('~/.vim/plugged')
 " Themes
 Plug 'crusoexia/vim-monokai'
 Plug 'jdkanani/vim-material-theme'
-Plug 'nvim-treesitter/nvim-treesitter' " Experimental syntax
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Experimental syntax
 
 Plug 'liuchengxu/vim-which-key' " leader key suggestions
 Plug 'junegunn/vim-peekaboo'
@@ -20,8 +20,9 @@ Plug 'scrooloose/nerdtree'  " File system explorer
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'neomake/neomake'  " Linter
-Plug 'majutsushi/tagbar'  " classes and methods list
+Plug 'preservim/tagbar'  " classes and methods list
 Plug 'tpope/vim-fugitive'  " Git support
+Plug 'tpope/vim-rhubarb' "GBrowse support
 Plug 'tpope/vim-endwise'
 Plug 'mileszs/ack.vim' " Search folders with ag
 Plug 'tpope/vim-unimpaired'  " Mappings
@@ -35,6 +36,14 @@ Plug 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespace
 Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
+
+" (The latter must be installed before it can be used.)
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plug 'google/vim-glaive'
+
 " LSP
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
 " Plug 'neovim/nvim-lspconfig'
@@ -98,6 +107,9 @@ Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
+call glaive#Install()
+Glaive codefmt google_java_executable="java -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.9-all-deps.jar"
+
 " Use pl for prolog and not perl
 let g:filetype_pl="prolog"
 
@@ -117,7 +129,6 @@ set undofile
 set undodir=~/.local/share/nvim/undodir/
 
 filetype plugin indent on
-
 aug adn_standard
   au!
   " Insert space in normal mode
@@ -227,11 +238,15 @@ set splitright
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup autoformat_settings
+  autocmd FileType java AutoFormatBuffer google-java-format
+augroup END
 
 " Typescript/Javascript
 
 "" set filetypes as typescript.tsx
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+autocmd BufNewFile,BufRead *.tsx, set filetype=typescript.tsx
+autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 
 "" dark red
 hi tsxTagName guifg=#E06C75
@@ -286,6 +301,7 @@ aug adn_fugitive
   nmap <Leader>gw :Gwrite<CR>
   nmap <Leader>gc :Git commit<CR>
 aug END
+let g:github_enterprise_urls = ['https://source.datanerd.us']
 
 "" GitGutter
 let g:gitgutter_map_keys = 0
@@ -448,7 +464,7 @@ let g:NERDDefaultAlign = 'left'
 
 " Disable mappings and add Toggle manually
 let g:NERDCreateDefaultMappings = 0
-map <leader>v <plug>NERDCommenterToggle
+map <leader>/ <plug>NERDCommenterToggle
 
 " JSON FORMAT
 nmap <Leader>j :%!python -m json.tool<CR>
@@ -470,6 +486,7 @@ let g:vimtex_latexmk_progname='~/.virtualenvs/neovim-remote/bin/nvr'
 let g:vim_markdown_folding_disabled = 1
 
 " search
+set ignorecase
 " Ack
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
@@ -572,7 +589,7 @@ aug adn_coc
   nmap <C-]> <Plug>(coc-definition)
   nmap <leader>lt <Plug>(coc-type-definition)
   nmap <leader>li <Plug>(coc-implementation)
-  nmap <leader>lr <Plug>(coc-references)
+  nmap <leader>lr <Plug>(coc-references-used)
   nmap <leader>ln <Plug>(coc-rename)
   nmap <leader>la  <Plug>(coc-codeaction-line)
   xmap <leader>la  <Plug>(coc-codeaction-selected)
