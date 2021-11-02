@@ -36,6 +36,7 @@ Plug 'ntpeters/vim-better-whitespace' " Showing and removing trailing whitespace
 Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
+Plug 'jamessan/vim-gnupg'
 
 " (The latter must be installed before it can be used.)
 Plug 'google/vim-maktaba'
@@ -105,10 +106,15 @@ Plug 'godlygeek/tabular'  " Autotabs for puppet and markdown table format
 
 Plug 'rust-lang/rust.vim'
 
+Plug 'hashivim/vim-terraform'
+
 call plug#end()
 
 call glaive#Install()
 Glaive codefmt google_java_executable="java -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.9-all-deps.jar"
+
+let g:terraform_fmt_on_save=1
+let g:terraform_align=1
 
 " Use pl for prolog and not perl
 let g:filetype_pl="prolog"
@@ -136,7 +142,7 @@ aug adn_standard
 
   " Quit
   nnoremap <Leader>q :quit<CR>
-  nnoremap <Leader>k :bd<CR>
+  nnoremap <Leader>k :bdelete<CR>
   " Only
   nnoremap <Leader>o :only<CR>
 
@@ -238,9 +244,9 @@ set splitright
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-augroup autoformat_settings
-  autocmd FileType java AutoFormatBuffer google-java-format
-augroup END
+" augroup autoformat_settings
+"   autocmd FileType java AutoFormatBuffer google-java-format
+" augroup END
 
 " Typescript/Javascript
 

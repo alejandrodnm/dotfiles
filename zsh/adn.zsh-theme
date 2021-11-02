@@ -94,11 +94,6 @@ SPACESHIP_GIT_STATUS_DIVERGED="%{$fg_bold[red]%}⇕"
 # See git help status to know more about status formats
 spaceship::git_status() {
 
-  if [ $(whoami) = "vagrant" ] ; then
-    echo ""
-    return 0
-  fi
-
   [[ $SPACESHIP_GIT_STATUS_SHOW == false ]] && return
 
   command git rev-parse --is-inside-work-tree &>/dev/null || return

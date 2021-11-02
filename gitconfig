@@ -2,7 +2,7 @@
 	name = Alejandro Do Nascimento
 	signingkey = 5F265C17310EB1D9
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+	insteadOf = https://github.com
 [alias]
   # list files which have changed since REVIEW_BASE
   # (REVIEW_BASE defaults to 'master' in my zshrc)
