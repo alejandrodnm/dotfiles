@@ -27,7 +27,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(mix-fast vi-mode docker vagrant zsh-autosuggestions asdf)
+plugins=(vi-mode docker zsh-autosuggestions asdf)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
@@ -82,6 +82,7 @@ export REVIEW_BASE=master
 
 # Kubernetes
 alias k='kubectl'
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
 alias k9s='TERM=xterm k9s'
 alias helm-delete-all="helm delete \$(helm list | awk  '{ print \$1 }' | tail -n +2)"
 alias helm2="/usr/local/opt/helm@2/bin/helm"
@@ -105,7 +106,7 @@ export KEYTIMEOUT=1
 
 # User configuration
 alias vim='nvim'
-alias nv="vim ~/dev/adn/notes -c 'cd ~/dev/adn/notes'"
+alias nv="vim ~/dev/adn/notes -c 'cd ~/dev/adn/notes' '+:NV'"
 export EDITOR="nvim"
 export GPG_TTY=$(tty)
 
@@ -172,6 +173,8 @@ export PATH="$HOME/go/bin:$PATH"
 
 # Java
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
+alias j11="export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home'; java -version"
+alias j17="export JAVA_HOME='/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home'; java -version"
 
 export LANG=en_US.UTF-8
 
@@ -300,7 +303,7 @@ function nr1 {
   echo "$_s" | tr '_-' '/+' | openssl enc -d -a -A
 }
 
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim +Man\!"
 
 # NewRelic
 alias nr="cd ~/dev/new_relic/"
@@ -316,3 +319,5 @@ source /Users/adonascimento/Library/Preferences/org.dystroy.broot/launcher/bash/
 
 # added by travis gem
 [ ! -s /Users/adonascimento/.travis/travis.sh ] || source /Users/adonascimento/.travis/travis.sh
+
+source /Users/adonascimento/Library/Application\ Support/org.dystroy.broot/launcher/bash/br

@@ -16,6 +16,8 @@
 
 -- Use best available output format
 \x auto
+\t off
+\a
 \set VERBOSITY verbose
 \set HISTFILE ~/.psql_history- :DBNAME
 \set HISTCONTROL ignoredups

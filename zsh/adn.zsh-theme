@@ -2,8 +2,14 @@ time="%{$fg_bold[magenta]%}%*"
 user="%{$fg_bold[magenta]%}%n@%m"
 arrow="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜) "
 adn_directory="%{$fg[cyan]%}%c "
-
-PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(adn::kubecontext)
+KUBE_PS1_PREFIX=""
+KUBE_PS1_SUFFIX=""
+KUBE_PS1_SEPARATOR=""
+KUBE_PS1_SYMBOL_USE_IMG=false
+KUBE_PS1_SYMBOL_DEFAULT=""
+KUBE_PS1_CTX_COLOR=blue
+KUBE_PS1_NS_COLOR=blue
+PROMPT='${adn_directory}$(adn::jobs)$(spaceship::git_branch)$(spaceship::git_status)$(kube_ps1)
 $(adn::status)${arrow}%{$reset_color%}'
 
 RPROMPT='%{$(echotc UP 1)%}$(spaceship::vi_mode) ${time}%{$reset_color%}%{$(echotc DO 1)%}'
@@ -196,36 +202,4 @@ spaceship::git_branch() {
   echo "$SPACESHIP_GIT_BRANCH_PREFIX"\
   "$SPACESHIP_GIT_BRANCH_COLOR${git_current_branch}"\
   "$SPACESHIP_GIT_BRANCH_SUFFIX"
-}
-
-# Kubernetes namespace and context
-
-ADN_KUBECONTEXT_SYMBOL="${SPACESHIP_KUBECONTEXT_SYMBOL="%{$fg_bold[blue]%}⎈ "}"
-ADN_PS1_SHOW_K8S=~/.adn_ps1_k8s
-
-adn::kubeon() {
-  touch $ADN_PS1_SHOW_K8S > /dev/null 2>&1
-}
-
-adn::kubeoff() {
-  rm -f $ADN_PS1_SHOW_K8S > /dev/null 2>&1
-}
-
-# Show current context in kubectl
-adn::kubecontext() {
-
-  command -v kubectl > /dev/null 2>&1 || return
-
-  [[ -f $ADN_PS1_SHOW_K8S ]] || return
-
-  # local kube_context=$(kubectl config current-context 2>/dev/null)
-  local kube_context=$(rg -r '$1' 'current-context: (.+)' ~/.kube/config 2>/dev/null)
-  [[ -z $kube_context ]] || [[ $kube_context = "\"\"" ]] && return
-
-  # local kube_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
-  # [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
-
-  local color="%{$fg_bold[white]%}"
-
-  echo "${ADN_KUBECONTEXT_SYMBOL}${color}${kube_context}"
 }

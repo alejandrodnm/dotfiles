@@ -37,6 +37,7 @@ Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
 Plug 'jamessan/vim-gnupg'
+" Plug 'github/copilot.vim'
 
 " (The latter must be installed before it can be used.)
 Plug 'google/vim-maktaba'
@@ -51,6 +52,7 @@ Plug 'google/vim-glaive'
 Plug 'neoclide/coc.nvim', {
       \'branch': 'release'
       \}
+" Plug 'honza/vim-snippets'
 Plug 'simnalamburt/vim-mundo' " undo visualization
 
 " Debugger
@@ -110,9 +112,10 @@ Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
-call glaive#Install()
-Glaive codefmt google_java_executable="java -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.9-all-deps.jar"
+let g:node_host_prog=expand("~/.asdf/installs/nodejs/14.17.6/.npm/bin/neovim-node-host")
 
+call glaive#Install()
+Glaive codefmt google_java_executable="java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.12.0-all-deps.jar"
 let g:terraform_fmt_on_save=1
 let g:terraform_align=1
 
@@ -244,9 +247,18 @@ set splitright
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" augroup autoformat_settings
-"   autocmd FileType java AutoFormatBuffer google-java-format
-" augroup END
+
+" Google Java Format
+augroup autoformat_settings
+  autocmd FileType java AutoFormatBuffer google-java-format
+augroup END
+
+"Vim markdown list format
+autocmd FileType markdown
+    \ set formatoptions-=q |
+    \ set formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
 
 " Typescript/Javascript
 
@@ -437,7 +449,7 @@ let NERDTreeWinSize=50
 " Syntax highlight
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"java", "go", "haskell", "rust", "kotlin", "typescript"},     -- one of "all", "language", or a list of languages
+  ensure_installed = {"java", "go", "rust", "kotlin", "typescript"},     -- one of "all", "language", or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
@@ -610,6 +622,8 @@ aug adn_coc
   autocmd CursorHold * silent call CocActionAsync('highlight')
 
   " Using CocList
+  " Show snippets
+  nnoremap <silent> <leader>lls :<C-u>CocList snippets<cr>
   " Show all diagnostics
   nnoremap <silent> <leader>lld :<C-u>CocList diagnostics<cr>
   " Show commands
@@ -627,6 +641,17 @@ aug adn_coc
 
   xmap <leader>lp  <Plug>(coc-format-selected)
   nmap <leader>lp <Plug>(coc-format)
+
+  " Use <C-l> for trigger snippet expand.
+  imap <C-l> <Plug>(coc-snippets-expand)
+  " Use <C-j> for select text for visual placeholder of snippet.
+  vmap <C-j> <Plug>(coc-snippets-select)
+  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+  let g:coc_snippet_next = '<c-j>'
+  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+  let g:coc_snippet_prev = '<c-k>'
+  " Use <C-j> for both expand and jump (make expand higher priority.)
+  imap <C-j> <Plug>(coc-snippets-expand-jump)
 aug END
 
 function! s:show_documentation()
