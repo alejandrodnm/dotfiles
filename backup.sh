@@ -1,1 +1,1 @@
-rsync -av ~/Pictures ~/Movies ~/Wallpapers ~/Books ~/Amazon\ Drive /Volumes/Untitled/adn/
+rsync -av ~/dev/adn/notes ~/Pictures ~/Movies ~/Books ~/Amazon\ Drive /Volumes/Untitled/adn/

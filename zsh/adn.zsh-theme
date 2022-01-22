@@ -85,9 +85,9 @@ SPACESHIP_GIT_STATUS_RENAMED="%{$fg_bold[yellow]%}»"
 SPACESHIP_GIT_STATUS_DELETED="%{$fg_bold[red]%}-"
 SPACESHIP_GIT_STATUS_STASHED="%{$fg_bold[cyan]%}$"
 SPACESHIP_GIT_STATUS_UNMERGED="%{$fg_bold[magenta]%}="
-SPACESHIP_GIT_STATUS_AHEAD="%{$fg_bold[magenta]%}⇡"
-SPACESHIP_GIT_STATUS_BEHIND="%{$fg_bold[magenta]%}⇣"
-SPACESHIP_GIT_STATUS_DIVERGED="%{$fg_bold[red]%}⇕"
+SPACESHIP_GIT_STATUS_AHEAD="%{$fg_no_bold[magenta]%}⇡"
+SPACESHIP_GIT_STATUS_BEHIND="%{$fg_no_bold[magenta]%}⇣"
+SPACESHIP_GIT_STATUS_DIVERGED="%{$fg_no_bold[red]%}⇕"
 
 # ------------------------------------------------------------------------------
 # Section

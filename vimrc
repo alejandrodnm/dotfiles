@@ -19,7 +19,6 @@ Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plug 'scrooloose/nerdtree'  " File system explorer
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
-" Plug 'neomake/neomake'  " Linter
 Plug 'preservim/tagbar'  " classes and methods list
 Plug 'tpope/vim-fugitive'  " Git support
 Plug 'tpope/vim-rhubarb' "GBrowse support
@@ -37,7 +36,6 @@ Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
 Plug 'jamessan/vim-gnupg'
-" Plug 'github/copilot.vim'
 
 " (The latter must be installed before it can be used.)
 Plug 'google/vim-maktaba'
@@ -92,6 +90,12 @@ Plug 'cakebaker/scss-syntax.vim'
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'
+" Get the latest elixir-ls release from
+" https://github.com/elixir-lsp/elixir-ls/releases and unzip it into
+" ~/.vim/plugged/coc-elixir/els-release (unzip elixir-ls.zip -d
+" ~/.vim/plugged/coc-elixir/els-release).
+Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+
 Plug 'mhinz/vim-mix-format'
 " Haskell
 " Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
@@ -313,7 +317,7 @@ aug adn_fugitive
   au!
   nmap <Leader>gs :Git<CR>
   nmap <Leader>gd :Gvdiffsplit<CR>
-  nmap <Leader>gl :0Glog<CR>
+  nmap <Leader>gl :0Gclog<CR>
   nmap <Leader>gb :Git blame<CR>
   nmap <Leader>gr :Gread<CR>
   nmap <Leader>gw :Gwrite<CR>
@@ -602,6 +606,8 @@ aug END
 " Remap key
 aug adn_coc
   au!
+  let g:coc_start_at_startup = 1
+  " autocmd VimEnter * CocStart
   nmap <silent>[d <Plug>(coc-diagnostic-prev)
   nmap <silent>]d <Plug>(coc-diagnostic-next)
   nmap <C-]> <Plug>(coc-definition)
@@ -677,8 +683,8 @@ let g:mix_format_silent_errors = 1
 au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
 
 "Go
-let g:go_fmt_command = "goimports"
-let g:go_metalinter_command = "golangci-lint"
+" let g:go_fmt_command = 'goimports'
+" let g:go_metalinter_command = 'revive'
 let g:go_jump_to_error = 0
 let g:go_metalinter_autosave = 1
 
