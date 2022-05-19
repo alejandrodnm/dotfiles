@@ -150,7 +150,7 @@ export KERL_BUILD_PLT=yes
 # AWS
 # FSI profile
 # export AWS_PROFILE=fsi-provision
-export AWS_PROFILE=350830678660/okta_fullstackintegrationsteam
+# export AWS_PROFILE=350830678660_NRAdmin
 export AWS_PAGER=bat
 
 # oh-my-zsh
@@ -209,7 +209,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa_adn"
 # For more info:
 #
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-export TERM=xterm-256color-italic
+# export TERM=xterm-256color-italic
 alias ssh="TERM=xterm ssh"
 alias up="TERM=xterm up"
 alias vagrant="TERM=xterm vagrant"

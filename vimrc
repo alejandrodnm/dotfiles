@@ -255,6 +255,7 @@ set splitright
 " Google Java Format
 augroup autoformat_settings
   autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType javascript,typescript,javascript.jsx,typescript.tsx AutoFormatBuffer prettier
 augroup END
 
 "Vim markdown list format
@@ -682,12 +683,7 @@ let g:mix_format_silent_errors = 1
 "" ghcid
 au FileType haskell nnoremap <buffer> <Leader>h :Ghcid<CR>
 
-"Go
-" let g:go_fmt_command = 'goimports'
-" let g:go_metalinter_command = 'revive'
-let g:go_jump_to_error = 0
-let g:go_metalinter_autosave = 1
-
+" Golang
 au FileType go nmap <Leader>se :GoDeclsDir<CR>
 au FileType go nmap <Leader>si <Plug>(go-info)
 au FileType go nmap <Leader>sm <Plug>(go-implements)
