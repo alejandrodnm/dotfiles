@@ -28,7 +28,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode docker zsh-autosuggestions asdf)
+plugins=(zsh-vi-mode docker zsh-autosuggestions asdf)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
