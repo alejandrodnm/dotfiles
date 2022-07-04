@@ -294,7 +294,7 @@ nnoremap <silent><C-w>z :MaximizerToggle!<CR>
 let g:maximizer_set_mapping_with_bang = 1
 
 " Notational
-let g:nv_search_paths = ['/Users/adonascimento/dev/adn/notes']
+let g:nv_search_paths = ['~/dev/adn/notes']
 let g:nv_use_short_pathnames = 1
 
 " Deoplete

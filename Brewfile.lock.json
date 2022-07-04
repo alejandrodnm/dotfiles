@@ -1626,6 +1626,12 @@
         "options": {
           "full_name": "menumeters"
         }
+      },
+      "spectacle": {
+        "version": "1.2,672",
+        "options": {
+          "full_name": "spectacle"
+        }
       }
     }
   },
