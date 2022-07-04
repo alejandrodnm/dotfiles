@@ -1,6 +1,7 @@
 [user]
 	name = Alejandro Do Nascimento
 	signingkey = 5F265C17310EB1D9
+	email = alejandrodnm@gmail.com
 [url "git@github.com:"]
 	insteadOf = https://github.com
 [alias]

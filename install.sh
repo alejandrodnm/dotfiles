@@ -1,162 +1,124 @@
 #!/bin/sh
-# My install script
-# TODO
-# ln -s "${DIRNAME}/psqlrc" "${HOME}/.psqlrc"
-# ln -s "${DIRNAME}/tmux.conf" "${HOME}/.tmux.conf"
-# ln -s "${DIRNAME}/powerline" "${HOME}/.config/"
-# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-# tic -x iterm/xterm-256color-italic.terminfo
-# tic -x iterm/tmux-256color.terminfo
 
-PACKAGES="curl vim zsh neovim gcc cmake bat"
-DIRNAME=$(dirname $(readlink -f $0))
+# My install script
+# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
 
 main() {
-  local install_from_cargo=no
-  local rpm_fusion=no
-  local vbox_guest_additions=no
-
-  for arg in $0 ; do
-    case $arg in
-      --install-from-cargo)
-        install_from_cargo=yes
-        ;;
-      --rpm-fusion)
-        rpm_fusion=yes
-        ;;
-      --vbox)
-        rpm_fusion=yes
-        vbox_guest_additions=yes
-        ;;
-    esac
-  done
-  if [[ $(cat /etc/redhat-release) =~ "Fedora" ]] ; then
-    rpm_fusion
-  fi
-  if [ "${vbox_guest_additions}" = "yes" ] ; then
-    install_packages akmod-VirtualBox
-  fi
-  install_packages $PACKAGES
-  install_fzf
-  install_exa $install_from_cargo
-  install_ripgrep $install_from_cargo
-  install_vim
+  install_brewfile
+  install_git
+  install_tmux
+  install_psqlrc
+  install_kitty
   install_zsh
-  touch "${DIRNAME}/install_successful"
+  install_node
+  install_vim
+  install_golang
 }
 
-rpm_fusion() {
-  if command -v dnf >/dev/null 2>&1 ; then
-    sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+install_kitty() {
+  if [ -e ~/.config/kitty/kitty.conf ] || [ -L ~/.config/kitty/kitty.conf ] ; then
+    rm ~/.config/kitty/kitty.conf
   fi
+  ln -s "${PWD}/kitty.conf" ~/.config/kitty/kitty.conf
 }
 
-install_packages() {
-  echo "Installing packages $@"
-  if command -v apt >/dev/null 2>&1 ; then
-    sudo apt install -y $@
-  elif command -v dnf >/dev/null 2>&1 ; then
-    sudo dnf install -y $@
-  elif command -v yum >/dev/null 2>&1 ; then
-    sudo yum install -y $@
+install_psqlrc() {
+  echo "Configuring psqlrc"
+  if [ -e ~/.psqlrc ] || [ -L ~/.psqlrc ] ; then
+    rm ~/.psqlrc
   fi
+  ln -s "${PWD}/psqlrc" ~/.psqlrc
+}
+
+install_tmux() {
+  echo "Configuring tmux"
+  if [ -e ~/.tmux.conf ] || [ -L ~/.tmux.conf ] ; then
+    rm ~/.tmux.conf
+  fi
+  ln -s "${PWD}/tmux.conf" ~/.tmux.conf
+
+  if [ -d ~/.tmux/plugins/tpm ] ; then
+    rm -rf ~/.tmux/plugins/tpm
+  fi
+  mkdir -p ~/.tmux/plugins/
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  ~/.tmux/plugins/tpm/bin/install_plugins
+}
+
+install_git() {
+  echo "Configuring git"
+  if [ -e ~/.gitconfig ] || [ -L ~/.gitconfig ] ; then
+    rm ~/.gitconfig
+  fi
+  ln -s "${PWD}/gitconfig" ~/.gitconfig
+  if [ -e ~/.gitignore_global ] || [ -L ~/.gitignore_global ] ; then
+    rm ~/.gitignore_global
+  fi
+  ln -s "${PWD}/gitignore_global" ~/.gitignore_global
+}
+
+install_brewfile() {
+  echo "Installing brewfile"
+  brew bundle install --file=${PWD}/Brewfile || exit 1
 }
 
 install_zsh() {
-  echo "Installing zsh: version $(zsh --version)"
-  if [ ! -d ~/.oh-my-zsh/ ] ; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  fi
+  echo "Configuring zsh"
   if [ -e ~/.zshrc ] || [ -L ~/.zshrc ] ; then
     rm ~/.zshrc
   fi
-  ln -s "${DIRNAME}/zsh/zshrc" ~/.zshrc
+  ln -s "${PWD}/zsh/zshrc" ~/.zshrc
+  if [ ! -d ~/.oh-my-zsh/ ] ; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  fi
   if [ -e ~/.oh-my-zsh/themes/adn.zsh-theme ] || [  -L ~/.oh-my-zsh/themes/adn.zsh-theme ] ; then
     rm ~/.oh-my-zsh/themes/adn.zsh-theme
   fi
-  ln -s "${DIRNAME}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
+  ln -s "${PWD}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
 
-  if [ "${whoami}" != "vagrant" ] ; then
-    chsh -s $(which zsh)
-    source ~/.zshrc
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
   fi
+  git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions
+  fi
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 install_vim() {
-  echo "${DIRNAME}"
-  echo "Installing neovim"
+  echo "Configuring neovim"
 
   mkdir -p ~/.config/nvim
   if [ -e ~/.config/nvim/init.vim ] || [ -L ~/.config/nvim/init.vim ] ; then
     rm ~/.config/nvim/init.vim
   fi
-  ln -s "${DIRNAME}/vimrc"  ~/.config/nvim/init.vim
+  ln -s "${PWD}/vimrc"  ~/.config/nvim/init.vim
   if [ -e ~/.ctags ] || [ -L ~/.ctags ] ; then
     rm ~/.ctags
   fi
-  ln -s "${DIRNAME}/ctags" ~/.ctags
+  ln -s "${PWD}/ctags" ~/.ctags
 
-  if [ ! -d ~/.vim/bundle/Vundle.vim ] ; then
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    sed -i 's/colorscheme/"colorscheme/' ~/.config/nvim/init.vim
-    nvim +PluginInstall +qall
-    sed -i 's/"colorscheme/colorscheme/' ~/.config/nvim/init.vim
-  fi
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  nvim +PluginInstall +qall
 }
 
-install_fzf() {
-  echo "Installing fzf"
-  if command -v fzf >/dev/null 2>&1 ; then
-    return
-  fi
-  if ! install_packages fzf && [ ! -d ~/.fzf ] ; then
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install --all
-  fi
+install_node() {
+  echo "Installing nodejs"
+  asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+  asdf install nodejs latest
+  asdf global nodejs latest
+  npm install -g neovim
 }
 
-install_rust() {
-  echo "Check Rust installation"
-  if ! command -v cargo >/dev/null 2>&1 && [ ! -e ~/.cargo/bin/cargo ] ; then
-    echo "Rust is not installed. Installing it via sh.rustup.rs"
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
-  fi
+install_golang() {
+  echo "Installing golang"
+  asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+  asdf install golang latest
+  asdf global golang latest
 }
 
-cargo_install() {
-  echo "Cargo install $@"
-  install_rust
-  if command -v cargo >/dev/null 2>&1 ; then
-    cargo install $@
-  elif [ -e ~/.cargo/bin/cargo ] ; then
-    ~/.cargo/bin/cargo install $@
-  fi
-}
-
-install_ripgrep() {
-  echo "Installing ripgrep: from cargo? ${1}"
-  if ! command -v rg >/dev/null 2>&1 ; then
-    if ! install_packages ripgrep ; then
-      if [ "${1}" = "yes" ]  ; then
-          cargo_install ripgrep
-      else
-        curl -L -o /tmp/rg.tar.gz https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz
-        sudo tar -xzf /tmp/rg.tar.gz -C /opt/
-        sudo ln -s /opt/ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
-      fi
-    fi
-  fi
-}
-
-install_exa() {
-  echo "Installing exa: from cargo? ${1}"
-  if ! command -v exa >/dev/null 2>&1 ; then
-    if ! install_packages exa ; then
-      if [ "${1}" = "yes" ]  ; then
-        cargo_install exa
-      fi
-    fi
-  fi
-}
-
-main $@ || exit 1
+main || exit 1

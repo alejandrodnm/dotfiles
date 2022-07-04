@@ -4,8 +4,6 @@ dash
 spectacles
 paragon NTFS
 karabiner
-iterm
-kitty
 Amazon Photos
 Box
 Drive

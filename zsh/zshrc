@@ -1,8 +1,9 @@
-export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
+export HOMEBREW_PREFIX=/opt/homebrew
+export HOMEBREW_CELLAR=/opt/homebrew/Cellar
+export HOMEBREW_REPOSITORY=/opt/homebrew
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
-# FOR ANSIBLE DANGER
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
@@ -32,8 +33,13 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 
+alias cat='bat'
+alias ls='exa -bla --git'
+alias ls='ls -al'
+alias sed=gsed
+
 # Git
-alias git='/usr/local/bin/git' # Use git from brew
+alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
 alias g='git'
 alias gbd='git branch -D'
 alias ga='git add -A -v'
@@ -82,10 +88,9 @@ export REVIEW_BASE=master
 
 # Kubernetes
 alias k='kubectl'
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 alias k9s='TERM=xterm k9s'
 alias helm-delete-all="helm delete \$(helm list | awk  '{ print \$1 }' | tail -n +2)"
-alias helm2="/usr/local/opt/helm@2/bin/helm"
 export PATH="${PATH}:${HOME}/.krew/bin"
 
 # Fix minikube date
@@ -104,11 +109,12 @@ precmd() {
 # vi mode timeout
 export KEYTIMEOUT=1
 
-# User configuration
+# VIM
 alias vim='nvim'
 alias nv="vim ~/dev/adn/notes -c 'cd ~/dev/adn/notes' '+:NV'"
 export EDITOR="nvim"
 export GPG_TTY=$(tty)
+export MANPAGER="nvim +Man\!"
 
 # Fix Delete Home and End on vi-mode
 bindkey -a "^[[3~" delete-char
@@ -172,99 +178,24 @@ export HIE_HOOGLE_DATABASE=/Users/adonascimento/dev/third_party/haskell-ide-engi
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
 
-# Java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
-alias j8="export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'; java -version"
-alias j11="export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home'; java -version"
-alias j17="export JAVA_HOME='/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home'; java -version"
-
 export LANG=en_US.UTF-8
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa_adn"
 
-# Python virtualenvs
-# export VIRTUAL_ENV_DISABLE_PROMPT=1
-# export WORKON_HOME=~/.virtualenvs
-# export PROJECT_HOME=$HOME/Devel
-# VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-# source /usr/local/bin/virtualenvwrapper.sh
-
-# tmux italic support
-# create the file xterm-256color-italic.terminfo with:
-#
-# xterm-256color-italic|xterm with 256 colors and italic,
-#       sitm=\E[3m, ritm=\E[23m,
-#               use=xterm-256color,
-#
-# tic xterm-256color-italic.terminfo
-#
-# For osx create tmux-256color.terminfo with:
-#
-# tmux-256color|tmux with 256 colors,
-#   ritm=\E[23m, rmso=\E[27m, sitm=\E[3m, smso=\E[7m, Ms@,
-#   khome=\E[1~, kend=\E[4~,
-#   use=xterm-256color, use=screen-256color,
-#
-# For more info:
-#
-# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-# export TERM=xterm-256color-italic
-alias ssh="TERM=xterm ssh"
-alias up="TERM=xterm up"
-alias vagrant="TERM=xterm vagrant"
-
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# added by travis gem
-[ -f /home/adn/.travis/travis.sh ] && source /home/adn/.travis/travis.sh
-
+# FZF
 # --files: Print each file that would be searched without actually performing the search.
 # --no-ignore: Do not respect .gitignore, etc...
 # --hidden: Search hidden files and folders
 # --follow: Follow symlinks
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-
-# Setup fzf
-# ---------
-
-# Auto-completion
-# ---------------
-[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
-
-# Key bindings
-# ------------
-local fzfKeybindingFiles=(
-  /usr/local/opt/fzf/shell/key-bindings.zsh
-  /usr/share/fzf/shell/key-bindings.zsh
-)
-for keyBindingFile in ${fzfKeybindingFiles} ; do
-  if [[ -f $keyBindingFile ]] ; then
-    source $keyBindingFile
-  fi
-done
-
-if [ -e /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-elif [ -e /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
-  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if command -v bat >/dev/null 2>&1 ; then
-  alias cat='bat'
-fi
-
-if command -v exa >/dev/null 2>&1 ; then
-  alias ls='exa -bla --git'
-else
-  alias ls='ls -al'
-fi
-
-if command -v gsed >/dev/null 2>&1 ; then
-  alias sed=gsed
-fi
+source ${HOMEBREW_PREFIX}/opt/fzf/shell/completion.zsh
+source ${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh
+source ${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 qq() {
   clear
@@ -296,30 +227,3 @@ docker::cleanup(){
     docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
     docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 }
-
-function guid {
-  _l=$((${#1} % 4))
-  if [ $_l -eq 2 ]; then _s="$1"'=='
-  elif [ $_l -eq 3 ]; then _s="$1"'='
-  else _s="$1" ; fi
-  echo "$_s" | tr '_-' '/+' | openssl enc -d -a -A
-}
-
-export MANPAGER="nvim +Man\!"
-
-# NewRelic
-alias nr="cd ~/dev/new_relic/"
-export GOPRIVATE=*.datanerd.us
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/adonascimento/dev/third_party/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/adonascimento/dev/third_party/google-cloud-sdk/completion.zsh.inc'; fi
-
-source /Users/adonascimento/Library/Preferences/org.dystroy.broot/launcher/bash/br
-
-# added by travis gem
-[ ! -s /Users/adonascimento/.travis/travis.sh ] || source /Users/adonascimento/.travis/travis.sh
-
-source /Users/adonascimento/Library/Application\ Support/org.dystroy.broot/launcher/bash/br

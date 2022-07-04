@@ -38,11 +38,10 @@ Plug 'Yggdroot/indentLine'
 Plug 'jamessan/vim-gnupg'
 
 " (The latter must be installed before it can be used.)
-Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
-" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" Plug 'google/vim-maktaba'
+" Plug 'google/vim-codefmt'
 " `:help :Glaive` for usage.
-Plug 'google/vim-glaive'
+" Plug 'google/vim-glaive'
 
 " LSP
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
@@ -56,7 +55,7 @@ Plug 'simnalamburt/vim-mundo' " undo visualization
 " Debugger
 " Plug 'mfussenegger/nvim-dap' " debugger
 " Plug 'theHamsta/nvim-dap-virtual-text'
-Plug 'puremourning/vimspector'
+" Plug 'puremourning/vimspector'
 
 " Kotlin
 " Plug 'udalov/kotlin-vim'
@@ -78,48 +77,49 @@ Plug 'sebdah/vim-delve'
 " Plug 'elmcast/elm-vim'
 
 " JS and related
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'jparise/vim-graphql'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'cakebaker/scss-syntax.vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'jparise/vim-graphql'
+" Plug 'hail2u/vim-css3-syntax'
+" Plug 'cakebaker/scss-syntax.vim'
 
 " ReasonML
 " Plug 'reasonml-editor/vim-reason-plus'
 
 " Elixir
-Plug 'elixir-editors/vim-elixir'
+" Plug 'elixir-editors/vim-elixir'
 " Get the latest elixir-ls release from
 " https://github.com/elixir-lsp/elixir-ls/releases and unzip it into
 " ~/.vim/plugged/coc-elixir/els-release (unzip elixir-ls.zip -d
 " ~/.vim/plugged/coc-elixir/els-release).
-Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+" Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 Plug 'mhinz/vim-mix-format'
 " Haskell
 " Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
-Plug 'neovimhaskell/haskell-vim'
+" Plug 'neovimhaskell/haskell-vim'
 
 Plug 'plasticboy/vim-markdown'
 Plug 'exu/pgsql.vim'
 
+Plug 'rust-lang/rust.vim'
+
 Plug 'godlygeek/tabular'  " Autotabs for puppet and markdown table format
+
+" Plug 'hashivim/vim-terraform'
 " Plug 'rodjek/vim-puppet'
 " Plug 'raichoo/purescript-vim'
 " Plug 'jalvesaq/Nvim-R'
 " Plug 'lervag/vimtex'  " Support for latex files and projects
 
-Plug 'rust-lang/rust.vim'
-
-Plug 'hashivim/vim-terraform'
-
 call plug#end()
 
-let g:node_host_prog=expand("~/.asdf/installs/nodejs/14.17.6/.npm/bin/neovim-node-host")
+let g:node_host_prog=expand("~/.asdf/installs/nodejs/18.4.0/.npm/bin/neovim-node-host")
 
-call glaive#Install()
-Glaive codefmt google_java_executable="java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.15.0-all-deps.jar"
+" call glaive#Install()
+" Glaive codefmt google_java_executable="java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.15.0-all-deps.jar"
+
 let g:terraform_fmt_on_save=1
 let g:terraform_align=1
 
