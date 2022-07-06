@@ -60,6 +60,8 @@ install_git() {
 install_brewfile() {
   echo "Installing brewfile"
   brew bundle install --file=${PWD}/Brewfile || exit 1
+  brew link --force libpq
+
 }
 
 install_zsh() {
@@ -91,6 +93,11 @@ install_zsh() {
   fi
   git clone https://github.com/jeffreytse/zsh-vi-mode \
     ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-vi-mode
+
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
+  fi
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
 }
 
 install_vim() {

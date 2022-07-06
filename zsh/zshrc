@@ -28,9 +28,10 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(zsh-vi-mode docker zsh-autosuggestions asdf)
+# The plugins zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode
+# should be set last and in that order.
+plugins=(docker asdf zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
@@ -197,7 +198,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 source ${HOMEBREW_PREFIX}/opt/fzf/shell/completion.zsh
 source ${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh
-source ${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 qq() {
   clear

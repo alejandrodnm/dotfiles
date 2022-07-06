@@ -3,7 +3,7 @@
 
 -- Don't display the "helpful" message on startup.
 \set QUIET 1
-\pset null '¤'
+  \pset null ∅
 
 -- http://www.postgresql.org/docs/9.3/static/app-psql.html#APP-PSQL-PROMPTING
 \set PROMPT1 '%x%/@%m %# '
@@ -17,7 +17,6 @@
 -- Use best available output format
 \x auto
 \t off
-\a
 \set VERBOSITY verbose
 \set HISTFILE ~/.psql_history- :DBNAME
 \set HISTCONTROL ignoredups
@@ -27,7 +26,7 @@
 \pset unicode_header_linestyle double
 set intervalstyle to 'postgres_verbose';
 \setenv LESS '-iMFXSx4R'
-\setenv PAGER 'pspg --no-mouse -bX --no-commandbar --no-topbar -s 17'
+\setenv PAGER 'pspg --no-mouse -bX --no-commandbar --no-topbar -s 11'
 
 -- Transactions
 \set ON_ERROR_STOP on
