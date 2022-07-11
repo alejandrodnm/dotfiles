@@ -13,6 +13,9 @@ main() {
   install_node
   install_vim
   install_golang
+  install_postgres
+  install_rust
+  install_timescale
 }
 
 install_kitty() {
@@ -134,4 +137,26 @@ install_golang() {
   asdf global golang latest
 }
 
+install_postgres() {
+  echo "Installing postgres"
+  asdf plugin-add postgres
+  asdf install postgres 14.4
+  asdf global postgres 14.4
+}
+
+install_rust() {
+  echo "Installing rust"
+  asdf plugin-add rust https://github.com/asdf-community/asdf-rust.git
+  asdf install rust latest
+  asdf global rust latest
+}
+
+install_timescale() {
+  # This is from https://github.com/timescale/promscale_extension/pull/409/files
+  /opt/homebrew/Cellar/timescaledb/2.7.1/bin/timescaledb_move.sh
+  pg_stop
+  pg_start
+  cargo install cargo-pgx --git https://github.com/timescale/pgx --branch promscale-staging
+  cargo pgx init --pg14=/opt/homebrew/bin/pg_config
+}
 main || exit 1

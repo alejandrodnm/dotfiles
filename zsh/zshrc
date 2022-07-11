@@ -37,9 +37,12 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 
 alias cat='bat'
-alias ls='exa -bla --git'
-alias ls='ls -al'
 alias sed=gsed
+
+# Postgres
+alias pg_start="pg_ctl -D ${HOMEBREW_PREFIX}/var/postgres start"
+alias pg_restart="pg_ctl -D ${HOMEBREW_PREFIX}/var/postgres restart"
+alias pg_stop="pg_ctl -D ${HOMEBREW_PREFIX}/var/postgres stop"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
@@ -92,14 +95,9 @@ export REVIEW_BASE=master
 # Kubernetes
 alias k='kubectl'
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-alias k9s='TERM=xterm k9s'
+alias k9s='k9s'
 alias helm-delete-all="helm delete \$(helm list | awk  '{ print \$1 }' | tail -n +2)"
 export PATH="${PATH}:${HOME}/.krew/bin"
-
-# Fix minikube date
-alias minikube-date='DSTR=$(date -u); minikube ssh "sudo date --set=\"$DSTR\""'
-alias minikube-start='minikube start --kubernetes-version=v1.14.8 && minikube-date && adn::kubeon'
-alias minikube-stop='minikube stop && adn::kubeoff'
 
 # Use for git branch in theme
 autoload -Uz vcs_info
@@ -164,9 +162,13 @@ export AWS_PAGER=bat
 
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+# oh-my-zsh defines an alias for ls so we override it here
+alias ls='exa -bla --git'
 
 # Disable the forward-char autosuggest
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
+# Start new lines in insert mode
+ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 
 # asdf version manager for elm elixir erlang
 # https://gist.github.com/rubencaro/6a28138a40e629b06470

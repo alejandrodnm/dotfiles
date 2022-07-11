@@ -45,6 +45,13 @@ brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 brew "asdf"
 brew "minikube"
 brew "libpq"
+# Needed for asdf postgres
+brew "gcc"
+brew "readline"
+brew "zlib"
+brew "curl"
+brew "ossp-uuid"
+# END Needed for asdf postgres
 cask "spotify"
 cask "slack"
 cask "zoom"
