@@ -40,9 +40,9 @@ alias cat='bat'
 alias sed=gsed
 
 # Postgres
-alias pg_start="pg_ctl -D ${HOMEBREW_PREFIX}/var/postgres start"
-alias pg_restart="pg_ctl -D ${HOMEBREW_PREFIX}/var/postgres restart"
-alias pg_stop="pg_ctl -D ${HOMEBREW_PREFIX}/var/postgres stop"
+alias pg_start="/Users/adn/.asdf/installs/postgres/14.4/bin/pg_ctl -D /Users/adn/.asdf/installs/postgres/14.4/data -l logfile start"
+alias pg_restart="/Users/adn/.asdf/installs/postgres/14.4/bin/pg_ctl -D /Users/adn/.asdf/installs/postgres/14.4/data -l logfile restart"
+alias pg_stop="/Users/adn/.asdf/installs/postgres/14.4/bin/pg_ctl -D /Users/adn/.asdf/installs/postgres/14.4/data -l logfile stop"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
