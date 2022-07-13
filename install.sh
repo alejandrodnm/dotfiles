@@ -15,7 +15,6 @@ main() {
   install_golang
   install_postgres
   install_rust
-  install_timescale
 }
 
 install_kitty() {
@@ -152,10 +151,6 @@ install_rust() {
 }
 
 install_timescale() {
-  # This is from https://github.com/timescale/promscale_extension/pull/409/files
-  /opt/homebrew/Cellar/timescaledb/2.7.1/bin/timescaledb_move.sh
-  pg_stop
-  pg_start
   cargo install cargo-pgx --git https://github.com/timescale/pgx --branch promscale-staging
   cargo pgx init --pg14=/opt/homebrew/bin/pg_config
 }
