@@ -36,6 +36,7 @@ Plug 'https://github.com/alok/notational-fzf-vim' " Note taking
 Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
 Plug 'jamessan/vim-gnupg'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " (The latter must be installed before it can be used.)
 " Plug 'google/vim-maktaba'
@@ -451,6 +452,9 @@ noremap <Leader>E :NERDTreeFind<CR>
 let NERDTreeIgnore=['\.pyc$', '__pycache__']
 let NERDTreeWinSize=50
 
+" Needed for trees-context floating win border
+" https://github.com/neovim/neovim/issues/17996#issuecomment-1186208986
+highlight FloatBorder guifg=#021316
 " Syntax highlight
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -459,6 +463,8 @@ require'nvim-treesitter.configs'.setup {
     enable = true,              -- false will disable the whole extension
   },
 }
+
+require'treesitter-context'.setup { separator = '-' }
 EOF
 nmap <Leader>lh :write <bar> edit <bar> TSBufEnable highlight<CR>
 
