@@ -64,7 +64,6 @@ cask "kitty"
 cask "menumeters"
 cask "spectacle"
 cask "xournal-plus-plus"
-cask "clementine"
 # Installing bitwarden via the app store allows biometrics on the browser
 # cask "bitwarden"
   cask "docker"
