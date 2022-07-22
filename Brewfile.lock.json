@@ -1995,9 +1995,9 @@
   "system": {
     "macos": {
       "monterey": {
-        "HOMEBREW_VERSION": "3.5.5",
+        "HOMEBREW_VERSION": "3.5.6",
         "HOMEBREW_PREFIX": "/opt/homebrew",
-        "Homebrew/homebrew-core": "930c8ee5fcf85985bebf39288be18d89143f8b1b",
+        "Homebrew/homebrew-core": "f96683612dbc9bb946b8b99bb20b78c5d4915acb",
         "CLT": "13.0.0.0.1.1627064638",
         "Xcode": "13.2.1",
         "macOS": "12.3"

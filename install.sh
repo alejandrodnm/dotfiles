@@ -123,10 +123,13 @@ install_vim() {
 
 install_node() {
   echo "Installing nodejs"
+  if [ -e ~/.default-npm-package ] || [ -L ~/.default-npm-package ] ; then
+    rm ~/.default-npm-package
+  fi
+  ln -s "${PWD}/default-npm-package"  ~/.default-npm-package
   asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
   asdf install nodejs latest
   asdf global nodejs latest
-  npm install -g neovim
 }
 
 install_golang() {

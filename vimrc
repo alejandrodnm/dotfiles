@@ -116,8 +116,6 @@ Plug 'godlygeek/tabular'  " Autotabs for puppet and markdown table format
 
 call plug#end()
 
-let g:node_host_prog=expand("~/.asdf/installs/nodejs/18.4.0/.npm/bin/neovim-node-host")
-
 " call glaive#Install()
 " Glaive codefmt google_java_executable="java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.15.0-all-deps.jar"
 
@@ -590,6 +588,8 @@ if filereadable("./gradlew")
     let test#java#runner = 'gradletest'
     let test#java#gradletest#executable = './gradlew test --info'
 endif
+
+let g:delve_new_command = 'enew'
 
 function! DebugNearest()
   let g:test#go#runner = 'delve'
