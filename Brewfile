@@ -51,6 +51,8 @@ brew "readline"
 brew "zlib"
 brew "curl"
 brew "ossp-uuid"
+brew "fd"
+brew "dasht"
 # END Needed for asdf postgres
 cask "spotify"
 cask "slack"

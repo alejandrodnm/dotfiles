@@ -18,8 +18,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plug 'scrooloose/nerdtree'  " File system explorer
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ryanoasis/vim-devicons'
-Plug 'preservim/tagbar'  " classes and methods list
 Plug 'tpope/vim-fugitive'  " Git support
 Plug 'tpope/vim-rhubarb' "GBrowse support
 Plug 'tpope/vim-endwise'
@@ -37,6 +37,7 @@ Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
 Plug 'jamessan/vim-gnupg'
 Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'sunaku/vim-dasht'
 
 " (The latter must be installed before it can be used.)
 " Plug 'google/vim-maktaba'
@@ -44,15 +45,30 @@ Plug 'nvim-treesitter/nvim-treesitter-context'
 " `:help :Glaive` for usage.
 " Plug 'google/vim-glaive'
 
-" LSP
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Autocomplete
-" Plug 'neovim/nvim-lspconfig'
-Plug 'neoclide/coc.nvim', {
-      \'branch': 'release'
-      \}
-" Plug 'honza/vim-snippets'
+" LSP Support
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+
+" Autocompletion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+
+"  Snippets
+Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
+
+Plug 'VonHeikemen/lsp-zero.nvim'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+
 Plug 'simnalamburt/vim-mundo' " undo visualization
 
+Plug 'simrat39/symbols-outline.nvim'
 " Debugger
 " Plug 'mfussenegger/nvim-dap' " debugger
 " Plug 'theHamsta/nvim-dap-virtual-text'
@@ -90,11 +106,6 @@ Plug 'sebdah/vim-delve'
 
 " Elixir
 " Plug 'elixir-editors/vim-elixir'
-" Get the latest elixir-ls release from
-" https://github.com/elixir-lsp/elixir-ls/releases and unzip it into
-" ~/.vim/plugged/coc-elixir/els-release (unzip elixir-ls.zip -d
-" ~/.vim/plugged/coc-elixir/els-release).
-" Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 Plug 'mhinz/vim-mix-format'
 " Haskell
@@ -115,6 +126,34 @@ Plug 'godlygeek/tabular'  " Autotabs for puppet and markdown table format
 " Plug 'lervag/vimtex'  " Support for latex files and projects
 
 call plug#end()
+
+lua <<EOF
+local lsp = require('lsp-zero')
+
+lsp.preset('recommended')
+lsp.setup()
+lsp.on_attach(function(client, bufnr)
+  local map = function(mode, lhs, rhs)
+    local opts = {remap = false, buffer = bufnr}
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+
+  -- LSP actions
+  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  map('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  map('n', '<Leader>lD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  map('n', '<Leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  map('n', '<Leader>ln', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  map('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  map('x', '<Leader>la', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+
+  -- Diagnostics
+  map('n', '<Leader>ld', '<cmd>lua vim.diagnostic.open_float()<cr>')
+  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+end)
+EOF
 
 " call glaive#Install()
 " Glaive codefmt google_java_executable="java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.15.0-all-deps.jar"
@@ -340,74 +379,10 @@ aug END
 set updatetime=100 " reduce the time to make signs appear
 
 "" Search modified git files
-nmap <Leader>gf :GFiles?<CR>
+nmap <Leader>gf <cmd>lua require('telescope.builtin').git_status()<cr>
 
 " Tagbar
-let g:tagbar_left=1
-let g:tagbar_autofocus=1
-let g:tagbar_autoclose=1
-let g:tagbar_foldlevel=0
-nmap <Leader>tb :TagbarToggle<CR>
-let g:tagbar_type_elixir = {
-    \ 'ctagstype' : 'elixir',
-    \ 'kinds' : [
-        \ 'f:functions',
-        \ 'functions:functions',
-        \ 'c:callbacks',
-        \ 'd:delegates',
-        \ 'e:exceptions',
-        \ 'i:implementations',
-        \ 'a:macros',
-        \ 'o:operators',
-        \ 'm:modules',
-        \ 'p:protocols',
-        \ 'r:records',
-        \ 't:tests'
-    \ ]
-\ }
-
-let g:tagbar_type_haskell = {
-  \ 'ctagsbin'    : 'hasktags',
-  \ 'ctagsargs'   : '-x -c -o-',
-  \ 'kinds'       : [
-      \  'm:modules:0:1',
-      \  'd:data:0:1',
-      \  'd_gadt:data gadt:0:1',
-      \  'nt:newtype:0:1',
-      \  'c:classes:0:1',
-      \  'i:instances:0:1',
-      \  'cons:constructors:0:1',
-      \  'c_gadt:constructor gadt:0:1',
-      \  'c_a:constructor accessors:1:1',
-      \  't:type names:0:1',
-      \  'pt:pattern types:0:1',
-      \  'pi:pattern implementations:0:1',
-      \  'ft:function types:0:1',
-      \  'fi:function implementations:0:1',
-      \  'o:others:0:1'
-  \ ],
-  \ 'sro'          : '.',
-  \ 'kind2scope'   : {
-      \ 'm'        : 'module',
-      \ 'd'        : 'data',
-      \ 'd_gadt'   : 'd_gadt',
-      \ 'c_gadt'   : 'c_gadt',
-      \ 'nt'       : 'newtype',
-      \ 'cons'     : 'cons',
-      \ 'c_a'      : 'accessor',
-      \ 'c'        : 'class',
-      \ 'i'        : 'instance'
-  \ },
-  \ 'scope2kind'   : {
-      \ 'module'   : 'm',
-      \ 'data'     : 'd',
-      \ 'newtype'  : 'nt',
-      \ 'cons'     : 'c_a',
-      \ 'd_gadt'   : 'c_gadt',
-      \ 'class'    : 'ft',
-      \ 'instance' : 'ft'
-  \ }
-\ }
+nmap <Leader>tb :SymbolsOutline	<CR>
 
 " Gutentags
 let g:gutentags_project_root = ['node_modules']
@@ -519,16 +494,16 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
-aug adn_fzf
-  " Search
-  cnoreabbrev Ack Ack!
-  "" word under cursor
-  nnoremap <Leader>a :Ack!<CR>
-  nnoremap <Leader>s :Rg<CR>
-  nnoremap <Leader>f :Files<CR>
-  nnoremap <Leader>b :Buffers<CR>
-  "" set :/ into :Ack!
-  cnoreabbrev <expr> / ((getcmdtype() is# ':' && getcmdline() is# '/')?('Ack!'):('/'))
+aug adn_telescope
+  nnoremap <Leader>f <cmd>Telescope find_files<cr>
+  nnoremap <Leader>b <cmd>Telescope buffers<cr>
+  nnoremap <leader>lw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+  nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
+  nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
+  nnoremap <Leader>a <cmd>Telescope grep_string<cr>
+  nnoremap <Leader>s <cmd>Telescope live_grep<cr>
+  nnoremap <Leader>u <cmd>Telescope current_buffer_fuzzy_find<cr>
+  nnoremap z= <cmd>Telescope spell_suggest<cr>
 aug END
 
 " --column: Show column number
@@ -549,39 +524,6 @@ command! -nargs=* Rg
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
   \   1,
   \   {'options': '--delimiter : --nth 2..'})
-
-" coc-nvim
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" This has issues with endwise mapping of CR see https://github.com/tpope/vim-endwise/issues/109
-let g:endwise_no_mappings = v:true
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <Plug>CustomCocCR pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-imap <CR> <Plug>CustomCocCR<Plug>DiscretionaryEnd
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR :call  CocAction('runCommand', 'editor.action.organizeImport')
-command! -nargs=0 Format :call CocAction('format')
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
 
 " vim-test
 if filereadable("./gradlew")
@@ -610,73 +552,8 @@ aug adn_vim_test
   nmap <leader>xgc :DlvClearAll<CR>
 aug END
 
-" Remap key
-aug adn_coc
-  au!
-  let g:coc_start_at_startup = 1
-  " autocmd VimEnter * CocStart
-  nmap <silent>[d <Plug>(coc-diagnostic-prev)
-  nmap <silent>]d <Plug>(coc-diagnostic-next)
-  nmap <C-]> <Plug>(coc-definition)
-  nmap <leader>lt <Plug>(coc-type-definition)
-  nmap <leader>li <Plug>(coc-implementation)
-  nmap <leader>lr <Plug>(coc-references-used)
-  nmap <leader>ln <Plug>(coc-rename)
-  nmap <leader>la  <Plug>(coc-codeaction-line)
-  xmap <leader>la  <Plug>(coc-codeaction-selected)
-  nmap <leader>le <Plug>(coc-codelens-action)
-  " Fix autofix problem of current line
-  nmap <leader>lf  <Plug>(coc-fix-current)
-
-  " Use K to show documentation in preview window
-  nnoremap <silent>K :call <SID>show_documentation()<CR>
-
-  " Highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-
-  " Using CocList
-  " Show snippets
-  nnoremap <silent> <leader>lls :<C-u>CocList snippets<cr>
-  " Show all diagnostics
-  nnoremap <silent> <leader>lld :<C-u>CocList diagnostics<cr>
-  " Show commands
-  nnoremap <silent> <leader>llc :<C-u>CocList commands<cr>
-  " Find symbol of current document
-  nnoremap <silent> <leader>ly :<C-u>CocList outline<cr>
-  " Search workspace symbols
-  nnoremap <silent> <leader>lw :<C-u>CocList -I symbols<cr>
-  " Do default action for next item.
-  nnoremap <silent> <leader>lln :<C-u>CocNext<CR>
-  " Do default action for previous item.
-  nnoremap <silent> <leader>llp :<C-u>CocPrev<CR>
-  " Resume latest coc list
-  nnoremap <silent> <leader>lll :<C-u>CocListResume<CR>
-
-  xmap <leader>lp  <Plug>(coc-format-selected)
-  nmap <leader>lp <Plug>(coc-format)
-
-  " Use <C-l> for trigger snippet expand.
-  imap <C-l> <Plug>(coc-snippets-expand)
-  " Use <C-j> for select text for visual placeholder of snippet.
-  vmap <C-j> <Plug>(coc-snippets-select)
-  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-  let g:coc_snippet_next = '<c-j>'
-  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-  let g:coc_snippet_prev = '<c-k>'
-  " Use <C-j> for both expand and jump (make expand higher priority.)
-  imap <C-j> <Plug>(coc-snippets-expand-jump)
-aug END
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Isort
-let g:vim_isort_python_version = 'python3'
+" Python Isort
+" let g:vim_isort_python_version = 'python3'
 
 " Alchemist
 let g:alchemist#elixir_erlang_src = '/Users/adonascimento/dev/third_party/elixir_erlang_src'
@@ -711,7 +588,6 @@ aug adn_vimspector
   nmap <leader>ii <Plug>VimspectorStepInto
   nmap <leader>iu <Plug>VimspectorStepOut
   nmap <leader>it <Plug>VimspectorRunToCursor
-  nmap <leader>ij :CocCommand java.debug.vimspector.start<CR>
 aug END
 
 aug adn_plugins
