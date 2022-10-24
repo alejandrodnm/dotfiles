@@ -15,7 +15,16 @@ main() {
   install_golang
   install_postgres
   install_rust
+  install_navi
 }
+
+install_navi() {
+  if [ -e ~/Library/Application\ Support/navi/cheats/adn.cheat ] || [ -L ~/Library/Application\ Support/navi/cheats/adn.cheat ] ; then
+    rm ~/Library/Application\ Support/navi/cheats/adn.cheat
+  fi
+  ln -s "${PWD}/adn-navi.cheat" ~/Library/Application\ Support/navi/cheats/adn.cheat
+}
+ln -s /Users/adn/dev/adn/dotfiles/adn-navi.cheat /Users/adn/Library/Application\ Support/navi/cheats/adn.cheat
 
 install_kitty() {
   if [ -e ~/.config/kitty/kitty.conf ] || [ -L ~/.config/kitty/kitty.conf ] ; then

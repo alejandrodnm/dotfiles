@@ -1,6 +1,6 @@
 [user]
-	name = Alejandro Do Nascimento
-	signingkey = 5F265C17310EB1D9
+	name = Alejandro Do Nascimento Mora
+	signingkey = 569D9E72A32FFF6D
 	email = alejandrodnm@gmail.com
 [url "git@github.com:"]
 	insteadOf = https://github.com
@@ -29,7 +29,7 @@
 [url "git@source.datanerd.us:"]
 	insteadOf = https://source.datanerd.us/
 [core]
-	excludesfile = /Users/adonascimento/.gitignore_global
+	excludesfile = /Users/adn/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [pull]
 	rebase = false
@@ -52,3 +52,10 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[commit]
+	gpgsign = true

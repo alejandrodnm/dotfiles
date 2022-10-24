@@ -12,7 +12,7 @@ Plug 'jdkanani/vim-material-theme'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Experimental syntax
 
 Plug 'liuchengxu/vim-which-key' " leader key suggestions
-Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-peekaboo' " show \" and @ register content
 Plug 'vim-test/vim-test'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
@@ -37,7 +37,6 @@ Plug 'szw/vim-maximizer'
 Plug 'Yggdroot/indentLine'
 Plug 'jamessan/vim-gnupg'
 Plug 'nvim-treesitter/nvim-treesitter-context'
-Plug 'sunaku/vim-dasht'
 
 " (The latter must be installed before it can be used.)
 " Plug 'google/vim-maktaba'
@@ -47,7 +46,8 @@ Plug 'sunaku/vim-dasht'
 
 " LSP Support
 Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 
 " Autocompletion
 Plug 'hrsh7th/nvim-cmp'
@@ -65,10 +65,21 @@ Plug 'VonHeikemen/lsp-zero.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+Plug 'folke/trouble.nvim'
+
+" Formatter and linters
+Plug 'jose-elias-alvarez/null-ls.nvim'
+" Debugger
+Plug 'mfussenegger/nvim-dap'
+
+Plug 'mrjones2014/dash.nvim', { 'do': 'make install' } " search Dash from telescope
 
 Plug 'simnalamburt/vim-mundo' " undo visualization
 
-Plug 'simrat39/symbols-outline.nvim'
+
+Plug 'simrat39/symbols-outline.nvim' " lsp symbols window
 " Debugger
 " Plug 'mfussenegger/nvim-dap' " debugger
 " Plug 'theHamsta/nvim-dap-virtual-text'
@@ -79,8 +90,8 @@ Plug 'simrat39/symbols-outline.nvim'
 
 " GO
 " Plug 'zchee/deoplete-go', { 'do': 'make' }
-Plug 'fatih/vim-go'
-Plug 'sebdah/vim-delve'
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'sebdah/vim-delve', { 'for': 'go' }
 
 " Python
 " Plug 'fisadev/vim-isort'  " Python imports
@@ -107,31 +118,32 @@ Plug 'sebdah/vim-delve'
 " Elixir
 " Plug 'elixir-editors/vim-elixir'
 
-Plug 'mhinz/vim-mix-format'
+Plug 'mhinz/vim-mix-format', { 'for': 'elixir' }
 " Haskell
 " Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 " Plug 'neovimhaskell/haskell-vim'
 
-Plug 'plasticboy/vim-markdown'
-Plug 'exu/pgsql.vim'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
-Plug 'rust-lang/rust.vim'
+Plug 'exu/pgsql.vim', { 'for': 'sql' }
 
-Plug 'godlygeek/tabular'  " Autotabs for puppet and markdown table format
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+Plug 'godlygeek/tabular', { 'for': ['puppet', 'markdown'] }  " Autotabs for puppet and markdown table format
 
 " Plug 'hashivim/vim-terraform'
 " Plug 'rodjek/vim-puppet'
 " Plug 'raichoo/purescript-vim'
 " Plug 'jalvesaq/Nvim-R'
-" Plug 'lervag/vimtex'  " Support for latex files and projects
-
+" Plug 'lervag/vimtex', { 'for': 'latex' }  " Support for latex files and projects
 call plug#end()
 
 lua <<EOF
 local lsp = require('lsp-zero')
-
 lsp.preset('recommended')
 lsp.setup()
+
 lsp.on_attach(function(client, bufnr)
   local map = function(mode, lhs, rhs)
     local opts = {remap = false, buffer = bufnr}
@@ -147,12 +159,46 @@ lsp.on_attach(function(client, bufnr)
   map('n', '<Leader>ln', '<cmd>lua vim.lsp.buf.rename()<cr>')
   map('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>')
   map('x', '<Leader>la', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+  map('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.format()<cr>')
 
   -- Diagnostics
-  map('n', '<Leader>ld', '<cmd>lua vim.diagnostic.open_float()<cr>')
+  map('n', '<Leader>ld', '<cmd>TroubleToggle<cr>')
   map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
   map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 end)
+
+require('telescope').setup({
+  pickers = {
+    lsp_references = { show_line = false },
+    lsp_implementations = { show_line = false },
+  },
+})
+
+require('telescope').load_extension('fzf')
+
+require("symbols-outline").setup()
+
+require("trouble").setup{}
+
+require("null-ls").setup({
+	debug = true,
+  sources = {
+    require("null-ls").builtins.diagnostics.golangci_lint.with({
+      -- This removes the --fast argument
+      args = {
+          "run",
+          "--fix=false",
+          "--out-format=json",
+          "$DIRNAME",
+          "--path-prefix",
+          "$ROOT",
+      },
+    }),
+    require("null-ls").builtins.formatting.sqlfluff.with({
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    }),
+  },
+})
 EOF
 
 " call glaive#Install()
@@ -217,6 +263,15 @@ aug adn_standard
 
   " Replace \n with enter
   nnoremap <Leader>n :'<,'>s/\\n/^M/g
+
+  " Jumps and zz
+  nnoremap <C-o> <C-o>zz
+  nnoremap <C-i> <C-i>zz
+  nnoremap {{ {{zz
+  nnoremap }} }}zz
+  nnoremap [[ [[zz
+  nnoremap ]] ]]zz
+
 aug END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -382,7 +437,7 @@ set updatetime=100 " reduce the time to make signs appear
 nmap <Leader>gf <cmd>lua require('telescope.builtin').git_status()<cr>
 
 " Tagbar
-nmap <Leader>tb :SymbolsOutline	<CR>
+nmap <Leader>tb :SymbolsOutline<CR>
 
 " Gutentags
 let g:gutentags_project_root = ['node_modules']
@@ -469,7 +524,7 @@ let g:NERDCreateDefaultMappings = 0
 map <leader>/ <plug>NERDCommenterToggle
 
 " JSON FORMAT
-nmap <Leader>j :%!python -m json.tool<CR>
+nmap <Leader>j :%!python3 -m json.tool<CR>
 
 " Vimtex
 " `neovim-remote` implements the |--remote| used for feedback
@@ -498,11 +553,13 @@ aug adn_telescope
   nnoremap <Leader>f <cmd>Telescope find_files<cr>
   nnoremap <Leader>b <cmd>Telescope buffers<cr>
   nnoremap <leader>lw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+  nnoremap <leader>ls <cmd>Telescope lsp_document_symbols<cr>
   nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
   nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
   nnoremap <Leader>a <cmd>Telescope grep_string<cr>
   nnoremap <Leader>s <cmd>Telescope live_grep<cr>
   nnoremap <Leader>u <cmd>Telescope current_buffer_fuzzy_find<cr>
+  nnoremap <Leader>d <cmd>lua require('dash.providers.telescope').dash({ bang = false, initial_text = '' })<cr>
   nnoremap z= <cmd>Telescope spell_suggest<cr>
 aug END
 
@@ -531,8 +588,7 @@ if filereadable("./gradlew")
     let test#java#gradletest#executable = './gradlew test --info'
 endif
 
-let g:delve_new_command = 'enew'
-
+let g:delve_new_command = 'tabnew'
 function! DebugNearest()
   let g:test#go#runner = 'delve'
   TestNearest

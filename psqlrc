@@ -5,14 +5,6 @@
 \set QUIET 1
 \pset null ∅
 
--- http://www.postgresql.org/docs/latest/static/app-psql.html#APP-PSQL-PROMPTING
--- \set PROMPT1 ' '
-\set PROMPT1 '%001%[%033[36m%]%002%/@%m%001%[%033[35m%]%002 %x#%001%[%033[0m%]%002 '
-
--- PROMPT2 is printed when the prompt expects more input, like when you type
--- SELECT * FROM<enter>. %R shows what type of input it expects.
-\set PROMPT2 '%R %x> '
-
 -- Show how long each query takes to execute
 \timing
 

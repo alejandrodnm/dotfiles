@@ -1,0 +1,25 @@
+% k8s, secret
+
+# Copy to clipboard the value of a kubernetes secret
+kubectl get secret --namespace=<namespace> <secretName>  -o jsonpath='{.data.<key>}' | base64 -D | pbcopy
+
+$ namespace: kubectl get namespace --- --column 1 --header-lines 1
+$ secretName: kubectl get secret --- --column 1 --header-lines 1
+
+% tobs, k8s, grafana, secret
+
+# Copy to clipboard passwword for tobs grafana admin
+kubectl get secret --namespace=bench tobs-grafana -o jsonpath='{.data.admin-password}' | base64 -D | pbcopy
+
+% wget
+
+# wget to stdout
+wget -q -O -
+
+% docker
+
+# Run a container that exposes a port
+
+docker run --rm -p 8080:<port> <image>
+
+$ image: docker images --- --header-lines 1 --map "awk '{print $1\":\"$2}'"

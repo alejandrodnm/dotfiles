@@ -3,6 +3,8 @@ export HOMEBREW_CELLAR=/opt/homebrew/Cellar
 export HOMEBREW_REPOSITORY=/opt/homebrew
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
+eval "$(navi widget zsh)"
+
 # Needed to solve conflict with fzf and zsh-vi-mode with ctrl-r
 ZVM_INIT_MODE=sourcing
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
@@ -40,13 +42,18 @@ alias cat='bat'
 alias sed=gsed
 
 # Postgres
-alias pg_start="/Users/adn/.asdf/installs/postgres/14.4/bin/pg_ctl -D /Users/adn/.asdf/installs/postgres/14.4/data -l logfile start"
-alias pg_restart="/Users/adn/.asdf/installs/postgres/14.4/bin/pg_ctl -D /Users/adn/.asdf/installs/postgres/14.4/data -l logfile restart"
-alias pg_stop="/Users/adn/.asdf/installs/postgres/14.4/bin/pg_ctl -D /Users/adn/.asdf/installs/postgres/14.4/data -l logfile stop"
+alias pg_start="brew services start postgresql@14"
+alias pg_restart="brew services restart postgresql@14"
+alias pg_stop="brew services stop postgresql@14"
+alias pg_logs_tail="tail -f /opt/homebrew/var/postgresql@14/log/postgresql.csv"
+alias pg_logs_cat="cat /opt/homebrew/var/postgresql@14/log/postgresql.csv"
+alias psqlp="psql -U promscale -d promscale"
+alias pgclip="pgcli -U promscale -d promscale"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
 alias g='git'
+alias gb='git branch --sort=-committerdate'
 alias gbd='git branch -D'
 alias ga='git add -A -v'
 alias gau='git add -u -v'
