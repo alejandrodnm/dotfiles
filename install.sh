@@ -114,11 +114,16 @@ install_zsh() {
 install_vim() {
   echo "Configuring neovim"
 
-  mkdir -p ~/.config/nvim
+  mkdir -p ~/.config/nvim/lua/usermod/
   if [ -e ~/.config/nvim/init.vim ] || [ -L ~/.config/nvim/init.vim ] ; then
     rm ~/.config/nvim/init.vim
   fi
   ln -s "${PWD}/vimrc"  ~/.config/nvim/init.vim
+  if [ -e ~/.config/nvim/lua/usermod/settings.lua ] || [ -L ~/.config/nvim/lua/usermod/settings.lua ] ; then
+    rm ~/.config/nvim/lua/usermod/settings.lua
+  fi
+  ln -s "${PWD}/nvim.usermod.settings.lua"  ~/.config/nvim/lua/usermod/settings.lua
+
   if [ -e ~/.ctags ] || [ -L ~/.ctags ] ; then
     rm ~/.ctags
   fi

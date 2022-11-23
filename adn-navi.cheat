@@ -4,7 +4,8 @@
 kubectl get secret --namespace=<namespace> <secretName>  -o jsonpath='{.data.<key>}' | base64 -D | pbcopy
 
 $ namespace: kubectl get namespace --- --column 1 --header-lines 1
-$ secretName: kubectl get secret --- --column 1 --header-lines 1
+$ secretName: kubectl get secret --namespace=<namespace> --- --column 1 --header-lines 1
+$ key: kubectl get secret <secretName> --namespace <namespace> -o jsonpath='{.data}' | jq  -r '. | keys[] '
 
 % tobs, k8s, grafana, secret
 
@@ -23,3 +24,55 @@ wget -q -O -
 docker run --rm -p 8080:<port> <image>
 
 $ image: docker images --- --header-lines 1 --map "awk '{print $1\":\"$2}'"
+
+% docker
+
+# Kill a container
+
+docker kill <container>
+
+$ container: docker ps --- --header-lines 1 --column 1
+
+% aws, bcc, ebpf
+
+# Install BCC tools in Amazon Linux 2
+
+echo "sudo amazon-linux-extras install BCC" | pbcopy
+
+% k8s, node, pod
+
+# Get Node where Pod is running
+
+kubectl get pod <pod> --namespace <namespace> -o=custom-columns=NAME:.metadata.name,NODE:.spec.nodeName
+
+$ namespace: kubectl get namespace --- --header-lines 1 --column 1
+$ pod: kubectl get pod --namespace=<namespace> --- --header-lines 1 --column 1
+
+% k8s, node, timescale, ssh
+
+# ssh into timescale node
+
+sshTS <dnsName>
+
+$ nodeName: kubectl get pod tobs-timescaledb-0 --namespace bench -o=custom-columns=NODE:.spec.nodeName --no-headers
+$ instanceId: kubectl get node <nodeName> -o=custom-columns=NODE:".metadata.annotations.csi\.volume\.kubernetes\.io/nodeid" --no-headers | jq -r '."ebs.csi.aws.com"'
+$ dnsName: aws ec2 describe-instances --instance-ids=<instanceId> | jq -r '..|."PublicDnsName"? | select(. != null) ' | head -n 1
+
+# One liner:
+# ssh ec2-user@$(aws ec2 describe-instances --instance-ids=$(kubectl get node $(kubectl get pod tobs-timescaledb-0 --namespace bench -o=custom-columns=NODE:.spec.nodeName --no-headers) -o=custom-columns=NODE:".metadata.annotations.csi\.volume\.kubernetes\.io/nodeid" --no-headers | jq -r '."ebs.csi.aws.com"') | jq -r '..|."PublicDnsName"? | select(. != null) ' | head -n 1)
+
+% timescale, scp
+
+# scp ~/*.txt files from timescale node
+
+scp ec2-user@<dnsName>:\*.txt .
+
+$ nodeName: kubectl get pod tobs-timescaledb-0 --namespace bench -o=custom-columns=NODE:.spec.nodeName --no-headers
+$ instanceId: kubectl get node <nodeName> -o=custom-columns=NODE:".metadata.annotations.csi\.volume\.kubernetes\.io/nodeid" --no-headers | jq -r '."ebs.csi.aws.com"'
+$ dnsName: aws ec2 describe-instances --instance-ids=<instanceId> | jq -r '..|."PublicDnsName"? | select(. != null) ' | head -n 1
+
+% benchmark
+
+# Copy command to donwload benchmarkstats.sh
+
+echo "sudo su\nwget https://gist.githubusercontent.com/alejandrodnm/e3ec3433f38186a4c54bbc01bbd34fcc/raw/a36b1022241266a75eb0a5edd9069cf882fa30cf/benchmarkstats.sh\nchmod +x benchmarkstats.sh\n./benchmarkstats.sh -i" | pbcopy

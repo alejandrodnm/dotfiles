@@ -18,8 +18,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'  " Comment blocks of codes
 Plug 'scrooloose/nerdtree'  " File system explorer
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ryanoasis/vim-devicons'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'tpope/vim-fugitive'  " Git support
 Plug 'tpope/vim-rhubarb' "GBrowse support
 Plug 'tpope/vim-endwise'
@@ -78,7 +79,6 @@ Plug 'mrjones2014/dash.nvim', { 'do': 'make install' } " search Dash from telesc
 
 Plug 'simnalamburt/vim-mundo' " undo visualization
 
-
 Plug 'simrat39/symbols-outline.nvim' " lsp symbols window
 " Debugger
 " Plug 'mfussenegger/nvim-dap' " debugger
@@ -91,7 +91,7 @@ Plug 'simrat39/symbols-outline.nvim' " lsp symbols window
 " GO
 " Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'sebdah/vim-delve', { 'for': 'go' }
+Plug 'alejandrodnm/vim-delve', { 'for': 'go' }
 
 " Python
 " Plug 'fisadev/vim-isort'  " Python imports
@@ -140,65 +140,7 @@ Plug 'godlygeek/tabular', { 'for': ['puppet', 'markdown'] }  " Autotabs for pupp
 call plug#end()
 
 lua <<EOF
-local lsp = require('lsp-zero')
-lsp.preset('recommended')
-lsp.setup()
-
-lsp.on_attach(function(client, bufnr)
-  local map = function(mode, lhs, rhs)
-    local opts = {remap = false, buffer = bufnr}
-    vim.keymap.set(mode, lhs, rhs, opts)
-  end
-
-  -- LSP actions
-  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
-  map('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<cr>')
-  map('n', '<Leader>lD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
-  map('n', '<Leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-  map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
-  map('n', '<Leader>ln', '<cmd>lua vim.lsp.buf.rename()<cr>')
-  map('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-  map('x', '<Leader>la', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
-  map('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.format()<cr>')
-
-  -- Diagnostics
-  map('n', '<Leader>ld', '<cmd>TroubleToggle<cr>')
-  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-end)
-
-require('telescope').setup({
-  pickers = {
-    lsp_references = { show_line = false },
-    lsp_implementations = { show_line = false },
-  },
-})
-
-require('telescope').load_extension('fzf')
-
-require("symbols-outline").setup()
-
-require("trouble").setup{}
-
-require("null-ls").setup({
-	debug = true,
-  sources = {
-    require("null-ls").builtins.diagnostics.golangci_lint.with({
-      -- This removes the --fast argument
-      args = {
-          "run",
-          "--fix=false",
-          "--out-format=json",
-          "$DIRNAME",
-          "--path-prefix",
-          "$ROOT",
-      },
-    }),
-    require("null-ls").builtins.formatting.sqlfluff.with({
-      extra_args = { "--dialect", "postgres" }, -- change to your dialect
-    }),
-  },
-})
+require('usermod.settings')
 EOF
 
 " call glaive#Install()
@@ -407,6 +349,7 @@ let g:sql_type_default = 'pgsql'
 
 " Git
 "" Fugitive
+command -nargs=1 Browse silent exe '!xdg-open ' . "<args>"
 aug adn_fugitive
   au!
   nmap <Leader>gs :Git<CR>
