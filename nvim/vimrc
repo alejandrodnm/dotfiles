@@ -5,81 +5,52 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 endif
 
 lua <<EOF
-require('usermod.settings')
+require('usermod')
 EOF
 
-" call glaive#Install()
-" Glaive codefmt google_java_executable="java --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/adonascimento/dev/third_party/google-java-format/google-java-format-1.15.0-all-deps.jar"
+" Insert space in normal mode
+nnoremap <Space> i<Space><Right><Esc>
 
-let g:terraform_fmt_on_save=1
-let g:terraform_align=1
+" Quit
+nnoremap <Leader>q :quit<CR>
+nnoremap <Leader>k :bdelete<CR>
+" Only
+nnoremap <Leader>o :only<CR>
 
-" Use pl for prolog and not perl
-let g:filetype_pl="prolog"
+" Move to first character
+nnoremap <C-l> $
+" Move to last character
+nnoremap <C-h> ^
 
-"Change the <leader> key to comma instead of \ "
-let mapleader=","
-nnoremap <silent> <leader> :WhichKey ','<CR>
-let maplocalleader="\\"
-nnoremap <silent> <localleader> :WhichKey '\\'<CR>
+" Move to first character
+nnoremap <C-j> <C-e>
+" Move to last character
+nnoremap <C-k> <C-y>
 
-set noswapfile
-set nobackup
-set nowritebackup
-set hidden
+" Close lists
+nnoremap <Leader>c :lclose <bar> cclose <bar> pclose <bar> NERDTreeClose <CR>
 
-" Maintain undo history between sessions
-set undofile
-set undodir=~/.local/share/nvim/undodir/
+" Paste from 0 register
+nnoremap <Leader>p "0p<CR>
+vnoremap <Leader>p "0p<CR>
 
-filetype plugin indent on
-aug adn_standard
-  au!
-  " Insert space in normal mode
-  nnoremap <Space> i<Space><Right><Esc>
+" sudo save
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
-  " Quit
-  nnoremap <Leader>q :quit<CR>
-  nnoremap <Leader>k :bdelete<CR>
-  " Only
-  nnoremap <Leader>o :only<CR>
+" Tabs
+nnoremap <Leader>tt :$tabnew<CR>
+nnoremap <Leader>tc :tabclose<CR>
 
-  " Move to first character
-  nnoremap <C-l> $
-  " Move to last character
-  nnoremap <C-h> ^
+" Replace \n with enter
+nnoremap <Leader>n :'<,'>s/\\n/^M/g
 
-  " Move to first character
-  nnoremap <C-j> <C-e>
-  " Move to last character
-  nnoremap <C-k> <C-y>
-
-  " Close lists
-  nnoremap <Leader>c :lclose <bar> cclose <bar> pclose <bar> NERDTreeClose <CR>
-
-  " Paste from 0 register
-  nnoremap <Leader>p "0p<CR>
-  vnoremap <Leader>p "0p<CR>
-
-  " sudo save
-  cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-  " Tabs
-  nnoremap <Leader>tt :$tabnew<CR>
-  nnoremap <Leader>tc :tabclose<CR>
-
-  " Replace \n with enter
-  nnoremap <Leader>n :'<,'>s/\\n/^M/g
-
-  " Jumps and zz
-  nnoremap <C-o> <C-o>zz
-  nnoremap <C-i> <C-i>zz
-  nnoremap {{ {{zz
-  nnoremap }} }}zz
-  nnoremap [[ [[zz
-  nnoremap ]] ]]zz
-
-aug END
+" Jumps and zz
+nnoremap <C-o> <C-o>zz
+nnoremap <C-i> <C-i>zz
+nnoremap {{ {{zz
+nnoremap }} }}zz
+nnoremap [[ [[zz
+nnoremap ]] ]]zz
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -103,14 +74,7 @@ highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
 " CURSOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Copy to both clipboards at the same time
-" set clipboard=unnamed
 set timeoutlen=500 ttimeoutlen=0 " for esc delay
-
-" Change cursor on insert Gnome
-" let &t_SI = \"\<Esc>[6 q"
-" let &t_SR = \"\<Esc>[4 q"
-" let &t_EI = \"\<Esc>[2 q"
 
 " Copy to clipboard requires clipboard provider. Try :CheckHealth
 set clipboard+=unnamedplus
@@ -119,14 +83,9 @@ set clipboard+=unnamedplus
 " Text, tab and indent related
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-autocmd Filetype python,elm,groovy setlocal ts=4 sts=4 sw=4
-autocmd FileType cucumber setl ts=2 sw=2 sts=2 et
-autocmd FileType markdown setl ts=2 sw=2 sts=2 et tw=79
-
 set backspace=2
 " Use spaces instead of tabs
 set expandtab
-" Be smart when using tabs ;)
 set smarttab
 " 1 tab == 2 spaces
 set shiftwidth=2
@@ -154,7 +113,6 @@ set splitright
 
 " Google Java Format
 augroup autoformat_settings
-  autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType javascript,typescript,javascript.jsx,typescript.tsx AutoFormatBuffer prettier
 augroup END
 
@@ -197,11 +155,6 @@ let g:maximizer_set_mapping_with_bang = 1
 let g:nv_search_paths = ['~/dev/adn/notes']
 let g:nv_use_short_pathnames = 1
 
-" Deoplete
-"" Disable keyword completition
-inoremap <C-p> <Nop>
-" nnoremap <Leader>z :call deoplete#toggle()<CR>
-
 "vim-better-whitespace
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
@@ -215,36 +168,30 @@ let g:sql_type_default = 'pgsql'
 " Git
 "" Fugitive
 command -nargs=1 Browse silent exe '!xdg-open ' . "<args>"
-aug adn_fugitive
-  au!
-  nmap <Leader>gs :Git<CR>
-  nmap <Leader>gd :Gvdiffsplit<CR>
-  nmap <Leader>gl :0Gclog<CR>
-  nmap <Leader>gb :Git blame<CR>
-  nmap <Leader>gr :Gread<CR>
-  nmap <Leader>gw :Gwrite<CR>
-  nmap <Leader>gc :Git commit<CR>
-aug END
-let g:github_enterprise_urls = ['https://source.datanerd.us']
+nmap <Leader>gs :Git<CR>
+nmap <Leader>gd :Gvdiffsplit<CR>
+nmap <Leader>gl :0Gclog<CR>
+nmap <Leader>gb :Git blame<CR>
+nmap <Leader>gr :Gread<CR>
+nmap <Leader>gw :Gwrite<CR>
+nmap <Leader>gc :Git commit<CR>
 
 "" GitGutter
 let g:gitgutter_map_keys = 0
-aug adn_gitgutter
-  nmap ]c <Plug>(GitGutterNextHunk)
-  nmap [c <Plug>(GitGutterPrevHunk)
-  nmap <Leader>gg :GitGutterAll<CR>
-  nmap <Leader>ga <Plug>(GitGutterStageHunk)
-  nmap <Leader>gu <Plug>(GitGutterUndoHunk)
-  nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
-  nmap <Leader>gm :Gdiff master <bar> let g:gitgutter_diff_base = master<CR>
-aug END
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap <Leader>gg :GitGutterAll<CR>
+nmap <Leader>ga <Plug>(GitGutterStageHunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+nmap <Leader>gm :Gdiff master <bar> let g:gitgutter_diff_base = master<CR>
 
 set updatetime=100 " reduce the time to make signs appear
 
 "" Search modified git files
 nmap <Leader>gf <cmd>lua require('telescope.builtin').git_status()<cr>
 
-" Tagbar
+" Current buffer symbols
 nmap <Leader>tb :SymbolsOutline<CR>
 
 " Gutentags
@@ -255,13 +202,6 @@ let g:gutentags_cache_dir = "~/.vim/tags/"
 "" stack install gutenhasktags hasktags ghcid stylish-haskell hlint
 let g:gutentags_project_info = [ {'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
-
-" NeoMake
-" let g:neomake_open_list = 2
-" au FileType elixir :call neomake#configure#automake('nrwi', 500)
-" let g:neomake_elixir_enabled_makers = ['credo']
-" let g:neomake_elixir_credo_args = neomake#makers#ft#elixir#credo().args + ['--strict']
-" let g:neomake_python_enabled_makers = ['flake8']
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -304,21 +244,6 @@ require'treesitter-context'.setup { separator = '-' }
 EOF
 nmap <Leader>lh :write <bar> edit <bar> TSBufEnable highlight<CR>
 
-" lua <<EOF
-" require'lspconfig'.jdtls.setup{}
-" EOF
-
-" autocmd Filetype java setlocal omnifunc=v:lua.vim.lsp.omnifunc
-" nnoremap <leader>dd  <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <leader>do     <cmd>lua vim.lsp.buf.hover()<CR>
-" nnoremap <leader>di    <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap <leader>dh <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <leader>dt   <cmd>lua vim.lsp.buf.type_definition()<CR>
-" nnoremap <leader>dr    <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap <leader>ds    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-" nnoremap <leader>dw    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-" nnoremap <leader>de   <cmd>lua vim.lsp.buf.declaration()<CR>
-
 " NERDCommenter
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
@@ -338,15 +263,6 @@ nmap <Leader>j :%!python3 -m json.tool<CR>
 " `neovim-remote` implements the |--remote| used for feedback
 let g:vimtex_latexmk_progname='~/.virtualenvs/neovim-remote/bin/nvr'
 
-" Elm-vim
-" let g:elm_format_autosave = 1
-" let g:elm_setup_keybindings = 0
-" nmap <localleader>et <Plug>(elm-test)
-" nmap <localleader>er <Plug>(elm-repl)
-" nmap <localleader>ee <Plug>(elm-error-detail)
-" nmap <localleader>ed <Plug>(elm-show-docs)
-" nmap <localleader>ew <Plug>(elm-browse-docs)
-
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
 
@@ -357,19 +273,17 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
-aug adn_telescope
-  nnoremap <Leader>f <cmd>Telescope find_files<cr>
-  nnoremap <Leader>b <cmd>Telescope buffers<cr>
-  nnoremap <leader>lw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
-  nnoremap <leader>ls <cmd>Telescope lsp_document_symbols<cr>
-  nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
-  nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
-  nnoremap <Leader>a <cmd>Telescope grep_string<cr>
-  nnoremap <Leader>s <cmd>Telescope live_grep<cr>
-  nnoremap <Leader>u <cmd>Telescope current_buffer_fuzzy_find<cr>
-  nnoremap <Leader>d <cmd>lua require('dash.providers.telescope').dash({ bang = false, initial_text = '' })<cr>
-  nnoremap z= <cmd>Telescope spell_suggest<cr>
-aug END
+nnoremap <Leader>f <cmd>Telescope find_files<cr>
+nnoremap <Leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>lw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+nnoremap <leader>ls <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
+nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
+nnoremap <Leader>a <cmd>Telescope grep_string<cr>
+nnoremap <Leader>s <cmd>Telescope live_grep<cr>
+nnoremap <Leader>u <cmd>Telescope current_buffer_fuzzy_find<cr>
+nnoremap <Leader>d <cmd>lua require('dash.providers.telescope').dash({ bang = false, initial_text = '' })<cr>
+nnoremap z= <cmd>Telescope spell_suggest<cr>
 
 " --column: Show column number
 " --line-number: Show line number
@@ -397,24 +311,21 @@ if filereadable("./gradlew")
 endif
 
 let g:delve_new_command = 'tabnew'
+
 function! DebugNearest()
   let g:test#go#runner = 'delve'
   TestNearest
   unlet g:test#go#runner
 endfunction
 
-aug adn_vim_test
-  au!
-  " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
-  nmap <leader>xn :TestNearest<CR>
-  nmap <leader>xf :TestFile<CR>
-  nmap <leader>xs :TestSuite<CR>
-  nmap <leader>xl :TestLast<CR>
-  nmap <leader>xv :TestVisit<CR>
-  nmap <leader>xg :call DebugNearest()<CR>
-  nmap <leader>xgb :DlvToggleBreakpoint<CR>
-  nmap <leader>xgc :DlvClearAll<CR>
-aug END
+nmap <leader>xn :TestNearest<CR>
+nmap <leader>xf :TestFile<CR>
+nmap <leader>xs :TestSuite<CR>
+nmap <leader>xl :TestLast<CR>
+nmap <leader>xv :TestVisit<CR>
+nmap <leader>xg :call DebugNearest()<CR>
+nmap <leader>xgb :DlvToggleBreakpoint<CR>
+nmap <leader>xgc :DlvClearAll<CR>
 
 " Python Isort
 " let g:vim_isort_python_version = 'python3'
@@ -440,25 +351,20 @@ au FileType go nmap <leader>sd <Plug>(go-doc)
 au FileType go nmap <leader>sp <Plug>(go-channelpeers)
 au FileType go nmap <leader>sc <Plug>(go-callers)
 
-aug adn_vimspector
-  nmap <leader>ic <Plug>VimspectorContinue
-  nmap <leader>is <Plug>VimspectorStop
-  nmap <leader>ir <Plug>VimspectorRestart
-  nmap <leader>ip <Plug>VimspectorPause
-  nmap <leader>ib <Plug>VimspectorToggleBreakpoint
-  nmap <leader>iv <Plug>VimspectorToggleConditionalBreakpoint
-  nmap <leader>if <Plug>VimspectorAddFunctionBreakpoint
-  nmap <leader>io <Plug>VimspectorStepOver
-  nmap <leader>ii <Plug>VimspectorStepInto
-  nmap <leader>iu <Plug>VimspectorStepOut
-  nmap <leader>it <Plug>VimspectorRunToCursor
-aug END
+" nmap <leader>ic <Plug>VimspectorContinue
+" nmap <leader>is <Plug>VimspectorStop
+" nmap <leader>ir <Plug>VimspectorRestart
+" nmap <leader>ip <Plug>VimspectorPause
+" nmap <leader>ib <Plug>VimspectorToggleBreakpoint
+" nmap <leader>iv <Plug>VimspectorToggleConditionalBreakpoint
+" nmap <leader>if <Plug>VimspectorAddFunctionBreakpoint
+" nmap <leader>io <Plug>VimspectorStepOver
+" nmap <leader>ii <Plug>VimspectorStepInto
+" nmap <leader>iu <Plug>VimspectorStepOut
+" nmap <leader>it <Plug>VimspectorRunToCursor
 
-aug adn_plugins
-  au!
-  " Mundo
-  nmap <leader>m :MundoToggle<CR>
-aug END
+" Mundo
+nmap <leader>m :MundoToggle<CR>
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
