@@ -75,7 +75,7 @@ Plug('simrat39/symbols-outline.nvim') -- lsp symbols window
 
 -- GO
 Plug('fatih/vim-go', {['for'] = 'go'})
-Plug('alejandrodnm/vim-delve', {['for'] = 'go'})
+Plug('sebdah/vim-delve', {['for'] = 'go'})
 
 -- Python
 -- Plug 'fisadev/vim-isort'  -- Python imports
@@ -126,6 +126,44 @@ vim.call('plug#end')
 -- vim.g.terraform_fmt_on_save = 1
 -- vim.g.terraform_align = 1
 
+-- Highlight is broken so we have to specified the whole config
+-- https://github.com/simrat39/symbols-outline.nvim/issues/185#issuecomment-1312618041
+require("symbols-outline").setup({
+  symbols = {
+    File = {hl = "@text.uri" },
+    Module = {hl = "@namespace" },
+    Namespace = {hl = "@namespace" },
+    Package = {hl = "@namespace" },
+    Class = {hl = "@type" },
+    Method = {hl = "@method" },
+    Property = {hl = "@method" },
+    Field = {hl = "@field" },
+    Constructor = {hl = "@constructor" },
+    Enum = {hl = "@type" },
+    Interface = {hl = "@type" },
+    Function = {hl = "@function" },
+    Variable = {hl = "@constant" },
+    Constant = {hl = "@constant" },
+    String = {hl = "@string" },
+    Number = {hl = "@number" },
+    Boolean = {hl = "@boolean" },
+    Array = {hl = "@constant" },
+    Object = {hl = "@type" },
+    Key = {hl = "@type" },
+    Null = {hl = "@type" },
+    EnumMember = {hl = "@field" },
+    Struct = {hl = "@type" },
+    Event = {hl = "@type" },
+    Operator = {hl = "@operator" },
+    TypeParameter = {hl = "@parameter" },
+  },
+})
 
--- empty setup using defaults
-require("nvim-tree").setup()
+require('telescope').setup({
+  pickers = {
+    lsp_references = { show_line = false },
+    lsp_implementations = { show_line = false },
+  },
+})
+
+require('telescope').load_extension('fzf')

@@ -17,7 +17,6 @@ vim.o.writebackup = false
 
 -- Maintain undo history between sessions
 vim.o.undofile = true
-vim.o.undodir = '~/.local/share/nvim/undodir/'
 
 vim.cmd('filetype plugin indent on')
 

@@ -12,6 +12,11 @@ $ key: kubectl get secret <secretName> --namespace <namespace> -o jsonpath='{.da
 # Copy to clipboard passwword for tobs grafana admin
 kubectl get secret --namespace=bench tobs-grafana -o jsonpath='{.data.admin-password}' | base64 -D | pbcopy
 
+% tobs, k8s, secret, postgres
+
+# Copy to clipboard passwword for tobs postgres user
+kubectl get secret --namespace=bench tobs-promscale-connection  -o jsonpath='{.data.PROMSCALE_DB_PASSWORD}' | base64 -D | pbcopy
+
 % wget
 
 # wget to stdout
@@ -76,3 +81,12 @@ $ dnsName: aws ec2 describe-instances --instance-ids=<instanceId> | jq -r '..|."
 # Copy command to donwload benchmarkstats.sh
 
 echo "sudo su\nwget https://gist.githubusercontent.com/alejandrodnm/e3ec3433f38186a4c54bbc01bbd34fcc/raw/a36b1022241266a75eb0a5edd9069cf882fa30cf/benchmarkstats.sh\nchmod +x benchmarkstats.sh\n./benchmarkstats.sh -i" | pbcopy
+
+
+% docker, psql
+
+# Copy command to donwload benchmarkstats.sh
+
+docker exec -it <container> psql -d tmp_db_timescale_migrate_test
+
+$ container: docker ps | rg timescale --- --column 1

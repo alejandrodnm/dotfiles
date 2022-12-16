@@ -4,6 +4,7 @@ export HOMEBREW_REPOSITORY=/opt/homebrew
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 eval "$(navi widget zsh)"
+eval "$(zoxide init zsh)"
 
 # Needed to solve conflict with fzf and zsh-vi-mode with ctrl-r
 ZVM_INIT_MODE=sourcing
@@ -37,7 +38,6 @@ plugins=(docker asdf zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
-
 alias cat='bat'
 alias sed=gsed
 
@@ -161,10 +161,6 @@ export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 export ERL_AFLAGS="-kernel shell_history enabled"
 export KERL_BUILD_PLT=yes
 
-# AWS
-# FSI profile
-# export AWS_PROFILE=fsi-provision
-# export AWS_PROFILE=350830678660_NRAdmin
 export AWS_PAGER=bat
 
 # oh-my-zsh
@@ -248,4 +244,3 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig"
-

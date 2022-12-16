@@ -48,17 +48,6 @@ require'lspconfig'.sumneko_lua.setup {
   },
 }
 
-require('telescope').setup({
-  pickers = {
-    lsp_references = { show_line = false },
-    lsp_implementations = { show_line = false },
-  },
-})
-
-require('telescope').load_extension('fzf')
-
-require("symbols-outline").setup()
-
 require("trouble").setup{}
 
 require("null-ls").setup({

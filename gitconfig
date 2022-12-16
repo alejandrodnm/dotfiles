@@ -30,13 +30,15 @@
 	insteadOf = https://source.datanerd.us/
 [core]
 	excludesfile = /Users/adn/.gitignore_global
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	# pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = delta
 [pull]
 	rebase = false
 [rebase]
 	autosquash = true
 [interactive]
-	diffFilter = diff-so-fancy --patch
+	# diffFilter = diff-so-fancy --patch
+  diffFilter = delta --color-only
 [color]
 	ui = true
 [color "diff-highlight"]
@@ -59,3 +61,10 @@
 	smudge = git-lfs smudge -- %f
 [commit]
 	gpgsign = true
+[delta]
+  navigate = true    # use n and N to move between diff sections
+  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+[merge]
+  conflictstyle = diff3
+[diff]
+  colorMoved = default

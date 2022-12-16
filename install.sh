@@ -19,53 +19,52 @@ main() {
 }
 
 install_navi() {
-  if [ -e ~/Library/Application\ Support/navi/cheats/adn.cheat ] || [ -L ~/Library/Application\ Support/navi/cheats/adn.cheat ] ; then
-    rm ~/Library/Application\ Support/navi/cheats/adn.cheat
+  if [ -e "${HOME}/Library/Application Support/navi/cheats/adn.cheat" ] || [ -L "${HOME}/Library/Application Support/navi/cheats/adn.cheat" ] ; then
+    rm "${HOME}/Library/Application Support/navi/cheats/adn.cheat"
   fi
-  ln -s "${PWD}/adn-navi.cheat" ~/Library/Application\ Support/navi/cheats/adn.cheat
+  ln -s "${PWD}/adn-navi.cheat" "${HOME}/Library/Application Support/navi/cheats/adn.cheat"
 }
-ln -s /Users/adn/dev/adn/dotfiles/adn-navi.cheat /Users/adn/Library/Application\ Support/navi/cheats/adn.cheat
 
 install_kitty() {
-  if [ -e ~/.config/kitty/kitty.conf ] || [ -L ~/.config/kitty/kitty.conf ] ; then
-    rm ~/.config/kitty/kitty.conf
+  if [ -e ${HOME}/.config/kitty/kitty.conf ] || [ -L ${HOME}/.config/kitty/kitty.conf ] ; then
+    rm ${HOME}/.config/kitty/kitty.conf
   fi
-  ln -s "${PWD}/kitty.conf" ~/.config/kitty/kitty.conf
+  ln -s "${PWD}/kitty.conf" ${HOME}/.config/kitty/kitty.conf
 }
 
 install_psqlrc() {
   echo "Configuring psqlrc"
-  if [ -e ~/.psqlrc ] || [ -L ~/.psqlrc ] ; then
-    rm ~/.psqlrc
+  if [ -e ${HOME}/.psqlrc ] || [ -L ${HOME}/.psqlrc ] ; then
+    rm ${HOME}/.psqlrc
   fi
-  ln -s "${PWD}/psqlrc" ~/.psqlrc
+  ln -s "${PWD}/psqlrc" ${HOME}/.psqlrc
 }
 
 install_tmux() {
   echo "Configuring tmux"
-  if [ -e ~/.tmux.conf ] || [ -L ~/.tmux.conf ] ; then
-    rm ~/.tmux.conf
+  if [ -e ${HOME}/.tmux.conf ] || [ -L ${HOME}/.tmux.conf ] ; then
+    rm ${HOME}/.tmux.conf
   fi
-  ln -s "${PWD}/tmux.conf" ~/.tmux.conf
+  ln -s "${PWD}/tmux.conf" ${HOME}/.tmux.conf
 
-  if [ -d ~/.tmux/plugins/tpm ] ; then
-    rm -rf ~/.tmux/plugins/tpm
+  if [ -d ${HOME}/.tmux/plugins/tpm ] ; then
+    rm -rf ${HOME}/.tmux/plugins/tpm
   fi
-  mkdir -p ~/.tmux/plugins/
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  ~/.tmux/plugins/tpm/bin/install_plugins
+  mkdir -p ${HOME}/.tmux/plugins/
+  git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+  ${HOME}/.tmux/plugins/tpm/bin/install_plugins
 }
 
 install_git() {
   echo "Configuring git"
-  if [ -e ~/.gitconfig ] || [ -L ~/.gitconfig ] ; then
-    rm ~/.gitconfig
+  if [ -e ${HOME}/.gitconfig ] || [ -L ${HOME}/.gitconfig ] ; then
+    rm ${HOME}/.gitconfig
   fi
-  ln -s "${PWD}/gitconfig" ~/.gitconfig
-  if [ -e ~/.gitignore_global ] || [ -L ~/.gitignore_global ] ; then
-    rm ~/.gitignore_global
+  ln -s "${PWD}/gitconfig" ${HOME}/.gitconfig
+  if [ -e ${HOME}/.gitignore_global ] || [ -L ${HOME}/.gitignore_global ] ; then
+    rm ${HOME}/.gitignore_global
   fi
-  ln -s "${PWD}/gitignore_global" ~/.gitignore_global
+  ln -s "${PWD}/gitignore_global" ${HOME}/.gitignore_global
 }
 
 install_brewfile() {
@@ -77,60 +76,60 @@ install_brewfile() {
 
 install_zsh() {
   echo "Configuring zsh"
-  if [ -e ~/.zshrc ] || [ -L ~/.zshrc ] ; then
-    rm ~/.zshrc
+  if [ -e ${HOME}/.zshrc ] || [ -L ${HOME}/.zshrc ] ; then
+    rm ${HOME}/.zshrc
   fi
-  ln -s "${PWD}/zsh/zshrc" ~/.zshrc
-  if [ ! -d ~/.oh-my-zsh/ ] ; then
+  ln -s "${PWD}/zsh/zshrc" ${HOME}/.zshrc
+  if [ ! -d ${HOME}/.oh-my-zsh/ ] ; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   fi
-  if [ -e ~/.oh-my-zsh/themes/adn.zsh-theme ] || [  -L ~/.oh-my-zsh/themes/adn.zsh-theme ] ; then
-    rm ~/.oh-my-zsh/themes/adn.zsh-theme
+  if [ -e ${HOME}/.oh-my-zsh/themes/adn.zsh-theme ] || [  -L ${HOME}/.oh-my-zsh/themes/adn.zsh-theme ] ; then
+    rm ${HOME}/.oh-my-zsh/themes/adn.zsh-theme
   fi
-  ln -s "${PWD}/zsh/adn.zsh-theme" ~/.oh-my-zsh/themes/adn.zsh-theme
+  ln -s "${PWD}/zsh/adn.zsh-theme" ${HOME}/.oh-my-zsh/themes/adn.zsh-theme
 
-  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions ] ; then
-    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-completions ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-completions
   fi
-  git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+  git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-completions
 
-  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions ] ; then
-    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions
   fi
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions
 
-  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-vi-mode ] ; then
-    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-vi-mode
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-vi-mode ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-vi-mode
   fi
   git clone https://github.com/jeffreytse/zsh-vi-mode \
-    ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-vi-mode
+    ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-vi-mode
 
-  if [ -d ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting ] ; then
-    rm -rf ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
+  if [ -d ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting ] ; then
+    rm -rf ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
   fi
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-${HOME}/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
 }
 
 install_vim() {
   echo "Configuring neovim"
 
-  if [ -e ~/.config/nvim/init.vim ] || [ -L ~/.config/nvim/init.vim ] ; then
-    rm ~/.config/nvim/init.vim
+  if [ -e ${HOME}/.config/nvim/init.vim ] || [ -L ${HOME}/.config/nvim/init.vim ] ; then
+    rm ${HOME}/.config/nvim/init.vim
   fi
-  ln -s "${PWD}/nvim/vimrc"  ~/.config/nvim/init.vim
+  ln -s "${PWD}/nvim/vimrc"  ${HOME}/.config/nvim/init.vim
 
-  mkdir -p ~/.config/nvim/lua/usermod/
-  if [ -d ~/.config/nvim/lua/usermod ] ; then
-    rm -rf ~/.config/nvim/lua/usermod
+  mkdir -p ${HOME}/.config/nvim/lua/usermod/
+  if [ -d ${HOME}/.config/nvim/lua/usermod ] ; then
+    rm -rf ${HOME}/.config/nvim/lua/usermod
   fi
-  ln -s "${PWD}/nvim/usermod"  ~/.config/nvim/lua/usermod
+  ln -s "${PWD}/nvim/usermod"  ${HOME}/.config/nvim/lua/usermod
 
-  if [ -e ~/.ctags ] || [ -L ~/.ctags ] ; then
-    rm ~/.ctags
+  if [ -e ${HOME}/.ctags ] || [ -L ${HOME}/.ctags ] ; then
+    rm ${HOME}/.ctags
   fi
-  ln -s "${PWD}/ctags" ~/.ctags
+  ln -s "${PWD}/ctags" ${HOME}/.ctags
 
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
   nvim +PluginInstall +qall
@@ -138,10 +137,10 @@ install_vim() {
 
 install_node() {
   echo "Installing nodejs"
-  if [ -e ~/.default-npm-package ] || [ -L ~/.default-npm-package ] ; then
-    rm ~/.default-npm-package
+  if [ -e ${HOME}/.default-npm-package ] || [ -L ${HOME}/.default-npm-package ] ; then
+    rm ${HOME}/.default-npm-package
   fi
-  ln -s "${PWD}/default-npm-package"  ~/.default-npm-package
+  ln -s "${PWD}/default-npm-package"  ${HOME}/.default-npm-package
   asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
   asdf install nodejs latest
   asdf global nodejs latest

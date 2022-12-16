@@ -28,7 +28,7 @@ nnoremap <C-j> <C-e>
 nnoremap <C-k> <C-y>
 
 " Close lists
-nnoremap <Leader>c :lclose <bar> cclose <bar> pclose <bar> NERDTreeClose <CR>
+nnoremap <Leader>i :lclose <bar> cclose <bar> pclose <bar> NERDTreeClose <CR>
 
 " Paste from 0 register
 nnoremap <Leader>p "0p<CR>
@@ -51,6 +51,8 @@ nnoremap {{ {{zz
 nnoremap }} }}zz
 nnoremap [[ [[zz
 nnoremap ]] ]]zz
+
+nnoremap <Leader><Space> :set invlist<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -113,6 +115,7 @@ set splitright
 
 " Google Java Format
 augroup autoformat_settings
+  au!
   autocmd FileType javascript,typescript,javascript.jsx,typescript.tsx AutoFormatBuffer prettier
 augroup END
 
@@ -167,7 +170,8 @@ let g:sql_type_default = 'pgsql'
 
 " Git
 "" Fugitive
-command -nargs=1 Browse silent exe '!xdg-open ' . "<args>"
+command! -nargs=1 Browse silent exe '!open ' . "<args>"
+
 nmap <Leader>gs :Git<CR>
 nmap <Leader>gd :Gvdiffsplit<CR>
 nmap <Leader>gl :0Gclog<CR>
@@ -284,6 +288,8 @@ nnoremap <Leader>s <cmd>Telescope live_grep<cr>
 nnoremap <Leader>u <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <Leader>d <cmd>lua require('dash.providers.telescope').dash({ bang = false, initial_text = '' })<cr>
 nnoremap z= <cmd>Telescope spell_suggest<cr>
+nnoremap <Leader>c :History:<CR>
+nnoremap <C-P> @:<CR>
 
 " --column: Show column number
 " --line-number: Show line number
@@ -316,6 +322,12 @@ function! DebugNearest()
   let g:test#go#runner = 'delve'
   TestNearest
   unlet g:test#go#runner
+endfunction
+
+command! -nargs=+ DlvTestRun call DlvTestRun(<f-args>)
+
+function! DlvTestRun(...)
+    call delve#dlvTest(a:1, "-- -test.v  -test.count=1 --test.run=" . a:2)
 endfunction
 
 nmap <leader>xn :TestNearest<CR>
