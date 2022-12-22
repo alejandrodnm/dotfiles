@@ -388,6 +388,8 @@ function! DeleteHiddenBuffers()
     endfor
 endfunction
 
+nmap <leader>z :call DeleteHiddenBuffers()<CR>
+
 function! CreateCenteredFloatingWindow()
     let width = float2nr(&columns * 0.6)
     let height = float2nr(&lines * 0.6)
