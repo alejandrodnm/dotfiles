@@ -8,20 +8,6 @@ lua <<EOF
 require('usermod')
 EOF
 
-" Insert space in normal mode
-nnoremap <Space> i<Space><Right><Esc>
-
-" Quit
-nnoremap <Leader>q :quit<CR>
-nnoremap <Leader>k :bdelete<CR>
-" Only
-nnoremap <Leader>o :only<CR>
-
-" Move to first character
-nnoremap <C-l> $
-" Move to last character
-nnoremap <C-h> ^
-
 " Move to first character
 nnoremap <C-j> <C-e>
 " Move to last character

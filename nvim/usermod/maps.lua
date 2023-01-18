@@ -10,3 +10,18 @@ vim.keymap.set('n', '<localleader>', ":WhichKey '\\' <CR>", {
   silent = true,
   desc = 'Local leader options (WhichKey)'
 })
+
+-- Insert space in normal mode
+vim.keymap.set('n', '<Space>', 'i<Space><Right><Esc>')
+
+-- Quit
+vim.keymap.set('n', '<Leader>q', ':quit<CR>')
+vim.keymap.set('n', '<Leader>k', ':bdelete<CR>')
+
+-- Only
+vim.keymap.set('n', '<Leader>o', ':only<CR>')
+
+-- Move to first character
+vim.keymap.set('n', '<C-l>', '$')
+-- Move to last character
+vim.keymap.set('n', '<C-h>', '^')
