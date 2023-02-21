@@ -29,13 +29,13 @@ multi_line_mode = psql
 # "all" - warn on data definition statements, server actions such as SHUTDOWN, DELETE or UPDATE
 # "moderate" - skip warning on UPDATE statements, except for unconditional updates
 # "off" - skip all warnings
-destructive_warning = all
+destructive_warning = off
 
 # Enables expand mode, which is similar to `\x` in psql.
 expand = False
 
 # Enables auto expand mode, which is similar to `\x auto` in psql.
-auto_expand = False
+auto_expand = True
 
 # If set to True, table suggestions will include a table alias
 generate_aliases = False
@@ -99,7 +99,7 @@ show_bottom_toolbar = True
 # sql-update-1, sql-update-2 (formatter with sql-* prefix can format query
 # output to executable insertion or updating sql).
 # Recommended: psql, fancy_grid and grid.
-table_format = psql
+table_format = fancy_grid
 
 # Syntax Style. Possible values: manni, igor, xcode, vim, autumn, vs, rrt,
 # native, perldoc, borland, tango, emacs, friendly, monokai, paraiso-dark,

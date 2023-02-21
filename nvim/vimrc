@@ -8,37 +8,6 @@ lua <<EOF
 require('usermod')
 EOF
 
-" Move to first character
-nnoremap <C-j> <C-e>
-" Move to last character
-nnoremap <C-k> <C-y>
-
-" Close lists
-nnoremap <Leader>i :lclose <bar> cclose <bar> pclose <bar> NERDTreeClose <CR>
-
-" Paste from 0 register
-nnoremap <Leader>p "0p<CR>
-vnoremap <Leader>p "0p<CR>
-
-" sudo save
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-" Tabs
-nnoremap <Leader>tt :$tabnew<CR>
-nnoremap <Leader>tc :tabclose<CR>
-
-" Replace \n with enter
-nnoremap <Leader>n :'<,'>s/\\n/^M/g
-
-" Jumps and zz
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
-nnoremap {{ {{zz
-nnoremap }} }}zz
-nnoremap [[ [[zz
-nnoremap ]] ]]zz
-
-nnoremap <Leader><Space> :set invlist<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLORS
@@ -111,6 +80,7 @@ autocmd FileType markdown
     \ set formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 0
+au BufRead,BufNewFile *.md setlocal textwidth=79
 
 " Typescript/Javascript
 
@@ -272,7 +242,7 @@ nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
 nnoremap <Leader>a <cmd>Telescope grep_string<cr>
 nnoremap <Leader>s <cmd>Telescope live_grep<cr>
 nnoremap <Leader>u <cmd>Telescope current_buffer_fuzzy_find<cr>
-nnoremap <Leader>d <cmd>lua require('dash.providers.telescope').dash({ bang = false, initial_text = '' })<cr>
+nnoremap <Leader>h <cmd>lua require('dash.providers.telescope').dash({ bang = false, initial_text = '' })<cr>
 nnoremap z= <cmd>Telescope spell_suggest<cr>
 nnoremap <Leader>c :History:<CR>
 nnoremap <C-P> @:<CR>

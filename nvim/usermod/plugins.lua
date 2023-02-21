@@ -5,7 +5,7 @@ Plug('crusoexia/vim-monokai')
 Plug('jdkanani/vim-material-theme')
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'}) -- Experimental syntax
 
-Plug('liuchengxu/vim-which-key') -- leader key suggestions
+Plug('folke/which-key.nvim')
 Plug('junegunn/vim-peekaboo') -- show \" and @ register content
 Plug('vim-test/vim-test')
 Plug('terryma/vim-multiple-cursors')
@@ -45,6 +45,8 @@ Plug('hrsh7th/cmp-path')
 Plug('saadparwaiz1/cmp_luasnip')
 Plug('hrsh7th/cmp-nvim-lsp')
 Plug('hrsh7th/cmp-nvim-lua')
+Plug('hrsh7th/cmp-nvim-lsp-signature-help')
+Plug('hrsh7th/cmp-vsnip'                             )
 
 --  Snippets
 Plug('L3MON4D3/LuaSnip')
@@ -62,6 +64,8 @@ Plug('folke/trouble.nvim')
 Plug('jose-elias-alvarez/null-ls.nvim')
 -- Debugger
 Plug('mfussenegger/nvim-dap')
+Plug('rcarriga/nvim-dap-ui')
+Plug('theHamsta/nvim-dap-virtual-text')
 
 Plug('mrjones2014/dash.nvim', {['do'] = 'make install'}) -- search Dash from telescope
 
@@ -112,6 +116,7 @@ Plug('iamcco/markdown-preview.nvim', {
 Plug('exu/pgsql.vim', {['for'] = 'sql'})
 
 Plug('rust-lang/rust.vim', {['for'] = 'rust'})
+Plug('simrat39/rust-tools.nvim', {['for'] = 'rust'})
 
 Plug('godlygeek/tabular', {['for'] = {'puppet', 'markdown'}})  -- Autotabs for puppet and markdown table format
 
@@ -167,3 +172,5 @@ require('telescope').setup({
 })
 
 require('telescope').load_extension('fzf')
+
+require("which-key").setup()

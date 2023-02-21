@@ -47,8 +47,7 @@ alias pg_restart="brew services restart postgresql@14"
 alias pg_stop="brew services stop postgresql@14"
 alias pg_logs_tail="tail -f /opt/homebrew/var/postgresql@14/log/postgresql.csv"
 alias pg_logs_cat="cat /opt/homebrew/var/postgresql@14/log/postgresql.csv"
-alias psqlp="psql -U promscale -d promscale"
-alias pgclip="pgcli -U promscale -d promscale"
+export PATH="/opt/homebrew/opt/postgresql@14/bin:${PATH}"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew

@@ -9,7 +9,6 @@ require('usermod.maps')
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
-
 vim.o.swapfile = false
 vim.o.hidden = true
 vim.o.backup = false
@@ -19,7 +18,6 @@ vim.o.writebackup = false
 vim.o.undofile = true
 
 vim.cmd('filetype plugin indent on')
-
-
+--
 -- Use pl for prolog and not perl
 vim.g.filetype_pl = 'prolog'
