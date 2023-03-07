@@ -42,12 +42,12 @@ alias cat='bat'
 alias sed=gsed
 
 # Postgres
-alias pg_start="brew services start postgresql@14"
-alias pg_restart="brew services restart postgresql@14"
-alias pg_stop="brew services stop postgresql@14"
-alias pg_logs_tail="tail -f /opt/homebrew/var/postgresql@14/log/postgresql.csv"
-alias pg_logs_cat="cat /opt/homebrew/var/postgresql@14/log/postgresql.csv"
-export PATH="/opt/homebrew/opt/postgresql@14/bin:${PATH}"
+alias pg_start="brew services start postgresql@15"
+alias pg_restart="brew services restart postgresql@15"
+alias pg_stop="brew services stop postgresql@15"
+alias pg_logs_tail="tail -f /opt/homebrew/var/postgresql@15/log/postgresql.csv"
+alias pg_logs_cat="cat /opt/homebrew/var/postgresql@15/log/postgresql.csv"
+export PATH="/opt/homebrew/opt/postgresql@15/bin:${PATH}"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
@@ -73,19 +73,19 @@ alias gpl='git pull'
 alias gpu='git push --set-upstream origin $(git_current_branch)'
 alias gl='git log --graph --color'
 alias gfo='git fetch origin'
-alias grom='gfo && git rebase origin/master'
+alias grom='gfo && git rebase origin/main'
 alias gfu='git fetch upstream'
 alias gri='git rebase -i'
 alias grc='git rebase --continue'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
-alias gprl='git log --pretty=format:"### %s %n %n %b" --reverse origin/master..HEAD | pbcopy'
+alias gprl='git log --pretty=format:"### %s %n %n %b" --reverse origin/main..HEAD | pbcopy'
 # Delete all the git branches except master
 function git::clean () {
-  git checkout master > /dev/null 2>&1
+  git checkout main > /dev/null 2>&1
   for b in $(git branch) ; do
-    if [[ "${b}" != '*' && "${b}" != "master" ]] ; then
+    if [[ "${b}" != '*' && "${b}" != "main" ]] ; then
       echo "Deleting ${b}"
       git branch -D $b
     fi
@@ -96,7 +96,7 @@ function git::clean () {
 # is set to master. To review changes made by the last commit of this
 # branch set it to:
 # REVIEW_BASE=HEAD^ git stat
-export REVIEW_BASE=master
+export REVIEW_BASE=main
 
 # Kubernetes
 alias k='kubectl'

@@ -39,7 +39,7 @@ vim.keymap.set('n', '<Leader>p', '"0p<CR>')
 vim.keymap.set('v', '<Leader>p', '"0p<CR>')
 
 -- sudo save
-vim.keymap.set('c', 'w!!', "execute 'silent! write !sudo tee % >/dev/null' <bar> edit!")
+-- vim.keymap.set('c', 'w!!', "execute 'silent! write !sudo tee % >/dev/null' <bar> edit!")
 
 -- Tabs
 vim.keymap.set('n', '<Leader>tt', ':$tabnew<CR>')

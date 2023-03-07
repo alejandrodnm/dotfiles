@@ -194,7 +194,7 @@ highlight FloatBorder guifg=#021316
 " Syntax highlight
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"java", "go", "rust", "kotlin", "typescript"},     -- one of "all", "language", or a list of languages
+  ensure_installed = {"go", "rust", "markdown", "lua", "vim", "elixir"},     -- one of "all", "language", or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
   },

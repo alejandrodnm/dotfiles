@@ -14,7 +14,9 @@ local function lsp_mappings (_, bufnr)
   map('n', '<Leader>lD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
   map('n', '<Leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
   map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
-  map('n', '<Leader>ln', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  vim.keymap.set('n', '<leader>ln', function()
+    return ":IncRename " .. vim.fn.expand("<cword>")
+  end, { expr = true, remap = false, buffer = bufnr })
   map('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>')
   map('x', '<Leader>la', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
   map('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.format()<cr>')
@@ -23,6 +25,18 @@ local function lsp_mappings (_, bufnr)
   map('n', '<Leader>ld', '<cmd>TroubleToggle<cr>')
   map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
   map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+
+  -- vim.keymap.set({"n", "i", "s"}, "<c-f>", function()
+  --   if not require("noice.lsp").scroll(4) then
+  --     return "<c-f>"
+  --   end
+  -- end, { silent = true, expr = true })
+
+  -- vim.keymap.set({"n", "i", "s"}, "<c-b>", function()
+  --   if not require("noice.lsp").scroll(-4) then
+  --     return "<c-b>"
+  --   end
+  -- end, { silent = true, expr = true })
 end
 
 lsp.on_attach(lsp_mappings)
@@ -86,6 +100,13 @@ rt.setup({
       -- Code action groups
       vim.keymap.set('n', '<Leader>rr', "<cmd>lua require('rust-tools').code_action_group.code_action_group()<CR>", { buffer = bufnr })
     end,
+		settings = {
+			["rust-analyzer"] = {
+				checkOnSave = {
+					command = "clippy"
+				}
+			}
+		}
   },
   dap = {
     adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)

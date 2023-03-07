@@ -5,7 +5,11 @@ Plug('crusoexia/vim-monokai')
 Plug('jdkanani/vim-material-theme')
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'}) -- Experimental syntax
 
+-- Plug('MunifTanjim/nui.nvim')
+-- Plug('rcarriga/nvim-notify')
 Plug('folke/which-key.nvim')
+-- Plug('folke/noice.nvim')
+Plug('smjonas/inc-rename.nvim')
 Plug('junegunn/vim-peekaboo') -- show \" and @ register content
 Plug('vim-test/vim-test')
 Plug('terryma/vim-multiple-cursors')
@@ -72,10 +76,6 @@ Plug('mrjones2014/dash.nvim', {['do'] = 'make install'}) -- search Dash from tel
 Plug('simnalamburt/vim-mundo') -- undo visualization
 
 Plug('simrat39/symbols-outline.nvim') -- lsp symbols window
--- Debugger
--- Plug 'mfussenegger/nvim-dap' -- debugger
--- Plug 'theHamsta/nvim-dap-virtual-text'
--- Plug 'puremourning/vimspector'
 
 -- GO
 Plug('fatih/vim-go', {['for'] = 'go'})
@@ -172,5 +172,29 @@ require('telescope').setup({
 })
 
 require('telescope').load_extension('fzf')
+-- require('telescope').load_extension('noice')
 
 require("which-key").setup()
+
+vim.g.rustfmt_autosave = 1
+
+-- require("noice").setup({
+--   lsp = {
+--     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+--     override = {
+--       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+--       ["vim.lsp.util.stylize_markdown"] = true,
+--       ["cmp.entry.get_documentation"] = true,
+--     },
+--   },
+--   -- you can enable a preset for easier configuration
+--   presets = {
+--     bottom_search = true, -- use a classic bottom cmdline for search
+--     command_palette = true, -- position the cmdline and popupmenu together
+--     long_message_to_split = true, -- long messages will be sent to a split
+--     inc_rename = false, -- enables an input dialog for inc-rename.nvim
+--     lsp_doc_border = false, -- add a border to hover docs and signature help
+--   },
+-- })
+
+require("inc_rename").setup()
