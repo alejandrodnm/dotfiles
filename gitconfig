@@ -26,6 +26,7 @@
   # git reviewone foo.js bar.js
   reviewone = !nvim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 	fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+	fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
 [url "git@source.datanerd.us:"]
 	insteadOf = https://source.datanerd.us/
 [core]
@@ -68,3 +69,5 @@
   conflictstyle = diff3
 [diff]
   colorMoved = default
+[init]
+	defaultBranch = main

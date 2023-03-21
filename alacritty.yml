@@ -174,11 +174,11 @@ font:
 draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night Bright)
-colors:
+# colors:
   # Default colors
-  primary:
-    background: '0x263238'
-    foreground: '0xebf6fc'
+  #primary:
+  #  background: '0x263238'
+  #  foreground: '0xebf6fc'
 
     # Bright and dim foreground colors
     #
@@ -206,26 +206,26 @@ colors:
   #  background: '0x404040'
 
   # Normal colors
-  normal:
-    black:   '0x252525'
-    red:     '0xff5252'
-    green:   '0xc3d82c'
-    yellow:  '0xffc135'
-    blue:    '0x42a5f5'
-    magenta: '0xd81b60'
-    cyan:    '0x5de9ca'
-    white:   '0xf5f5f5'
+  #normal:
+  #  black:   '0x252525'
+  #  red:     '0xff5252'
+  #  green:   '0xc3d82c'
+  #  yellow:  '0xffc135'
+  #  blue:    '0x42a5f5'
+  #  magenta: '0xd81b60'
+  #  cyan:    '0x5de9ca'
+  #  white:   '0xf5f5f5'
 
   # Bright colors
-  bright:
-    black:   '0x708284'
-    red:     '0xff5252'
-    green:   '0xc3d82c'
-    yellow:  '0xffc135'
-    blue:    '0x42a5f5'
-    magenta: '0xd81b60'
-    cyan:    '0x5ee9ca'
-    white:   '0xf5f5f5'
+  #bright:
+  #  black:   '0x708284'
+  #  red:     '0xff5252'
+  #  green:   '0xc3d82c'
+  #  yellow:  '0xffc135'
+  #  blue:    '0x42a5f5'
+  #  magenta: '0xd81b60'
+  #  cyan:    '0x5ee9ca'
+  #  white:   '0xf5f5f5'
 
   # Dim colors
   #
