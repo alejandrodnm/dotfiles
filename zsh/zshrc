@@ -9,6 +9,7 @@ eval "$(zoxide init zsh)"
 # Needed to solve conflict with fzf and zsh-vi-mode with ctrl-r
 ZVM_INIT_MODE=sourcing
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/completions
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
@@ -34,7 +35,8 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 # The plugins zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode
 # should be set last and in that order.
-plugins=(docker asdf zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode)
+# plugins=(docker kubectl asdf zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode)
+plugins=(docker asdf zsh-autosuggestions zsh-vi-mode zsh-syntax-highlighting)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'

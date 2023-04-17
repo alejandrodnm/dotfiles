@@ -23,11 +23,11 @@ brew "httpie"
 brew "jq"
 brew "kube-ps1"
 brew "kubectx"
-brew "tree-sitter", args: ["HEAD"]
-brew "luajit", args: ["HEAD"]
+brew "tree-sitter"
+brew "luajit"
 brew "luarocks"
 brew "navi"
-brew "neovim", args: ["HEAD"]
+brew "neovim"
 brew "pspg"
 brew "ranger"
 brew "ripgrep"

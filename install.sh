@@ -16,6 +16,12 @@ main() {
   install_postgres
   install_rust
   install_navi
+  install_completitions
+}
+
+install_completitions() {
+  kind completion zsh > ~/.oh-my-zsh/custom/completions/_kind
+  eksctl completion zsh > ~/.oh-my-zsh/custom/completions/_eksctl
 }
 
 install_navi() {
@@ -129,6 +135,9 @@ install_vim() {
   fi
   ln -s "${PWD}/ctags" ${HOME}/.ctags
 
+  mkdir -p ${HOME}.config/nvim/ftplugin
+  ${HOME}.config/nvim/ftplugin > vim.treesitter.start()
+
   curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -171,4 +180,5 @@ install_timescale() {
   cargo install cargo-pgx --git https://github.com/timescale/pgx --branch promscale-staging
   cargo pgx init --pg14=/opt/homebrew/bin/pg_config
 }
+
 main || exit 1
