@@ -17,6 +17,17 @@ main() {
   install_rust
   install_navi
   install_completitions
+  install_ssh_config
+}
+
+install_ssh_config() {
+  mkdir ~/.ssh/sockets
+
+  if [ -e ${HOME}/.ssh/config ] || [ -L ${HOME}/.ssh/config ] ; then
+    rm ${HOME}/.ssh/config
+  fi
+  ln -s "${PWD}/kitty.conf" ${HOME}/.config/kitty/kitty.conf
+  ln -s "${PWD}/ssh_config" ${HOME}/.ssh/config
 }
 
 install_completitions() {

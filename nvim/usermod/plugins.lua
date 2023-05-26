@@ -120,7 +120,7 @@ Plug('simrat39/rust-tools.nvim', {['for'] = 'rust'})
 
 Plug('godlygeek/tabular', {['for'] = {'puppet', 'markdown'}})  -- Autotabs for puppet and markdown table format
 
--- Plug 'hashivim/vim-terraform'
+Plug 'hashivim/vim-terraform'
 -- Plug 'rodjek/vim-puppet'
 -- Plug 'jalvesaq/Nvim-R'
 -- Plug 'lervag/vimtex', {'for': 'latex'}  -- Support for latex files and projects
@@ -128,8 +128,8 @@ Plug('godlygeek/tabular', {['for'] = {'puppet', 'markdown'}})  -- Autotabs for p
 vim.call('plug#end')
 
 -- Terraform
--- vim.g.terraform_fmt_on_save = 1
--- vim.g.terraform_align = 1
+vim.g.terraform_fmt_on_save = 1
+vim.g.terraform_align = 1
 
 -- Highlight is broken so we have to specified the whole config
 -- https://github.com/simrat39/symbols-outline.nvim/issues/185#issuecomment-1312618041

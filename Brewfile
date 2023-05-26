@@ -74,3 +74,4 @@ cask "wireshark"
 # Installing bitwarden via the app store allows biometrics on the browser
 # cask "bitwarden"
 cask "docker"
+brew "act"

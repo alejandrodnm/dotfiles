@@ -144,7 +144,7 @@ nmap <Leader>gg :GitGutterAll<CR>
 nmap <Leader>ga <Plug>(GitGutterStageHunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
-nmap <Leader>gm :Gdiff master <bar> let g:gitgutter_diff_base = master<CR>
+nmap <Leader>gm :Gdiff main <bar> let g:gitgutter_diff_base = main<CR>
 
 set updatetime=100 " reduce the time to make signs appear
 
@@ -370,3 +370,5 @@ function! CreateCenteredFloatingWindow()
 endfunction
 
 let g:peekaboo_window="call CreateCenteredFloatingWindow()"
+
+let g:dash_map = { 'sql' : ['psql']  }

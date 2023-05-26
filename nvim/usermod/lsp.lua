@@ -41,7 +41,7 @@ end
 
 lsp.on_attach(lsp_mappings)
 
-require'lspconfig'.lua_ls.setup {
+require('lspconfig').lua_ls.setup {
   settings = {
     Lua = {
       runtime = {
@@ -62,6 +62,18 @@ require'lspconfig'.lua_ls.setup {
       },
     },
   },
+}
+
+require('lspconfig').pylsp.setup {
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          maxLineLength = 120
+        }
+      }
+    }
+  }
 }
 
 require('trouble').setup{}
