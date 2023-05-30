@@ -9,7 +9,7 @@ Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'}) -- Experimental 
 -- Plug('rcarriga/nvim-notify')
 Plug('folke/which-key.nvim')
 -- Plug('folke/noice.nvim')
-Plug('smjonas/inc-rename.nvim')
+Plug('smjonas/inc-rename.nvim') -- interative rename
 Plug('junegunn/vim-peekaboo') -- show \" and @ register content
 Plug('vim-test/vim-test')
 Plug('terryma/vim-multiple-cursors')
@@ -56,7 +56,7 @@ Plug('hrsh7th/cmp-vsnip'                             )
 Plug('L3MON4D3/LuaSnip')
 Plug('rafamadriz/friendly-snippets')
 
-Plug('VonHeikemen/lsp-zero.nvim')
+Plug('VonHeikemen/lsp-zero.nvim', {['branch'] = 'v2.x'})
 
 Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope.nvim', {['tag'] = '0.1.0'})

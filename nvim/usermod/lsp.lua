@@ -1,6 +1,18 @@
-local lsp = require('lsp-zero')
-lsp.preset('recommended')
-lsp.setup()
+local lsp = require('lsp-zero').preset({
+  float_border = 'rounded',
+  call_servers = 'local',
+  configure_diagnostics = true,
+  setup_servers_on_start = true,
+  set_lsp_keymaps = false,
+  manage_nvim_cmp = {
+    set_sources = 'recommended',
+    set_basic_mappings = true,
+    set_extra_mappings = true,
+    use_luasnip = true,
+    set_format = true,
+    documentation_window = true,
+  },
+})
 
 local function lsp_mappings (_, bufnr)
   local map = function(mode, lhs, rhs)
@@ -39,42 +51,52 @@ local function lsp_mappings (_, bufnr)
   -- end, { silent = true, expr = true })
 end
 
+-- The specific language configs should go above this line otherwise the
+-- mappings are removed.
 lsp.on_attach(lsp_mappings)
 
-require('lspconfig').lua_ls.setup {
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-}
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
-require('lspconfig').pylsp.setup {
+require('lspconfig').pylsp.setup{
   settings = {
     pylsp = {
       plugins = {
         pycodestyle = {
+          ignore = {'W391', 'E501'},
           maxLineLength = 120
         }
       }
     }
   }
 }
+
+lsp.setup()
+
+
+local cmp = require('cmp')
+
+cmp.setup({
+  sources = {
+    {name = 'nvim_lsp'},
+    {name = 'buffer', keyword_length = 3},
+    {name = 'path'},
+    {name = 'luasnip', keyword_length = 2},
+  },
+
+  mapping = {
+    ['<C-e>'] = cmp.mapping.confirm({select = true}),
+    ['<C-n>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    ['<TAB>'] = function(_)
+        if cmp.visible() then
+          cmp.mapping.select_next_item()
+        else
+          cmp.mapping.complete()
+        end
+      end,
+    ['<S-TAB>'] = cmp.mapping.select_prev_item(),
+  }
+})
 
 require('trouble').setup{}
 
@@ -137,9 +159,9 @@ require("nvim-dap-virtual-text").setup {
     all_references = false,                -- show virtual text on all all references of the variable (not only definitions)
     --- A callback that determines how a variable is displayed or whether it should be omitted
     --- @param variable Variable https://microsoft.github.io/debug-adapter-protocol/specification#Types_Variable
-    --- @param buf number
-    --- @param stackframe dap.StackFrame https://microsoft.github.io/debug-adapter-protocol/specification#Types_StackFrame
-    --- @param node userdata tree-sitter node identified as variable definition of reference (see `:h tsnode`)
+    --- @param _buf number
+    --- @param _stackframe dap.StackFrame https://microsoft.github.io/debug-adapter-protocol/specification#Types_StackFrame
+    --- @param _node userdata tree-sitter node identified as variable definition of reference (see `:h tsnode`)
     --- @return string|nil A text how the virtual text should be displayed or nil, if this variable shouldn't be displayed
     display_callback = function(variable, _buf, _stackframe, _node)
       return variable.name .. ' = ' .. variable.value
