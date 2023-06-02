@@ -83,19 +83,13 @@ cmp.setup({
     {name = 'luasnip', keyword_length = 2},
   },
 
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ['<C-e>'] = cmp.mapping.confirm({select = true}),
     ['<C-n>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({select = true}),
-    ['<TAB>'] = function(_)
-        if cmp.visible() then
-          cmp.mapping.select_next_item()
-        else
-          cmp.mapping.complete()
-        end
-      end,
+    ['<TAB>'] = cmp.mapping.select_next_item(),
     ['<S-TAB>'] = cmp.mapping.select_prev_item(),
-  }
+  })
 })
 
 require('trouble').setup{}

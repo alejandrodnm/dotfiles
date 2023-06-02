@@ -237,7 +237,7 @@ docker::cleanup(){
 }
 
 sshTS() {
-  ssh -i "~/.ssh/alejandro-donascimento-ts.pem" ec2-user@$1
+  ssh -i "~/.ssh/alejandro-donascimento-ts.pem" $1
 }
 
 # Brew openssl

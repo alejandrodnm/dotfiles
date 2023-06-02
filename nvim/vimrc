@@ -10,60 +10,6 @@ EOF
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COLORS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set termguicolors
-set laststatus=2 " show status bar on single window
-set cursorline
-set encoding=UTF-8
-syntax on
-let g:airline_theme='deus'
-set background=dark
-colorscheme material-theme
-" Complement material-theme colors
-hi Visual guifg=White guibg=LightBlue gui=none
-hi MatchParen gui=bold guibg=none guifg=LightMagenta
-highlight Comment cterm=italic gui=italic
-set hlsearch " Highlight search matches
-highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CURSOR
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-set timeoutlen=500 ttimeoutlen=0 " for esc delay
-
-" Copy to clipboard requires clipboard provider. Try :CheckHealth
-set clipboard+=unnamedplus
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Text, tab and indent related
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-set backspace=2
-" Use spaces instead of tabs
-set expandtab
-set smarttab
-" 1 tab == 2 spaces
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2
-set lbr
-set colorcolumn=80
-
-set number
-set noerrorbells
-set ruler
-set scrolloff=3
-set sidescrolloff=5
-set confirm
-set exrc
-
-" Splits
-set splitbelow
-set splitright
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
