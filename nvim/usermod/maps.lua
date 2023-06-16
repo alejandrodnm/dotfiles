@@ -1,9 +1,5 @@
 -- Change the <leader> key to comma instead of \ "
 vim.g.mapleader = ','
--- vim.keymap.set('n', '<leader>', ":WhichKey ',' <CR>", {
---   silent = true,
---   desc = 'Leader options (WhichKey)'
--- })
 
 vim.g.maplocalleader = '\\'
 -- vim.keymap.set('n', '<localleader>', ":WhichKey '\\' <CR>", {
@@ -58,37 +54,3 @@ vim.keymap.set('n', ']]', ']]zz')
 
 -- Show tabs
 vim.keymap.set('n', '<Leader><Space>', ':set invlist<CR>')
-
--- Debugger DAP
-vim.keymap.set('n', '<leader>dt', '<CMD>lua require("dapui").toggle()<CR>')
-vim.keymap.set('n', '<leader>dc', '<CMD>lua require("dap").continue()<CR>')
-vim.keymap.set('n', '<leader>dr', '<CMD>lua require("dap").run_last()<CR>')
-vim.keymap.set('n', '<leader>db', '<CMD>lua require("dap").toggle_breakpoint()<CR>')
-vim.keymap.set('n', '<leader>dbl', '<CMD>lua require("dap").list_breakpoints()<CR>')
-vim.keymap.set('n', '<leader>dbc', '<CMD>lua require("dap").clear_breakpoints()<CR>')
-vim.keymap.set('n', '<leader>dt', '<CMD>lua require("dapui").toggle()<CR>')
-vim.keymap.set('n', '<leader>de', '<CMD>lua require("dapui").eval()<CR>')
-vim.keymap.set('n', '<leader>dn', '<CMD>lua require("dap").step_over()<CR>')
-vim.keymap.set('n', '<leader>ds', '<CMD>lua require("dap").step_into()<CR>')
-vim.keymap.set('n', '<leader>do', '<CMD>lua require("dap").step_out()<CR>')
-vim.keymap.set('n', '<Leader>dl', '<CMD>lua require("dap").repl.open()<CR>')
-vim.keymap.set({'n', 'v'}, '<Leader>dh', '<CMD>lua require("dap.ui.widgets").hover()<CR>')
-vim.keymap.set({'n', 'v'}, '<Leader>dp', '<CMD>lua require("dap.ui.widgets").preview()<CR>')
-vim.keymap.set('n', '<Leader>df', function()
-  local widgets = require('dap.ui.widgets')
-  widgets.centered_float(widgets.frames)
-end)
-vim.keymap.set('n', '<Leader>dv', function()
-  local widgets = require('dap.ui.widgets')
-  widgets.centered_float(widgets.scopes)
-end)
-
-vim.g.multi_cursor_use_default_mapping = 0
-vim.g.multi_cursor_start_word_key      = '<C-c>'
-vim.g.multi_cursor_select_all_word_key = '<A-n>'
-vim.g.multi_cursor_start_key           = 'g<C-n>'
-vim.g.multi_cursor_select_all_key      = 'g<A-n>'
-vim.g.multi_cursor_next_key            = '<C-c>'
-vim.g.multi_cursor_prev_key            = '<C-p>'
-vim.g.multi_cursor_skip_key            = '<C-x>'
-vim.g.multi_cursor_quit_key            = '<Esc>'

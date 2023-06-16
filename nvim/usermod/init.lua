@@ -2,9 +2,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+require('usermod.maps')
 require('usermod.plugins')
 require('usermod.lsp')
-require('usermod.maps')
 
 vim.o.swapfile = false
 vim.o.hidden = true
@@ -30,12 +30,12 @@ vim.cmd("syntax enable")
 vim.g.airline_theme = 'deus'
 vim.o.background = "dark"
 vim.cmd("colorscheme material-theme")
-vim.cmd("highlight Visual guifg=White guibg=LightBlue gui=none")
-vim.cmd("highlight MatchParen gui=bold guibg=none guifg=LightMagenta")
-vim.cmd("highlight Comment cterm=italic gui=italic")
+vim.api.nvim_set_hl(0, 'Visual', { fg = 'white', bg = 'LightBlue'})
+vim.api.nvim_set_hl(0, 'MatchParen', {bold = true, bg = 'none', fg = 'LightMagenta'})
+vim.api.nvim_set_hl(0, 'Comment', {italic = true, cterm = {italic = true}})
 -- Highlight search matches
 vim.o.hlsearch = true
-vim.cmd("highlight Search ctermbg=black ctermfg=cyan term=bold cterm=bold")
+vim.api.nvim_set_hl(0, 'Search', { ctermbg = 'black', ctermfg = 'cyan', bold = true, cterm = {bold = true}})
 
 -- CURSOR
 -- Set timeoutlen and ttimeoutlen for escape delay
@@ -78,3 +78,6 @@ vim.o.exrc = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.signcolumn = "auto:2"
+
+-- Search
+vim.o.ignorecase = true

@@ -47,8 +47,8 @@ alias sed=gsed
 alias pg_start="brew services start postgresql@15"
 alias pg_restart="brew services restart postgresql@15"
 alias pg_stop="brew services stop postgresql@15"
-alias pg_logs_tail="tail -f /opt/homebrew/var/postgresql@15/log/postgresql.csv"
-alias pg_logs_cat="cat /opt/homebrew/var/postgresql@15/log/postgresql.csv"
+alias pg_logs_tail="tail -f /opt/homebrew/var/log/postgresql@15.log"
+alias pg_logs_cat="cat /opt/homebrew/var/log/postgresql@15.log"
 export PATH="/opt/homebrew/opt/postgresql@15/bin:${PATH}"
 
 # Git
