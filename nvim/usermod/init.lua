@@ -29,13 +29,13 @@ vim.o.encoding = "UTF-8"
 vim.cmd("syntax enable")
 vim.g.airline_theme = 'deus'
 vim.o.background = "dark"
-vim.cmd("colorscheme material-theme")
+vim.cmd.colorscheme("material-theme")
 vim.api.nvim_set_hl(0, 'Visual', { fg = 'white', bg = 'LightBlue'})
 vim.api.nvim_set_hl(0, 'MatchParen', {bold = true, bg = 'none', fg = 'LightMagenta'})
-vim.api.nvim_set_hl(0, 'Comment', {italic = true, cterm = {italic = true}})
+vim.api.nvim_set_hl(0, 'Comment', {fg = 'LightGrey', italic = true, cterm = {italic = true}})
 -- Highlight search matches
 vim.o.hlsearch = true
-vim.api.nvim_set_hl(0, 'Search', { ctermbg = 'black', ctermfg = 'cyan', bold = true, cterm = {bold = true}})
+vim.api.nvim_set_hl(0, 'Search', { reverse = true, bold = true})
 
 -- CURSOR
 -- Set timeoutlen and ttimeoutlen for escape delay

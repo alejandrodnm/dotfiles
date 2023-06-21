@@ -170,12 +170,44 @@ require('telescope').setup({
     lsp_references = { show_line = false },
     lsp_implementations = { show_line = false },
   },
+  extensions = {
+    dash = {
+      file_type_keywords = { sql = { 'psql' } }
+    }
+  }
 })
 
 require('telescope').load_extension('fzf')
 -- require('telescope').load_extension('noice')
 
 require("which-key").setup()
+-- WhichKey: checking conflicting keymaps ~
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **",xg"**
+-- - rhs: `:lua DebugNearest()<CR>`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **",db"**
+-- - rhs: `<Cmd>lua require("dap").toggle_breakpoint()<CR>`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"]x"**
+-- - rhs: `<Plug>(unimpaired-xml-decode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"]C"**
+-- - rhs: `<Plug>(unimpaired-string-decode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"]u"**
+-- - rhs: `<Plug>(unimpaired-url-decode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"]y"**
+-- - rhs: `<Plug>(unimpaired-string-decode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"[x"**
+-- - rhs: `<Plug>(unimpaired-xml-encode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"[C"**
+-- - rhs: `<Plug>(unimpaired-string-encode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"[u"**
+-- - rhs: `<Plug>(unimpaired-url-encode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"[y"**
+-- - rhs: `<Plug>(unimpaired-string-encode)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"<lt>s"**
+-- - rhs: `<Plug>(unimpaired-enable)`
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"{"**
+-- - rhs: ` `
+-- - WARNING conflicting keymap exists for mode **"n"**, lhs: **"}"**
+-- - rhs: ` `
 
 vim.g.rustfmt_autosave = 1
 
@@ -538,5 +570,3 @@ function CreateCenteredFloatingWindow()
 end
 
 vim.g.peekaboo_window = "lua CreateCenteredFloatingWindow()"
-
-vim.g.dash_map = { sql = { 'psql' } }
