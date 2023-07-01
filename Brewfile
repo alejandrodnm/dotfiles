@@ -57,6 +57,7 @@ brew "ossp-uuid"
 brew "fd"
 brew "dasht"
 brew "sqlfluff"
+brew "lazygit"
 # END Needed for asdf postgres
 cask "spotify"
 cask "slack"
