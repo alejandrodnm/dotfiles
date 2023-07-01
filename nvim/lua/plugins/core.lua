@@ -1,5 +1,85 @@
 -- change trouble config
 return {
+  { "akinsho/bufferline.nvim", opts = {
+    options = {
+      mode = "tabs",
+    },
+  } },
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = function(_, opts)
+      local icons = require("lazyvim.config").icons
+      local Util = require("lazyvim.util")
+      opts.winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+          {
+            function()
+              return require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+          },
+        },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      }
+
+      opts.inactive_winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+        },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      }
+
+      opts.sections = vim.tbl_extend("force", opts.sections, {
+        lualine_a = { "mode" },
+        lualine_b = { "branch" },
+        lualine_c = {
+          {
+            "diagnostics",
+            symbols = {
+              error = icons.diagnostics.Error,
+              warn = icons.diagnostics.Warn,
+              info = icons.diagnostics.Info,
+              hint = icons.diagnostics.Hint,
+            },
+          },
+          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+        },
+        lualine_x = {
+          -- stylua: ignore
+          {
+            function() return "  " .. require("dap").status() end,
+            cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
+            color = Util.fg("Debug"),
+          },
+          {
+            "diff",
+            symbols = {
+              added = icons.git.added,
+              modified = icons.git.modified,
+              removed = icons.git.removed,
+            },
+          },
+        },
+        lualine_y = {},
+        lualine_z = {
+          { "progress", separator = "", padding = { left = 0, right = 0 } },
+          { "location", padding = { left = 0, right = 0 } },
+        },
+      })
+    end,
+  },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -147,69 +227,6 @@ return {
       vim.api.nvim_set_keymap("n", "<Leader>lh", ":write <bar> edit <bar> TSBufEnable highlight<CR>", { silent = true })
     end,
   },
-  { "simnalamburt/vim-mundo" },
-  {
-    "szw/vim-maximizer",
-    init = function()
-      vim.g.maximizer_set_default_mapping = 0
-      vim.g.maximizer_set_mapping_with_bang = 1
-      vim.api.nvim_set_keymap("n", "<C-w>z", ":MaximizerToggle!<CR>", { silent = true })
-    end,
-  },
-  {
-    "ntpeters/vim-better-whitespace",
-    init = function()
-      vim.g.better_whitespace_enabled = 1
-      vim.g.strip_whitespace_on_save = 1
-      vim.g.strip_whitespace_confirm = 0
-      vim.g.strip_whitelines_at_eof = 1
-      vim.g.show_spaces_that_precede_tabs = 1
-    end,
-  },
-  { "mrjones2014/dash.nvim", build = "make install", config = true },
-  {
-    "simrat39/symbols-outline.nvim",
-    opts = {},
-    init = function()
-      vim.api.nvim_set_keymap("n", "<Leader>cs", ":SymbolsOutline<CR>", { silent = true })
-    end,
-  },
-  {
-    "tpope/vim-fugitive",
-    init = function()
-      vim.api.nvim_set_keymap("n", "<Leader>gs", ":Git<CR>", { silent = true, desc = "Git status" })
-      vim.api.nvim_set_keymap("n", "<Leader>gd", ":Gvdiffsplit<CR>", { silent = true, desc = "Git diff" })
-      vim.api.nvim_set_keymap("n", "<Leader>gl", ":0Gclog<CR>", { silent = true, desc = "Git log" })
-      vim.api.nvim_set_keymap("n", "<Leader>gb", ":Git blame<CR>", { silent = true, desc = "Git blame" })
-      vim.api.nvim_set_keymap("n", "<Leader>gr", ":Gread<CR>", { silent = true, desc = "Git restore" })
-      vim.api.nvim_set_keymap("n", "<Leader>ga", ":Gwrite<CR>", { silent = true, desc = "Git add" })
-      vim.api.nvim_set_keymap("n", "<Leader>gc", ":Git commit<CR>", { silent = true, desc = "Git commit" })
-    end,
-  },
-  --GBrowse support
-  { "tpope/vim-rhubarb" },
-  { "tpope/vim-endwise" },
-  {
-    "mileszs/ack.vim",
-    init = function()
-      if vim.fn.executable("rg") == 1 then
-        vim.g.ackprg = "rg --vimgrep --no-heading"
-      end
-    end,
-  },
-  {
-    "alok/notational-fzf-vim",
-    init = function()
-      vim.g.nv_search_paths = { "~/dev/adn/notes" }
-      vim.g.nv_use_short_pathnames = 1
-    end,
-  },
-  { "jamessan/vim-gnupg" },
-
-  { "exu/pgsql.vim", ft = "sql" },
-  -- Autotabs for terraform and markdown table format
-  { "godlygeek/tabular", ft = { "puppet", "markdown" } },
-  { "hashivim/vim-terraform", ft = "terraform" },
 }
 
 --[[

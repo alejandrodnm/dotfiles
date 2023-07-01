@@ -13,3 +13,4 @@ vim.o.colorcolumn = "80"
 vim.o.errorbells = false
 vim.o.ruler = true
 vim.o.signcolumn = "auto:2"
+vim.o.laststatus = 2

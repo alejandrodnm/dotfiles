@@ -1,4 +1,9 @@
 return {
+
+  { "exu/pgsql.vim", ft = "sql" },
+  -- Autotabs for terraform and markdown table format
+  { "godlygeek/tabular", ft = { "puppet", "markdown" } },
+  { "hashivim/vim-terraform", ft = "terraform" },
   {
     "plasticboy/vim-markdown",
     ft = "markdown",
