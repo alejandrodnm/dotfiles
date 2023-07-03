@@ -2,10 +2,12 @@ return {
   { "simnalamburt/vim-mundo" },
   {
     "szw/vim-maximizer",
+    keys = {
+      { "<C-w>z", ":MaximizerToggle!<CR>", silent = true, desc = "Maximize buffer" },
+    },
     init = function()
       vim.g.maximizer_set_default_mapping = 0
       vim.g.maximizer_set_mapping_with_bang = 1
-      vim.api.nvim_set_keymap("n", "<C-w>z", ":MaximizerToggle!<CR>", { silent = true })
     end,
   },
   {
@@ -22,21 +24,21 @@ return {
   {
     "simrat39/symbols-outline.nvim",
     opts = {},
-    init = function()
-      vim.api.nvim_set_keymap("n", "<Leader>cs", ":SymbolsOutline<CR>", { silent = true })
-    end,
+    keys = {
+      { "<Leader>cs", ":SymbolsOutline<CR>", silent = true, desc = "Show symbols" },
+    },
   },
   {
     "tpope/vim-fugitive",
-    init = function()
-      vim.api.nvim_set_keymap("n", "<Leader>gs", ":Git<CR>", { silent = true, desc = "Git status" })
-      vim.api.nvim_set_keymap("n", "<Leader>gd", ":Gvdiffsplit<CR>", { silent = true, desc = "Git diff" })
-      vim.api.nvim_set_keymap("n", "<Leader>gl", ":0Gclog<CR>", { silent = true, desc = "Git log" })
-      vim.api.nvim_set_keymap("n", "<Leader>gb", ":Git blame<CR>", { silent = true, desc = "Git blame" })
-      vim.api.nvim_set_keymap("n", "<Leader>gr", ":Gread<CR>", { silent = true, desc = "Git restore" })
-      vim.api.nvim_set_keymap("n", "<Leader>ga", ":Gwrite<CR>", { silent = true, desc = "Git add" })
-      vim.api.nvim_set_keymap("n", "<Leader>gc", ":Git commit<CR>", { silent = true, desc = "Git commit" })
-    end,
+    keys = {
+      { "<Leader>gs", ":Git<CR>", silent = true, desc = "Git status" },
+      { "<Leader>gd", ":Gvdiffsplit<CR>", silent = true, desc = "Git diff" },
+      { "<Leader>gl", ":0Gclog<CR>", silent = true, desc = "Git log" },
+      { "<Leader>gb", ":Git blame<CR>", silent = true, desc = "Git blame" },
+      { "<Leader>gr", ":Gread<CR>", silent = true, desc = "Git restore" },
+      { "<Leader>ga", ":Gwrite<CR>", silent = true, desc = "Git add" },
+      { "<Leader>gc", ":Git commit<CR>", silent = true, desc = "Git commit" },
+    },
   },
   --GBrowse support
   { "tpope/vim-rhubarb" },

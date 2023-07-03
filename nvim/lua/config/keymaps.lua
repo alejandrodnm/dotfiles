@@ -45,3 +45,5 @@ vim.keymap.set("n", "]]", "]]zz")
 vim.keymap.set({ "n", "v" }, "<Leader>/", function()
   return MiniComment.operator() .. "_"
 end, { expr = true, desc = "Comment line" })
+
+vim.keymap.del("n", "<leader>bb")

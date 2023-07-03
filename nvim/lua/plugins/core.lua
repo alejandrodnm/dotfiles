@@ -165,6 +165,8 @@ return {
         '<cmd>lua require("dash.providers.telescope").dash({ bang = false, initial_text = "" })<cr>',
         desc = "Dash",
       },
+      -- find buffers
+      { "<leader>bb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
     },
   },
   {
@@ -224,7 +226,6 @@ return {
       -- Needed for trees-context floating win border
       -- https://github.com/neovim/neovim/issues/17996#issuecomment-1186208986
       vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#021316" })
-      vim.api.nvim_set_keymap("n", "<Leader>lh", ":write <bar> edit <bar> TSBufEnable highlight<CR>", { silent = true })
     end,
   },
 }
