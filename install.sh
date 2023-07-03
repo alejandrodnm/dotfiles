@@ -171,6 +171,9 @@ install_rust() {
 	asdf plugin-add rust https://github.com/asdf-community/asdf-rust.git
 	asdf install rust latest
 	asdf global rust latest
+	cargo install cargo-update
+	curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+	cargo binstall cargo-nextest --secure
 }
 
 install_timescale() {
