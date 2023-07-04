@@ -59,6 +59,12 @@ return {
         lualine_x = {
           -- stylua: ignore
           {
+            function() return require("noice").api.status.mode.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+            color = Util.fg("Constant"),
+          },
+          -- stylua: ignore
+          {
             function() return "  " .. require("dap").status() end,
             cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
             color = Util.fg("Debug"),
@@ -159,14 +165,12 @@ return {
       { "<leader>gc", false },
       { "<leader>gs", false },
       -- find files
-      { "<Leader>fg", "<cmd>Telescope git_status<cr>", desc = "Git status files" },
+      { "<leader>fg", "<cmd>Telescope git_status<cr>", desc = "Git status files" },
       {
-        "<Leader>ch",
+        "<leader>ch",
         '<cmd>lua require("dash.providers.telescope").dash({ bang = false, initial_text = "" })<cr>',
         desc = "Dash",
       },
-      -- find buffers
-      { "<leader>bb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
     },
   },
   {
