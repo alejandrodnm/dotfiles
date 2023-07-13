@@ -1,32 +1,12 @@
 -- change trouble config
 return {
-  { "akinsho/bufferline.nvim", opts = {
-    options = {
-      mode = "tabs",
-    },
-  } },
+  { "rcarriga/nvim-notify", enabled = false },
+  { "akinsho/bufferline.nvim", opts = { options = { mode = "tabs" } } },
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
       local icons = require("lazyvim.config").icons
       local Util = require("lazyvim.util")
-      opts.winbar = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {
-          {
-            function()
-              return require("nvim-navic").get_location()
-            end,
-            cond = function()
-              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-            end,
-          },
-        },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      }
 
       opts.inactive_winbar = {
         lualine_a = {},
@@ -57,6 +37,14 @@ return {
           { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
         },
         lualine_x = {
+          {
+            function()
+              return require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+          },
           -- stylua: ignore
           {
             function() return require("noice").api.status.mode.get() end,
@@ -104,6 +92,12 @@ return {
             },
           },
         },
+        -- rust_analyzer = {
+        --   keys = {
+        --     { "<leader>cR", false },
+        --     { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
+        --   },
+        -- },
       },
     },
   },
@@ -159,6 +153,7 @@ return {
       end,
     },
     keys = {
+      { ",,", false },
       -- disable the keymap to grep files
       { "<leader>/", false },
       -- disable telescope git mappings
@@ -195,8 +190,17 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
-      opts.mapping = vim.tbl_extend("force", opts.mapping, {
+      opts.mapping = cmp.mapping.preset.insert({
+        ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-e>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<S-CR>"] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<C-c>"] = cmp.mapping.abort(),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then

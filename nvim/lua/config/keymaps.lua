@@ -49,3 +49,7 @@ end, { expr = true, desc = "Comment line" })
 vim.keymap.del("n", "<leader>bb")
 -- Set find buffers mapping. This didn't work when setting it on Telescope spec
 vim.keymap.set("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
+--
+-- Paste from 0 register
+vim.keymap.set("n", "<Leader>P", '"0p<CR>')
+vim.keymap.set("v", "<Leader>P", '"0p<CR>')
