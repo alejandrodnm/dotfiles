@@ -1,5 +1,64 @@
 -- change trouble config
 return {
+  -- interative rename
+  { "smjonas/inc-rename.nvim", config = true },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      -- LSP Server Settings
+      ---@type lspconfig.options
+      servers = {
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = {
+                  ignore = { "W391", "E501" },
+                  maxLineLength = 120,
+                },
+              },
+            },
+          },
+        },
+        rust_analyzer = {
+          keys = {
+            { "<leader>cR", false },
+            { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
+          },
+        },
+      },
+    },
+    init = function()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+
+      -- Change rename from `<leader>cr` to `<leader>cR`
+      keys[#keys + 1] = { "<leader>cr", false }
+
+      if require("lazyvim.util").has("inc-rename.nvim") then
+        keys[#keys + 1] = {
+          "<leader>cn",
+          function()
+            local inc_rename = require("inc_rename")
+            return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
+          end,
+          expr = true,
+          desc = "Rename",
+          has = "rename",
+        }
+      else
+        keys[#keys + 1] = { "<leader>cn", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
+      end
+    end,
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    opts = function(_, opts)
+      local nls = require("null-ls")
+      opts.sources = vim.tbl_extend("force", opts.sources, {
+        nls.builtins.formatting.sqlfmt,
+      })
+    end,
+  },
   { "rcarriga/nvim-notify", enabled = false },
   { "akinsho/bufferline.nvim", opts = { options = { mode = "tabs" } } },
   {
@@ -75,33 +134,6 @@ return {
     end,
   },
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      -- LSP Server Settings
-      ---@type lspconfig.options
-      servers = {
-        pylsp = {
-          settings = {
-            pylsp = {
-              plugins = {
-                pycodestyle = {
-                  ignore = { "W391", "E501" },
-                  maxLineLength = 120,
-                },
-              },
-            },
-          },
-        },
-        -- rust_analyzer = {
-        --   keys = {
-        --     { "<leader>cR", false },
-        --     { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
-        --   },
-        -- },
-      },
-    },
-  },
-  {
     "simrat39/rust-tools.nvim",
     opts = {
       server = {
@@ -125,8 +157,6 @@ return {
       },
     },
   },
-  -- interative rename
-  { "smjonas/inc-rename.nvim", config = true },
   {
     "folke/flash.nvim",
     opts = {
@@ -237,15 +267,3 @@ return {
     end,
   },
 }
-
---[[
--- Themes
-Plug('jdkanani/vim-material-theme')
-Plug('terryma/vim-multiple-cursors')
-Plug('tpope/vim-unimpaired')  -- Mappings
-Plug('vim-airline/vim-airline')  -- Status line info
-Plug('vim-airline/vim-airline-themes')
-
-
-]]
---

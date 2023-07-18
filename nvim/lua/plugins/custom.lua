@@ -32,6 +32,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
+    lazy = false,
     keys = {
       { "<Leader>gs", ":Git<CR>", silent = true, desc = "Git status" },
       { "<Leader>gd", ":Gvdiffsplit<CR>", silent = true, desc = "Git diff" },
@@ -67,4 +68,6 @@ return {
       vim.fn["fzf#install"]()
     end,
   },
+  { "jdkanani/vim-material-theme" },
+  { "terryma/vim-multiple-cursors" },
 }
