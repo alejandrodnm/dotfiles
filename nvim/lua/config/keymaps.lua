@@ -51,5 +51,5 @@ vim.keymap.del("n", "<leader>bb")
 vim.keymap.set("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 --
 -- Paste from 0 register
-vim.keymap.set("n", "<Leader>P", '"0p<CR>')
-vim.keymap.set("v", "<Leader>P", '"0p<CR>')
+vim.keymap.set("n", "<Leader>p", '"0p<CR>')
+vim.keymap.set("v", "<Leader>p", '"0p<CR>')
