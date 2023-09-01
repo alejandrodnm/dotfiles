@@ -16,16 +16,15 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    opts = {
-      keys = {
-        { "<leader>tt", false },
-        {
-          "<leader>tf",
-          function()
-            require("neotest").run.run(vim.fn.expand("%"))
-          end,
-          desc = "Run File",
-        },
+    opts = {},
+    keys = {
+      { "<leader>tt", false },
+      {
+        "<leader>tf",
+        function()
+          require("neotest").run.run(vim.fn.expand("%"))
+        end,
+        desc = "Run File",
       },
     },
   },
@@ -34,8 +33,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      -- LSP Server Settings
-      ---@type lspconfig.options
       servers = {
         pylsp = {
           settings = {
@@ -295,4 +292,5 @@ return {
       vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#021316" })
     end,
   },
+  { "echasnovski/mini.pairs", enabled = false },
 }

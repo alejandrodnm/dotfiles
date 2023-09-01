@@ -11,7 +11,10 @@
 vim.keymap.set("n", "<Space>", "i<Space><Right><Esc>")
 
 -- Quit
-vim.keymap.set("n", "<Leader>q", ":quit<CR>")
+vim.keymap.del("n", "<leader>qq")
+vim.keymap.set("n", "<leader>qq", ":quit<CR>", { desc = "Quit" })
+vim.keymap.set("n", "<leader>qa", "<cmd>qa<cr>", { desc = "Quit all" })
+
 -- vim.keymap.set("n", "<Leader>k", ":bdelete<CR>")
 
 -- Only
@@ -26,11 +29,11 @@ vim.keymap.set("n", "<Leader>o", ":only<CR>")
 -- vim.keymap.set('c', 'w!!', "execute 'silent! write !sudo tee % >/dev/null' <bar> edit!")
 
 -- Tabs
-vim.keymap.set("n", "<Leader>tt", ":$tabnew<CR>")
-vim.keymap.set("n", "<Leader>tc", ":tabclose<CR>")
+vim.keymap.set("n", "<leader>tt", ":$tabnew<CR>", { desc = "Tab new" })
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "Tab close" })
 
 -- Replace \n with enter
--- vim.keymap.set("n", "<Leader>n", ":'<,'>s/\\n/^M/g")
+vim.keymap.set("n", "<Leader>cn", ":'<,'>s/\\n/\r/g", { desc = "Replace \\n with new line" })
 
 -- Jumps and zz
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
