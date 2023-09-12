@@ -1,4 +1,5 @@
 -- change trouble config
+local util = require("lspconfig.util")
 return {
   {
     "gbprod/yanky.nvim",
@@ -52,6 +53,15 @@ return {
             { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
           },
         },
+        -- postgres_lsp = {
+        --   default_config = {
+        --     name = "postgres_lsp",
+        --     cmd = { "/Users/adn/.asdf/installs/rust/1.72/bin/postgres_lsp" },
+        --     filetypes = { "sql" },
+        --     single_file_support = true,
+        --     root_dir = util.root_pattern("root-file.txt"),
+        --   },
+        -- },
       },
     },
     init = function()

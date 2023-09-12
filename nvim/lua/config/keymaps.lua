@@ -8,7 +8,7 @@
 -- })
 
 -- Insert space in normal mode
-vim.keymap.set("n", "<Space>", "i<Space><Right><Esc>")
+vim.keymap.set("n", "<space>", "i<space><right><esc>")
 
 -- Quit
 vim.keymap.del("n", "<leader>qq")
