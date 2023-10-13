@@ -1,3 +1,7 @@
+# TODO: remove when no longer used
+export TARGET="postgres://adn@localhost/target"
+export SOURCE="postgres://adn@localhost/mgd"
+
 export HOMEBREW_PREFIX=/opt/homebrew
 export HOMEBREW_CELLAR=/opt/homebrew/Cellar
 export HOMEBREW_REPOSITORY=/opt/homebrew
@@ -167,7 +171,9 @@ export AWS_PAGER=bat
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 # oh-my-zsh defines an alias for ls so we override it here
-alias ls='exa -bla --git --icons'
+alias ls='eza -bla --git --icons'
+
+alias tf='terraform destroy --auto-approve && terraform apply --auto-approve'
 
 # Disable the forward-char autosuggest
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
@@ -244,6 +250,10 @@ docker::prune() {
 
 sshTS() {
   ssh -i "~/.ssh/alejandro-donascimento-ts.pem" $1
+}
+
+et() {
+  export TARGET="$1"
 }
 
 # Brew openssl

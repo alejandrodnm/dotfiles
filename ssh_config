@@ -1,12 +1,15 @@
-Host *
-  AddKeysToAgent yes
-  UseKeychain yes
-  IdentityFile ~/.ssh/id_rsa_adn
-
 Host github.com
-    ControlMaster auto
+    ControlMaster no
     ControlPath ~/.ssh/sockets/%r@%h-%p
     ControlPersist 600
     AddKeysToAgent yes
     UseKeychain yes
     IdentityFile ~/.ssh/id_rsa_adn
+    Hostname ssh.github.com
+    Port 443
+    User git
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa_adn

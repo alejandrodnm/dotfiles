@@ -86,15 +86,6 @@ return {
       end
     end,
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    opts = function(_, opts)
-      local nls = require("null-ls")
-      opts.sources = vim.tbl_extend("force", opts.sources, {
-        nls.builtins.formatting.sqlfmt,
-      })
-    end,
-  },
   { "rcarriga/nvim-notify", enabled = false },
   { "akinsho/bufferline.nvim", opts = { options = { mode = "tabs" } } },
   {
@@ -132,25 +123,17 @@ return {
           { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
         },
         lualine_x = {
-          {
-            function()
-              return require("nvim-navic").get_location()
-            end,
-            cond = function()
-              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-            end,
-          },
           -- stylua: ignore
           {
-            function() return require("noice").api.status.mode.get() end,
-            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-            color = Util.fg("Constant"),
+            function() return require("noice").api.status.command.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+            color = Util.ui.fg("Constant"),
           },
           -- stylua: ignore
           {
             function() return "  " .. require("dap").status() end,
             cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
-            color = Util.fg("Debug"),
+            color = Util.ui.fg("Debug"),
           },
           {
             "diff",
@@ -256,6 +239,8 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
+      opts.sorting.priority_weight = 10
+
       opts.mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -274,7 +259,7 @@ return {
             cmp.select_next_item()
           -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
           -- this way you will only jump inside the snippet region
-          elseif luasnip.expand_or_jumpable() then
+          elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
@@ -303,4 +288,20 @@ return {
     end,
   },
   { "echasnovski/mini.pairs", enabled = false },
+  {
+    "mfussenegger/nvim-lint",
+    opts = function(_, opts)
+      opts.linters_by_ft = {
+        markdown = { "vale" },
+      }
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        sql = { "sql_formatter" },
+      },
+    },
+  },
 }
