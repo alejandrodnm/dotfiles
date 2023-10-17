@@ -299,6 +299,11 @@ return {
   {
     "stevearc/conform.nvim",
     opts = {
+      formatters = {
+        sql_formatter = {
+          command = "sql-formatter -l postgresql",
+        },
+      },
       formatters_by_ft = {
         sql = { "sql_formatter" },
       },
