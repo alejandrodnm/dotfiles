@@ -109,3 +109,9 @@ docker volume rm $(docker volume ls -qf dangling=true)
 # Prune everything
 
 docker system prune -f ; docker volume prune -f ; docker rm -f -v $(docker ps -q -a)
+
+% docker, timescale, postgres
+
+# Runs a timescale container on 5433
+
+docker run --rm --name ts -e POSTGRES_HOST_AUTH_METHOD=trust -p 5433:5432 timescale/timescaledb-ha:pg15

@@ -1,7 +1,7 @@
 # TODO: remove when no longer used
 export TARGET="postgres://adn@localhost/target"
 export SOURCE="postgres://adn@localhost/mgd"
-
+export PG_DOCKER="postgres://postgres@localhost:5433/postgres"
 export HOMEBREW_PREFIX=/opt/homebrew
 export HOMEBREW_CELLAR=/opt/homebrew/Cellar
 export HOMEBREW_REPOSITORY=/opt/homebrew

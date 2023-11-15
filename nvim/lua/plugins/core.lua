@@ -301,11 +301,14 @@ return {
     opts = {
       formatters = {
         sql_formatter = {
-          command = "sql-formatter -l postgresql",
+          command = "pg_format",
+          args = "-f 1 -u 1 -U 1 -s 2 -t --no-space-function --no-extra-line --nogrouping -k",
         },
       },
       formatters_by_ft = {
         sql = { "sql_formatter" },
+        pgsql = { "sql_formatter" },
+        -- python = { "black" },
       },
     },
   },
