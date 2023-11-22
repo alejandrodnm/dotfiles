@@ -11,10 +11,10 @@ main() {
 	install_kitty
 	install_zsh
 	install_node
+	install_rust
 	install_vim
 	install_golang
 	install_postgres
-	install_rust
 	install_navi
 	install_completitions
 	install_ssh_config
@@ -129,6 +129,9 @@ install_zsh() {
 
 install_vim() {
 	echo "Configuring neovim"
+	cargo binstall bob-nvim --secure -y
+	bob install nightly
+	bob use nightly
 
 	if [ -e ${HOME}/.config/nvim ] || [ -L ${HOME}/.config/nvim ]; then
 		rm -rf ${HOME}/.config/nvim/init.vim

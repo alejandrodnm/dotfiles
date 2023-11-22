@@ -5,7 +5,7 @@ export PG_DOCKER="postgres://postgres@localhost:5433/postgres"
 export HOMEBREW_PREFIX=/opt/homebrew
 export HOMEBREW_CELLAR=/opt/homebrew/Cellar
 export HOMEBREW_REPOSITORY=/opt/homebrew
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
+export PATH="$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 eval "$(navi widget zsh)"
 eval "$(zoxide init zsh)"
