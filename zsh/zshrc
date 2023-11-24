@@ -200,6 +200,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa_adn"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
+alias ct="cargo nextest run"
 
 # FZF
 # --files: Print each file that would be searched without actually performing the search.
