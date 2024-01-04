@@ -18,3 +18,4 @@ vim.o.signcolumn = "auto:2"
 vim.o.laststatus = 2
 vim.o.wrap = true
 vim.o.fillchars = "horiz:-,vert:|"
+vim.o.tw = 79

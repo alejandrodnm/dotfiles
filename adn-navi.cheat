@@ -88,7 +88,7 @@ echo "sudo su\nwget https://gist.githubusercontent.com/alejandrodnm/e3ec3433f381
 
 docker exec -it <container> psql
 
-$ container: docker ps | rg timescale --- --column 1
+$ container: docker ps | rg 'timescale|postgres' --- --column 1
 
 % docker, pgcli
 
@@ -96,7 +96,7 @@ $ container: docker ps | rg timescale --- --column 1
 
 pgcli -p $(docker inspect --format='{{(index (index .NetworkSettings.Ports "5432/tcp") 0).HostPort}}' <container>) -h 127.0.0.1 -u postgres
 
-$ container: docker ps | rg timescale --- --column 1
+$ container: docker ps | rg 'timescale|postgres' --- --column 1
 
 % docker
 

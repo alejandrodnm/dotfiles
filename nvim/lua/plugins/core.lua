@@ -1,6 +1,15 @@
 -- change trouble config
 local util = require("lspconfig.util")
 return {
+
+  {
+    "stevearc/dressing.nvim",
+    opts = {
+      select = {
+        telescope = nil,
+      },
+    },
+  },
   {
     "gbprod/yanky.nvim",
     dependencies = { { "kkharji/sqlite.lua", enabled = not jit.os:find("Windows") } },
@@ -47,12 +56,13 @@ return {
             },
           },
         },
-        rust_analyzer = {
-          keys = {
-            { "<leader>cR", false },
-            { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
-          },
-        },
+        -- rust_analyzer = {
+        --   keys = {
+        --     { "<leader>cR", false },
+        --     { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
+        --   },
+        -- },
+        rust_analyzer = {},
         -- postgres_lsp = {
         --   default_config = {
         --     name = "postgres_lsp",
@@ -62,6 +72,11 @@ return {
         --     root_dir = util.root_pattern("root-file.txt"),
         --   },
         -- },
+      },
+      setup = {
+        rust_analyzer = function()
+          return true
+        end,
       },
     },
     init = function()
@@ -154,17 +169,7 @@ return {
   },
   {
     "simrat39/rust-tools.nvim",
-    opts = {
-      server = {
-        settings = {
-          ["rust-analyzer"] = {
-            checkOnSave = {
-              command = "clippy",
-            },
-          },
-        },
-      },
-    },
+    enabled = false,
   },
   {
     "nvim-neo-tree/neo-tree.nvim",

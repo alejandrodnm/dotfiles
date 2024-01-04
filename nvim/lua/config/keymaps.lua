@@ -56,3 +56,9 @@ vim.keymap.set("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { desc = "Buffer
 -- Paste from 0 register
 vim.keymap.set("n", "<Leader>p", '"0p<CR>')
 vim.keymap.set("v", "<Leader>p", '"0p<CR>')
+
+-- Delete the move up and down keymaps
+vim.keymap.del("n", "<A-j>")
+vim.keymap.del("n", "<A-k>")
+vim.keymap.del("i", "<A-j>")
+vim.keymap.del("i", "<A-k>")

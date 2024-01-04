@@ -10,6 +10,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+-- Something somewhere is setting tw=99 for rust
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "rust" },
+  callback = function()
+    vim.o.tw = 79
+  end,
+})
+
 vim.api.nvim_create_user_command("Format", function(args)
   local range = nil
   if args.count ~= -1 then

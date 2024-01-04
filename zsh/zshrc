@@ -1,6 +1,6 @@
 # TODO: remove when no longer used
 export TARGET="postgres://adn@localhost/target"
-export SOURCE="postgres://adn@localhost/mgd"
+export SOURCE="postgres://adn@localhost/source"
 export PG_DOCKER="postgres://postgres@localhost:5433/postgres"
 export HOMEBREW_PREFIX=/opt/homebrew
 export HOMEBREW_CELLAR=/opt/homebrew/Cellar
@@ -48,12 +48,12 @@ alias cat='bat'
 alias sed=gsed
 
 # Postgres
-alias pg_start="brew services start postgresql@15"
-alias pg_restart="brew services restart postgresql@15"
-alias pg_stop="brew services stop postgresql@15"
-alias pg_logs_tail="tail -f /opt/homebrew/var/log/postgresql@15.log"
-alias pg_logs_cat="cat /opt/homebrew/var/log/postgresql@15.log"
-export PATH="/opt/homebrew/opt/postgresql@15/bin:${PATH}"
+alias pg_start="brew services start postgresql@16"
+alias pg_restart="brew services restart postgresql@16"
+alias pg_stop="brew services stop postgresql@16"
+alias pg_logs_tail="tail -f /opt/homebrew/var/log/postgresql@16.log"
+alias pg_logs_cat="cat /opt/homebrew/var/log/postgresql@16.log"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:${PATH}"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
@@ -180,15 +180,6 @@ ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
 # Start new lines in insert mode
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 
-# asdf version manager for elm elixir erlang
-# https://gist.github.com/rubencaro/6a28138a40e629b06470
-if [ -e $HOME/.asdf/asdf.sh ] ; then
-  export PATH="${HOME}/.asdf/installs/haskell/8.4.4/bin:${PATH}"
-fi
-# Haskell
-# https://github.com/haskell/haskell-ide-engine/issues/1158
-export HIE_HOOGLE_DATABASE=/Users/adonascimento/dev/third_party/haskell-ide-engine/.stack-work/hoogle/x86_64-osx/lts-13.10/8.6.3/database.hoo
-
 # Go
 export GOPATH="$HOME/go"
 export PATH="$HOME/go/bin:$PATH"
@@ -262,6 +253,8 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig"
+
+export PATH="$HOME/.local/share/nvim/mason/bin/:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /Users/adn/.asdf/installs/terraform/1.4.6/bin/terraform terraform
