@@ -304,16 +304,17 @@ return {
   {
     "stevearc/conform.nvim",
     opts = {
-      formatters = {
-        sql_formatter = {
-          command = "pg_format",
-          args = "-f 1 -u 1 -U 1 -s 2 -t --no-space-function --no-extra-line --nogrouping -k",
-        },
-      },
+      -- formatters = {
+      --   sql_formatter = {
+      --     command = "pg_format",
+      --     args = "-f 1 -u 1 -U 1 -s 2 --no-space-function --no-extra-line --nogrouping -k",
+      --   },
+      -- },
       formatters_by_ft = {
-        sql = { "sql_formatter" },
-        pgsql = { "sql_formatter" },
+        -- sql = { "sql_formatter" },
+        -- pgsql = { "sql_formatter" },
         -- python = { "black" },
+        c = { "clang_format" },
       },
     },
   },
