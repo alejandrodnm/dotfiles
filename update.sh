@@ -4,3 +4,4 @@ omz update
 ~/.tmux/plugins/tpm/bin/update_plugins all
 cargo binstall cargo-binstall
 cargo install-update -a
+bob update nightly
