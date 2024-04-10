@@ -2,6 +2,7 @@
 local util = require("lspconfig.util")
 return {
 
+  { "ahmedkhalf/project.nvim", enabled = false },
   {
     "stevearc/dressing.nvim",
     opts = {
@@ -56,27 +57,6 @@ return {
             },
           },
         },
-        -- rust_analyzer = {
-        --   keys = {
-        --     { "<leader>cR", false },
-        --     { "<leader>cr", "<cmd>RustCodeAction<cr>", desc = "Code Action (Rust)" },
-        --   },
-        -- },
-        rust_analyzer = {},
-        -- postgres_lsp = {
-        --   default_config = {
-        --     name = "postgres_lsp",
-        --     cmd = { "/Users/adn/.asdf/installs/rust/1.72/bin/postgres_lsp" },
-        --     filetypes = { "sql" },
-        --     single_file_support = true,
-        --     root_dir = util.root_pattern("root-file.txt"),
-        --   },
-        -- },
-      },
-      setup = {
-        rust_analyzer = function()
-          return true
-        end,
       },
     },
     init = function()
@@ -166,10 +146,6 @@ return {
         },
       })
     end,
-  },
-  {
-    "simrat39/rust-tools.nvim",
-    enabled = false,
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -297,7 +273,7 @@ return {
     "mfussenegger/nvim-lint",
     opts = function(_, opts)
       opts.linters_by_ft = {
-        markdown = { "vale" },
+        -- markdown = { "vale" },
       }
     end,
   },

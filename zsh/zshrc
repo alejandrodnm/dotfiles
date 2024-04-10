@@ -173,7 +173,8 @@ source $ZSH/oh-my-zsh.sh
 # oh-my-zsh defines an alias for ls so we override it here
 alias ls='eza -bla --git --icons'
 
-alias tf='terraform destroy --auto-approve && terraform apply --auto-approve'
+alias tf='terraform'
+alias tfda='terraform destroy --auto-approve && terraform apply --auto-approve'
 
 # Disable the forward-char autosuggest
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
@@ -261,3 +262,5 @@ export PATH="$HOME/.local/share/nvim/mason/bin/:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /Users/adn/.asdf/installs/terraform/1.4.6/bin/terraform terraform
+
+eval "$(atuin init zsh)"
