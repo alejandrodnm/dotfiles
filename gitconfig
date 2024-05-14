@@ -1,9 +1,9 @@
 [user]
-	name = Alejandro Do Nascimento Mora
-	signingkey = 569D9E72A32FFF6D
-	email = alejandrodnm@gmail.com
+  name = Alejandro Do Nascimento Mora
+  signingkey = 569D9E72A32FFF6D
+  email = alejandrodnm@gmail.com
 [url "git@github.com:"]
-	insteadOf = https://github.com
+  insteadOf = https://github.com
 [alias]
   # list files which have changed since REVIEW_BASE
   # (REVIEW_BASE defaults to 'master' in my zshrc)
@@ -25,41 +25,41 @@
   # instead of opening all files:
   # git reviewone foo.js bar.js
   reviewone = !nvim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
-	fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
-	fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
+  fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+  fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
 [core]
-	excludesfile = /Users/adn/.gitignore_global
-	# pager = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = /Users/adn/.gitignore_global
+  # pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
 [pull]
-	rebase = false
+  rebase = false
 [rebase]
-	autosquash = true
+  autosquash = true
 [interactive]
-	# diffFilter = diff-so-fancy --patch
+  # diffFilter = diff-so-fancy --patch
   diffFilter = delta --color-only
 [color]
-	ui = true
+  ui = true
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
 [color "diff"]
-	meta = 11
-	frag = magenta bold
-	func = 146 bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+  meta = 11
+  frag = magenta bold
+  func = 146 bold
+  commit = yellow bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
 [commit]
-	gpgsign = true
+  gpgsign = true
 [delta]
   navigate = true    # use n and N to move between diff sections
   light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
@@ -68,4 +68,4 @@
 [diff]
   colorMoved = default
 [init]
-	defaultBranch = main
+  defaultBranch = main
