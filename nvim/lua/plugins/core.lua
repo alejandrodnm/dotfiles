@@ -1,5 +1,4 @@
 -- change trouble config
-local util = require("lspconfig.util")
 return {
 
   { "ahmedkhalf/project.nvim", enabled = false },
@@ -15,12 +14,13 @@ return {
     "gbprod/yanky.nvim",
     dependencies = { { "kkharji/sqlite.lua", enabled = not jit.os:find("Windows") } },
     keys = {
-      { "<leader>p", false },
+      { "<leader>p", mode = { "n", "x" }, false },
       {
         "<leader>P",
         function()
           require("telescope").extensions.yank_history.yank_history({})
         end,
+        mode = { "n", "x" },
         desc = "Open Yank History",
       },
     },
@@ -44,20 +44,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      servers = {
-        pylsp = {
-          settings = {
-            pylsp = {
-              plugins = {
-                pycodestyle = {
-                  ignore = { "W391", "E501" },
-                  maxLineLength = 120,
-                },
-              },
-            },
-          },
-        },
-      },
       setup = {
         rust_analyzer = function()
           return true
@@ -188,9 +174,8 @@ return {
       end,
     },
     keys = {
+      -- disable the keymap to change buffers
       { ",,", false },
-      -- disable the keymap to grep files
-      { "<leader>/", false },
       -- disable telescope git mappings
       { "<leader>gc", false },
       { "<leader>gs", false },
@@ -202,63 +187,80 @@ return {
         desc = "Dash",
       },
     },
+    opts = function(_, opts)
+      local actions = require("telescope.actions")
+      opts.defaults.mappings.i["<C-j>"] = actions.move_selection_next
+      opts.defaults.mappings.i["<C-k>"] = actions.move_selection_previous
+      opts.defaults.mappings.i["<C-h>"] = actions.results_scrolling_left
+      opts.defaults.mappings.i["<C-l>"] = actions.results_scrolling_right
+      opts.defaults.mappings.i["<M-l>"] = actions.complete_tag
+    end,
   },
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   dependencies = {
-  --     "hrsh7th/cmp-emoji",
-  --   },
-  --   ---@param opts cmp.ConfigSchema
-  --   opts = function(_, opts)
-  --     local has_words_before = function()
-  --       unpack = unpack or table.unpack
-  --       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  --       return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-  --     end
-  --
-  --     local luasnip = require("luasnip")
-  --     local cmp = require("cmp")
-  --
-  --     opts.sorting.priority_weight = 10
-  --
-  --     opts.mapping = cmp.mapping.preset.insert({
-  --       ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-  --       ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-  --       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-  --       ["<C-f>"] = cmp.mapping.scroll_docs(4),
-  --       ["<C-e>"] = cmp.mapping.confirm({ select = true }),
-  --       ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  --       ["<S-CR>"] = cmp.mapping.confirm({
-  --         behavior = cmp.ConfirmBehavior.Replace,
-  --         select = true,
-  --       }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  --       ["<C-c>"] = cmp.mapping.abort(),
-  --       ["<Tab>"] = cmp.mapping(function(fallback)
-  --         if cmp.visible() then
-  --           -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
-  --           cmp.select_next_item()
-  --         -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-  --         -- this way you will only jump inside the snippet region
-  --         elseif luasnip.expand_or_locally_jumpable() then
-  --           luasnip.expand_or_jump()
-  --         elseif has_words_before() then
-  --           cmp.complete()
-  --         else
-  --           fallback()
-  --         end
-  --       end, { "i", "s" }),
-  --       ["<S-Tab>"] = cmp.mapping(function(fallback)
-  --         if cmp.visible() then
-  --           cmp.select_prev_item()
-  --         elseif luasnip.jumpable(-1) then
-  --           luasnip.jump(-1)
-  --         else
-  --           fallback()
-  --         end
-  --       end, { "i", "s" }),
-  --     })
-  --   end,
-  -- },
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      local cmp = require("cmp")
+      opts.mapping = vim.tbl_deep_extend("force", opts.mapping, {
+        ["<C-e>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+        ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ["<C-c>"] = cmp.mapping.abort(),
+
+        -- This is using luasnip instead of the builtin snippets
+        --
+        --   ["<Tab>"] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --       -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
+        --       cmp.select_next_item()
+        --     -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+        --     -- this way you will only jump inside the snippet region
+        --     elseif luasnip.expand_or_locally_jumpable() then
+        --       luasnip.expand_or_jump()
+        --     elseif has_words_before() then
+        --       cmp.complete()
+        --     else
+        --       fallback()
+        --     end
+        --   end, { "i", "s" }),
+        --   ["<S-Tab>"] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --       cmp.select_prev_item()
+        --     elseif luasnip.jumpable(-1) then
+        --       luasnip.jump(-1)
+        --     else
+        --       fallback()
+        --     end
+        --   end, { "i", "s" }),
+        -- })
+      })
+    end,
+  },
+  {
+    "nvim-cmp",
+    opts = function(_, opts)
+      for _, source in ipairs(opts.sources) do
+        if source.name == "copilot" then
+          source.priority = -100
+        end
+      end
+    end,
+    keys = {
+      {
+        "<Tab>",
+        false,
+        expr = true,
+        silent = true,
+        mode = { "i", "s" },
+      },
+      {
+        "<S-Tab>",
+        false,
+        expr = true,
+        silent = true,
+        mode = { "i", "s" },
+      },
+    },
+  },
   {
     "nvim-treesitter/nvim-treesitter-context",
     init = function()
@@ -293,6 +295,29 @@ return {
         -- pgsql = { "sql_formatter" },
         -- python = { "black" },
         c = { "clang_format" },
+      },
+    },
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    opts = {
+      menu = {
+        width = vim.api.nvim_win_get_width(0) - 4,
+      },
+      settings = {
+        save_on_toggle = true,
+      },
+    },
+    keys = {
+      { "<leader>h", "<cmd>Telescope harpoon marks<cr>", desc = "NeoTree" },
+      {
+        "<leader>HE",
+        function()
+          local harpoon = require("harpoon")
+          harpoon.ui:toggle_quick_menu(harpoon:list())
+        end,
+        desc = "Harpoon Quick Menu",
       },
     },
   },

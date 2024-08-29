@@ -115,3 +115,42 @@ docker system prune -f ; docker volume prune -f ; docker rm -f -v $(docker ps -q
 # Runs a timescale container on 5433
 
 docker run --rm --name ts -e POSTGRES_HOST_AUTH_METHOD=trust -p 5433:5432 timescale/timescaledb-ha:pg15
+
+% savannah-infra-prod
+
+# Update cluster command for all regions
+
+source scripts/utils/constants.sh
+regions=$(echo $VALID_CLUSTER_REGIONS | tr -d '()' | tr '|' ' ')
+read -r -a region_array <<< "$regions"
+reversed_array=()
+for (( idx=${#region_array[@]}-1 ; idx>=0 ; idx-- )) ; do
+  reversed_array+=("${region_array[idx]}")
+done
+for region in "${reversed_array[@]}"; do
+  kubectl config use-context "ts-prod@${region}"
+  ENV=prod REGION=$region make update-cluster
+done
+
+% k8s, pod, logs, tail
+
+# Tail logs of a pod
+
+kubectl stern pods/<pod> --namespace <namespace>
+
+$ namespace: kubectl get namespace --- --header-lines 1 --column 1
+$ pod: kubectl get pod --namespace=<namespace> --- --header-lines 1 --column 1
+
+% git, commit
+
+# Copy last commit hash
+
+git rev-parse HEAD | pbcopy
+
+% k8s, port-forward, grpc
+
+# Forward the ports of a grpc service
+
+kubectl -n savannah-system port-forward service/<service> 50050:50050 & while ! nc -z localhost 50050; do sleep 0.1; done; fg
+
+$ service: kubectl get service --namespace=savannah-system --- --header-lines 1 --column 1

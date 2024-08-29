@@ -1,3 +1,6 @@
+# Required for golang delve
+export CC=/usr/bin/cc
+export CXX=/usr/bin/c++
 # TODO: remove when no longer used
 export TARGET="postgres://adn@localhost/target"
 export SOURCE="postgres://adn@localhost/source"
@@ -48,12 +51,12 @@ alias cat='bat'
 alias sed=gsed
 
 # Postgres
-alias pg_start="brew services start postgresql@16"
-alias pg_restart="brew services restart postgresql@16"
-alias pg_stop="brew services stop postgresql@16"
-alias pg_logs_tail="tail -f /opt/homebrew/var/log/postgresql@16.log"
-alias pg_logs_cat="cat /opt/homebrew/var/log/postgresql@16.log"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:${PATH}"
+export DYLD_LIBRARY_PATH="$HOME/.asdf/installs/postgres/16.3/lib:$DYLD_LIBRARY_PATH"
+alias pg_start="PYTHONPATH=$HOME/dev/timescale/pgai/.venv/lib/python3.12/site-packages VIRTUAL_ENV=$HOME/dev/timescale/pgai/.venv $HOME/.asdf/installs/postgres/16.3/bin/pg_ctl -D $HOME/.asdf/installs/postgres/16.3/data -l /tmp/pg_log start"
+alias pg_restart="PYTHONPATH=$HOME/dev/timescale/pgai/.venv/lib/python3.12/site-packages VIRTUAL_ENV=$HOME/dev/timescale/pgai/.venv $HOME/.asdf/installs/postgres/16.3/bin/pg_ctl -D $HOME/.asdf/installs/postgres/16.3/data -l /tmp/pg_log restart"
+alias pg_stop="$HOME/.asdf/installs/postgres/16.3/bin/pg_ctl -D $HOME/.asdf/installs/postgres/16.3/data -l /tmp/pg_log stop"
+alias pg_logs_tail="tail -f /tmp/pg_log"
+alias pg_logs_cat="cat /tmp/pg_log"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
@@ -107,8 +110,6 @@ export REVIEW_BASE=main
 # Kubernetes
 alias k='kubectl'
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-alias k9s='k9s'
-alias helm-delete-all="helm delete \$(helm list | awk  '{ print \$1 }' | tail -n +2)"
 export PATH="${PATH}:${HOME}/.krew/bin"
 
 # Use for git branch in theme
@@ -253,7 +254,7 @@ et() {
 export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig"
+export PKG_CONFIG_PATH="/opt/homebrew/bin/pkg-config:$(brew --prefix icu4c)/lib/pkgconfig:$(brew --prefix curl)/lib/pkgconfig:$(brew --prefix zlib)/lib/pkgconfig:$(brew --prefix openssl@3)/lib/pkgconfig"
 
 # Use brew lldb
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

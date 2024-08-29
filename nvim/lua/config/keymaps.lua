@@ -57,3 +57,23 @@ vim.keymap.del("n", "<A-j>")
 vim.keymap.del("n", "<A-k>")
 vim.keymap.del("i", "<A-j>")
 vim.keymap.del("i", "<A-k>")
+
+local Util = require("lazyvim.util")
+local wk = require("which-key")
+
+wk.register({
+  fe = {
+    function()
+      require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+    end,
+    "Explorer NeoTree (cwd)",
+  },
+  fE = {
+    function()
+      require("neo-tree.command").execute({ toggle = true, dir = Util.root() })
+    end,
+    "Explorer NeoTree (root dir)",
+  },
+  e = { "<leader>fe", "Explorer NeoTree (cwd)", remap = true },
+  E = { "<leader>fE", "Explorer NeoTree (root dir)", remap = true },
+}, { prefix = "<leader>" })

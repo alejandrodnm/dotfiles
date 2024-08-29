@@ -23,15 +23,6 @@ return {
   },
   { "mrjones2014/dash.nvim", build = "make install", config = true },
   {
-    -- This is the original but outdated in terms of font/icons
-    -- "simrat39/symbols-outline.nvim",
-    "anstadnik/symbols-outline.nvim",
-    opts = {},
-    keys = {
-      { "<Leader>cs", ":SymbolsOutline<CR>", silent = true, desc = "Show symbols" },
-    },
-  },
-  {
     "tpope/vim-fugitive",
     lazy = false,
     keys = {
@@ -181,4 +172,6 @@ return {
       }, { prefix = "<leader>" })
     end,
   },
+  { "NoahTheDuke/vim-just" },
+  { "github/copilot.vim" },
 }
