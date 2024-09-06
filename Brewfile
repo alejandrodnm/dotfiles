@@ -1,5 +1,4 @@
 brew "fswatch"
-tap "homebrew/cask-fonts"
 tap "derailed/k9s"
 tap "universal-ctags/universal-ctags"
 tap "wagoodman/dive"

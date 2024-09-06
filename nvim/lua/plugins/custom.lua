@@ -60,7 +60,6 @@ return {
       vim.fn["fzf#install"]()
     end,
   },
-  { "jdkanani/vim-material-theme" },
   { "terryma/vim-multiple-cursors" },
   {
     "ldelossa/gh.nvim",
@@ -73,7 +72,11 @@ return {
       },
     },
     config = function(_, opts)
-      require("litee.lib").setup()
+      require("litee.lib").setup({
+        tree = {
+          icon_set = "nerd",
+        },
+      })
       require("litee.gh").setup(opts)
     end,
     opts = {
@@ -84,7 +87,7 @@ return {
       -- do not map any keys inside any gh.nvim buffers.
       disable_keymaps = false,
       -- the icon set to use.
-      icon_set = "default",
+      icon_set = "codicons",
       -- any custom icons to use.
       icon_set_custom = nil,
       -- whether to register the @username and #issue_number omnifunc completion

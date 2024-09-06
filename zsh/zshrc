@@ -50,6 +50,8 @@ alias flushCache='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias cat='bat'
 alias sed=gsed
 
+alias ipython="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
+
 # Postgres
 export DYLD_LIBRARY_PATH="$HOME/.asdf/installs/postgres/16.3/lib:$DYLD_LIBRARY_PATH"
 alias pg_start="PYTHONPATH=$HOME/dev/timescale/pgai/.venv/lib/python3.12/site-packages VIRTUAL_ENV=$HOME/dev/timescale/pgai/.venv $HOME/.asdf/installs/postgres/16.3/bin/pg_ctl -D $HOME/.asdf/installs/postgres/16.3/data -l /tmp/pg_log start"

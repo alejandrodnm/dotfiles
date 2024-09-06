@@ -310,7 +310,7 @@ return {
       },
     },
     keys = {
-      { "<leader>h", "<cmd>Telescope harpoon marks<cr>", desc = "NeoTree" },
+      { "<leader>h", "<cmd>Telescope harpoon marks<cr>", desc = "Harpoon" },
       {
         "<leader>HE",
         function()
