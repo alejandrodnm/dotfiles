@@ -154,3 +154,7 @@ git rev-parse HEAD | pbcopy
 kubectl -n savannah-system port-forward service/<service> 50050:50050 & while ! nc -z localhost 50050; do sleep 0.1; done; fg
 
 $ service: kubectl get service --namespace=savannah-system --- --header-lines 1 --column 1
+
+# Forward the ports for hyperweave
+
+kubectl -n savannah-system port-forward hyperweave-0 9092:9092

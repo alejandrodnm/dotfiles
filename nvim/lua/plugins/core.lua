@@ -44,10 +44,43 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      -- servers = {
+      --   pglsp = {},
+      -- },
       setup = {
         rust_analyzer = function()
           return true
         end,
+        -- pglsp = function(_, opts)
+        --   local lspconfig = require("lspconfig")
+        --   local configs = require("lspconfig.configs")
+        --   local util = require("lspconfig.util")
+        --
+        --   local root_files = {
+        --     ".git",
+        --   }
+        --
+        --   if not configs.pglsp then
+        --     configs.pglsp = {
+        --       default_config = {
+        --         name = "pglsp",
+        --         cmd = { "/Users/adn/dev/third-party/postgres_lsp/target/release/pglsp" },
+        --         filetypes = { "sql" },
+        --         single_file_support = true,
+        --         root_dir = util.root_pattern(unpack(root_files)),
+        --         settings = {
+        --           -- default settings here
+        --         },
+        --       },
+        --       commands = {},
+        --       docs = {
+        --         description = [[
+        --         ]],
+        --       },
+        --     }
+        --   end
+        --   lspconfig.pglsp.setup(opts)
+        -- end,
       },
     },
     init = function()
@@ -288,6 +321,13 @@ return {
         --   },
         shfmt = {
           prepend_args = { "-i", "2" },
+        },
+        sqlfluff = {
+          args = { "fix", "--dialect=postgres", "--config=/Users/adn/.sqlfluff", "-" },
+          stdin = true,
+          cwd = require("conform.util").root_file({
+            ".git",
+          }),
         },
       },
       formatters_by_ft = {
