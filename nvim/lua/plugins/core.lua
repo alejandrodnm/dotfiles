@@ -361,4 +361,13 @@ return {
       },
     },
   },
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   build = "make tiktoken", -- Only on MacOS or Linux
+  --   opts = {
+  --     debug = true, -- Enable debugging
+  --     model = "claude-3.5-sonnet",
+  --     -- See Configuration section for rest
+  --   },
+  -- },
 }
