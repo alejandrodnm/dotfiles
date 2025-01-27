@@ -30,18 +30,6 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
-  -- Golangci-lint
-  {
-    "mfussenegger/nvim-lint",
-    optional = true,
-    opts = {
-      linters_by_ft = {
-        go = { "golangcilint" },
-        gomod = { "golangcilint" },
-        gowork = { "golangcilint" },
-      },
-    },
-  },
   {
     "mason.nvim",
     opts = function(_, opts)
