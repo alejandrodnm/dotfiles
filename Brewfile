@@ -69,6 +69,7 @@ brew "grpcurl"
 brew "just"
 brew "usql"
 brew "qemu"
+brew "cargo-binstall"
 # END Needed for asdf postgres
 cask "spotify"
 cask "slack"

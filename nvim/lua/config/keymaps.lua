@@ -43,11 +43,6 @@ vim.keymap.set("n", "}}", "}}zz")
 vim.keymap.set("n", "[[", "[[zz")
 vim.keymap.set("n", "]]", "]]zz")
 
--- Remove general keymap
-vim.keymap.del("n", "<leader>bb")
--- Set find buffers mapping. This didn't work when setting it on Telescope spec
-vim.keymap.set("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
---
 -- Paste from 0 register
 vim.keymap.set("n", "<Leader>p", '"0p<CR>')
 vim.keymap.set("v", "<Leader>p", '"0p<CR>')
@@ -61,19 +56,21 @@ vim.keymap.del("i", "<A-k>")
 local Util = require("lazyvim.util")
 local wk = require("which-key")
 
-wk.register({
-  fe = {
-    function()
-      require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
-    end,
-    "Explorer NeoTree (cwd)",
-  },
-  fE = {
+wk.add({
+  { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (root dir)", remap = true },
+  { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (cwd)", remap = true },
+  {
+    "<leader>fE",
     function()
       require("neo-tree.command").execute({ toggle = true, dir = Util.root() })
     end,
-    "Explorer NeoTree (root dir)",
+    desc = "Explorer NeoTree (root dir)",
   },
-  e = { "<leader>fe", "Explorer NeoTree (cwd)", remap = true },
-  E = { "<leader>fE", "Explorer NeoTree (root dir)", remap = true },
-}, { prefix = "<leader>" })
+  {
+    "<leader>fe",
+    function()
+      require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+    end,
+    desc = "Explorer NeoTree (cwd)",
+  },
+})

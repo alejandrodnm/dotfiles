@@ -1,5 +1,4 @@
 return {
-  { "simnalamburt/vim-mundo" },
   {
     "szw/vim-maximizer",
     keys = {
@@ -12,16 +11,20 @@ return {
   },
   {
     "ntpeters/vim-better-whitespace",
+    event = "BufReadPost",
     init = function()
-      vim.g.better_whitespace_filetypes_blacklist = { "snacks_dashboard" }
       vim.g.better_whitespace_enabled = 1
       vim.g.strip_whitespace_on_save = 1
       vim.g.strip_whitespace_confirm = 0
       vim.g.strip_whitelines_at_eof = 1
       vim.g.show_spaces_that_precede_tabs = 1
     end,
+    config = function()
+      vim.cmd(
+        [[ let g:better_whitespace_filetypes_blacklist = ['diff', 'git', 'gitcommit', 'unite', 'qf', 'help', 'fugitive', 'snacks_dashboard'] ]]
+      )
+    end,
   },
-  { "mrjones2014/dash.nvim", build = "make install", config = true },
   {
     "tpope/vim-fugitive",
     lazy = false,
@@ -124,56 +127,41 @@ return {
     },
     init = function()
       local wk = require("which-key")
-      wk.register({
-        g = {
-          u = {
-            name = "+Github",
-            c = {
-              name = "+Commits",
-              c = { "<cmd>GHCloseCommit<cr>", "Close" },
-              e = { "<cmd>GHExpandCommit<cr>", "Expand" },
-              o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
-              p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
-              z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
-            },
-            i = {
-              name = "+Issues",
-              p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
-            },
-            l = {
-              name = "+Litee",
-              t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
-            },
-            r = {
-              name = "+Review",
-              b = { "<cmd>GHStartReview<cr>", "Begin" },
-              c = { "<cmd>GHCloseReview<cr>", "Close" },
-              d = { "<cmd>GHDeleteReview<cr>", "Delete" },
-              e = { "<cmd>GHExpandReview<cr>", "Expand" },
-              s = { "<cmd>GHSubmitReview<cr>", "Submit" },
-              z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
-            },
-            p = {
-              name = "+Pull Request",
-              c = { "<cmd>GHClosePR<cr>", "Close" },
-              d = { "<cmd>GHPRDetails<cr>", "Details" },
-              e = { "<cmd>GHExpandPR<cr>", "Expand" },
-              o = { "<cmd>GHOpenPR<cr>", "Open" },
-              p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
-              r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
-              t = { "<cmd>GHOpenToPR<cr>", "Open To" },
-              z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
-            },
-            t = {
-              name = "+Threads",
-              c = { "<cmd>GHCreateThread<cr>", "Create" },
-              n = { "<cmd>GHNextThread<cr>", "Next" },
-              t = { "<cmd>GHToggleThread<cr>", "Toggle" },
-            },
-          },
-        },
-      }, { prefix = "<leader>" })
+      wk.add({
+        { "<leader>gu", group = "Github" },
+        { "<leader>guv", "<cmd>GHToggleViewed<cr>", desc = "ToggleViewed" },
+        { "<leader>gul", "<cmd>LTPanel<cr>", desc = "Toggle Panel" },
+        { "<leader>guc", group = "Commits" },
+        { "<leader>gucc", "<cmd>GHCloseCommit<cr>", desc = "Close" },
+        { "<leader>guce", "<cmd>GHExpandCommit<cr>", desc = "Expand" },
+        { "<leader>guco", "<cmd>GHOpenToCommit<cr>", desc = "Open To" },
+        { "<leader>gucp", "<cmd>GHPopOutCommit<cr>", desc = "Pop Out" },
+        { "<leader>gucz", "<cmd>GHCollapseCommit<cr>", desc = "Collapse" },
+        { "<leader>gui", group = "Issues" },
+        { "<leader>guip", "<cmd>GHPreviewIssue<cr>", desc = "Preview" },
+        { "<leader>gup", group = "Pull Request" },
+        { "<leader>gupc", "<cmd>GHClosePR<cr>", desc = "Close" },
+        { "<leader>gupd", "<cmd>GHPRDetails<cr>", desc = "Details" },
+        { "<leader>gupe", "<cmd>GHExpandPR<cr>", desc = "Expand" },
+        { "<leader>gupo", "<cmd>GHOpenPR<cr>", desc = "Open" },
+        { "<leader>gupp", "<cmd>GHPopOutPR<cr>", desc = "PopOut" },
+        { "<leader>gupr", "<cmd>GHRefreshPR<cr>", desc = "Refresh" },
+        { "<leader>gupt", "<cmd>GHOpenToPR<cr>", desc = "Open To" },
+        { "<leader>gupz", "<cmd>GHCollapsePR<cr>", desc = "Collapse" },
+        { "<leader>gur", group = "Review" },
+        { "<leader>gurb", "<cmd>GHStartReview<cr>", desc = "Begin" },
+        { "<leader>gurc", "<cmd>GHCloseReview<cr>", desc = "Close" },
+        { "<leader>gurd", "<cmd>GHDeleteReview<cr>", desc = "Delete" },
+        { "<leader>gure", "<cmd>GHExpandReview<cr>", desc = "Expand" },
+        { "<leader>gurs", "<cmd>GHSubmitReview<cr>", desc = "Submit" },
+        { "<leader>gurz", "<cmd>GHCollapseReview<cr>", desc = "Collapse" },
+        { "<leader>gut", group = "Threads" },
+        { "<leader>gutc", "<cmd>GHCreateThread<cr>", desc = "Create" },
+        { "<leader>gutn", "<cmd>GHNextThread<cr>", desc = "Next" },
+        { "<leader>gutt", "<cmd>GHToggleThread<cr>", desc = "Toggle" },
+      })
     end,
   },
   { "NoahTheDuke/vim-just" },
+  { "kazhala/close-buffers.nvim" },
 }

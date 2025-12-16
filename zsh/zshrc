@@ -53,17 +53,17 @@ alias sed=gsed
 alias ipython="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
 
 # Postgres
-export DYLD_LIBRARY_PATH="$HOME/.asdf/installs/postgres/17.2/lib:$DYLD_LIBRARY_PATH"
-alias pg_start="PYTHONPATH=$HOME/dev/timescale/pgai/.venv/lib/python3.12/site-packages VIRTUAL_ENV=$HOME/dev/timescale/pgai/.venv $HOME/.asdf/installs/postgres/17.2/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.2/data -l /tmp/pg_log start"
-alias pg_restart="PYTHONPATH=$HOME/dev/timescale/pgai/.venv/lib/python3.12/site-packages VIRTUAL_ENV=$HOME/dev/timescale/pgai/.venv $HOME/.asdf/installs/postgres/17.2/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.2/data -l /tmp/pg_log restart"
-alias pg_stop="$HOME/.asdf/installs/postgres/17.2/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.2/data -l /tmp/pg_log stop"
+export DYLD_LIBRARY_PATH="$HOME/.asdf/installs/postgres/17.4/lib:$DYLD_LIBRARY_PATH"
+alias pg_start="$HOME/.asdf/installs/postgres/17.4/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.4/data -l /tmp/pg_log start"
+alias pg_restart="$HOME/.asdf/installs/postgres/17.4/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.4/data -l /tmp/pg_log restart"
+alias pg_stop="$HOME/.asdf/installs/postgres/17.4/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.4/data -l /tmp/pg_log stop"
 alias pg_logs_tail="tail -f /tmp/pg_log"
 alias pg_logs_cat="cat /tmp/pg_log"
 
 # Git
 alias git='/opt/homebrew/opt/git/bin/git' # Use git from brew
 alias g='git'
-alias gb='git branch --sort=-committerdate'
+alias gb='git branch'
 alias gbd='git branch -D'
 alias ga='git add -A -v'
 alias gau='git add -u -v'
@@ -174,7 +174,7 @@ export AWS_PAGER=bat
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 # oh-my-zsh defines an alias for ls so we override it here
-alias ls='eza -bla --git --icons'
+alias ls='eza -bla --git --icons=always'
 
 alias tf='terraform'
 alias tfda='terraform destroy --auto-approve && terraform apply --auto-approve'
@@ -284,4 +284,5 @@ function ts::create () {
   sc db console add dev@$REGION:$PROJECT_ID/$SERVICE_ID
 }
 
+source "${HOME}/.env"
 eval "$(atuin init zsh)"

@@ -29,14 +29,14 @@
   fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
 [core]
   excludesfile = /Users/adn/.gitignore_global
-  # pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
 [pull]
-  rebase = false
+  rebase = true
 [rebase]
-  autosquash = true
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
 [interactive]
-  # diffFilter = diff-so-fancy --patch
   diffFilter = delta --color-only
 [color]
   ui = true
@@ -66,8 +66,29 @@
 [merge]
   conflictstyle = diff3
 [diff]
-  colorMoved = default
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
 [init]
   defaultBranch = main
 [rerere]
 	enabled = true
+  autoupdate = true
+[column]
+  ui = auto
+[branch]
+  sort = -committerdate
+[tag]
+  sort = version:refname
+[push]
+  default = simple
+  autoSetupRemote = true
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+[help]
+  autocorrect = prompt
+[http]
+	timeout = 300

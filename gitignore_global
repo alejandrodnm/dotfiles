@@ -2,3 +2,6 @@ __adn.*
 __ignore.*
 .tool-versions
 .DS_Store
+.aider.*
+.claude
+.lazy.lua

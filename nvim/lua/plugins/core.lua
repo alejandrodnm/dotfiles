@@ -39,80 +39,12 @@ return {
       },
     },
   },
-  -- interative rename
-  { "smjonas/inc-rename.nvim", config = true },
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      -- servers = {
-      --   pglsp = {},
-      -- },
-      setup = {
-        rust_analyzer = function()
-          return true
-        end,
-        -- pglsp = function(_, opts)
-        --   local lspconfig = require("lspconfig")
-        --   local configs = require("lspconfig.configs")
-        --   local util = require("lspconfig.util")
-        --
-        --   local root_files = {
-        --     ".git",
-        --   }
-        --
-        --   if not configs.pglsp then
-        --     configs.pglsp = {
-        --       default_config = {
-        --         name = "pglsp",
-        --         cmd = { "/Users/adn/dev/third-party/postgres_lsp/target/release/pglsp" },
-        --         filetypes = { "sql" },
-        --         single_file_support = true,
-        --         root_dir = util.root_pattern(unpack(root_files)),
-        --         settings = {
-        --           -- default settings here
-        --         },
-        --       },
-        --       commands = {},
-        --       docs = {
-        --         description = [[
-        --         ]],
-        --       },
-        --     }
-        --   end
-        --   lspconfig.pglsp.setup(opts)
-        -- end,
-      },
-    },
-    init = function()
-      local keys = require("lazyvim.plugins.lsp.keymaps").get()
-
-      -- Change rename from `<leader>cr` to `<leader>cR`
-      keys[#keys + 1] = { "<leader>cr", false }
-
-      if require("lazyvim.util").has("inc-rename.nvim") then
-        keys[#keys + 1] = {
-          "<leader>cn",
-          function()
-            local inc_rename = require("inc_rename")
-            return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
-          end,
-          expr = true,
-          desc = "Rename",
-          has = "rename",
-        }
-      else
-        keys[#keys + 1] = { "<leader>cn", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
-      end
-    end,
-  },
   { "rcarriga/nvim-notify", enabled = false },
   { "akinsho/bufferline.nvim", opts = { options = { mode = "tabs" } } },
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
-      local icons = require("lazyvim.config").icons
-      local Util = require("lazyvim.util")
-
+      local icons = LazyVim.config.icons
       opts.inactive_winbar = {
         lualine_a = {},
         lualine_b = {},
@@ -126,8 +58,15 @@ return {
       }
 
       opts.sections = vim.tbl_extend("force", opts.sections, {
-        lualine_a = { "mode" },
-        lualine_b = { "branch" },
+        lualine_a = {
+          {
+            "mode",
+            fmt = function(str)
+              return str:sub(1, 1)
+            end,
+          },
+        },
+        lualine_b = {},
         lualine_c = {
           {
             "diagnostics",
@@ -139,20 +78,35 @@ return {
             },
           },
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-          { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+          -- { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+          { LazyVim.lualine.pretty_path({ length = 10 }) },
         },
         lualine_x = {
+
+          Snacks.profiler.status(),
           -- stylua: ignore
           {
             function() return require("noice").api.status.command.get() end,
             cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-            color = Util.ui.fg("Constant"),
+            color = function() return { fg = Snacks.util.color("Statement") } end,
+          },
+          -- stylua: ignore
+          {
+            function() return require("noice").api.status.mode.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+            color = function() return { fg = Snacks.util.color("Constant") } end,
           },
           -- stylua: ignore
           {
             function() return "  " .. require("dap").status() end,
-            cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
-            color = Util.ui.fg("Debug"),
+            cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+            color = function() return { fg = Snacks.util.color("Debug") } end,
+          },
+          -- stylua: ignore
+          {
+            require("lazy.status").updates,
+            cond = require("lazy.status").has_updates,
+            color = function() return { fg = Snacks.util.color("Special") } end,
           },
           {
             "diff",
@@ -164,10 +118,7 @@ return {
           },
         },
         lualine_y = {},
-        lualine_z = {
-          { "progress", separator = "", padding = { left = 0, right = 0 } },
-          { "location", padding = { left = 0, right = 0 } },
-        },
+        lualine_z = {},
       })
     end,
   },
@@ -200,11 +151,12 @@ return {
   {
     "telescope.nvim",
     dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
+      {
+        "ThePrimeagen/harpoon",
+        config = function()
+          require("telescope").load_extension("harpoon")
+        end,
+      },
     },
     keys = {
       -- disable the keymap to change buffers
@@ -302,7 +254,7 @@ return {
       vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#021316" })
     end,
   },
-  { "echasnovski/mini.pairs", enabled = false },
+  { "nvim-mini/mini.pairs", enabled = false },
   {
     "mfussenegger/nvim-lint",
     opts = function(_, opts)
@@ -322,16 +274,16 @@ return {
         shfmt = {
           prepend_args = { "-i", "2" },
         },
-        sqlfluff = {
-          args = { "fix", "--dialect=postgres", "--config=/Users/adn/.sqlfluff", "-" },
-          stdin = true,
-          cwd = require("conform.util").root_file({
-            ".git",
-          }),
-        },
+        -- sqlfluff = {
+        --   args = { "fix", "--dialect=postgres", "--config=/Users/adn/.sqlfluff", "-" },
+        --   stdin = true,
+        --   cwd = require("conform.util").root_file({
+        --     ".git",
+        --   }),
+        -- },
       },
       formatters_by_ft = {
-        -- sql = { "sql_formatter" },
+        sql = {},
         -- pgsql = { "sql_formatter" },
         -- python = { "black" },
         c = { "clang_format" },
@@ -341,14 +293,6 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    opts = {
-      menu = {
-        width = vim.api.nvim_win_get_width(0) - 4,
-      },
-      settings = {
-        save_on_toggle = true,
-      },
-    },
     keys = {
       { "<leader>h", "<cmd>Telescope harpoon marks<cr>", desc = "Harpoon" },
       {
@@ -361,13 +305,40 @@ return {
       },
     },
   },
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   build = "make tiktoken", -- Only on MacOS or Linux
+  --   opts = {
+  --     debug = false, -- Enable debugging
+  --     model = "claude-3.5-sonnet",
+  --     -- See Configuration section for rest
+  --   },
+  -- },
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    build = "make tiktoken", -- Only on MacOS or Linux
+    "snacks.nvim",
+    ---@type snacks.Config
     opts = {
-      debug = false, -- Enable debugging
-      model = "claude-3.5-sonnet",
-      -- See Configuration section for rest
+      scroll = { enabled = false },
+      ---@type table<string, snacks.win.Config>
+      styles = {
+        zen = {
+          backdrop = { transparent = false, blend = 40 },
+        },
+      },
+    },
+  },
+  {
+    "hedyhli/outline.nvim",
+    config = function()
+      require("outline").setup({
+        providers = {
+          priority = { "lsp", "coc", "markdown", "norg", "treesitter" },
+        },
+      })
+    end,
+    event = "VeryLazy",
+    dependencies = {
+      "epheien/outline-treesitter-provider.nvim",
     },
   },
 }

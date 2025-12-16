@@ -19,3 +19,10 @@ vim.o.laststatus = 2
 vim.o.wrap = true
 vim.o.fillchars = "horiz:-,vert:|"
 vim.o.tw = 79
+vim.opt.smoothscroll = false
+
+-- In case you don't want to use `:LazyExtras`,
+-- then you need to set the option below.
+vim.g.lazyvim_picker = "snacks"
+-- provided by rust-analyzer.
+-- vim.g.lazyvim_rust_diagnostics = "bacon-ls"
