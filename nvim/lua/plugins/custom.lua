@@ -41,14 +41,14 @@ return {
   --GBrowse support
   { "tpope/vim-rhubarb" },
   { "tpope/vim-endwise" },
-  {
-    "mileszs/ack.vim",
-    init = function()
-      if vim.fn.executable("rg") == 1 then
-        vim.g.ackprg = "rg --vimgrep --no-heading"
-      end
-    end,
-  },
+  -- {
+  --   "mileszs/ack.vim",
+  --   init = function()
+  --     if vim.fn.executable("rg") == 1 then
+  --       vim.g.ackprg = "rg --vimgrep --no-heading"
+  --     end
+  --   end,
+  -- },
   {
     "alok/notational-fzf-vim",
     init = function()

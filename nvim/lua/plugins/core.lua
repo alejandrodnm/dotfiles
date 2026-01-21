@@ -181,71 +181,6 @@ return {
     --   opts.defaults.mappings.i["<M-l>"] = actions.complete_tag
     -- end,
   },
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   opts = function(_, opts)
-  --     local cmp = require("cmp")
-  --     opts.mapping = vim.tbl_deep_extend("force", opts.mapping, {
-  --       ["<C-e>"] = cmp.mapping.confirm({ select = true }),
-  --       ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-  --       ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-  --       ["<C-c>"] = cmp.mapping.abort(),
-
-  -- This is using luasnip instead of the builtin snippets
-  --
-  --   ["<Tab>"] = cmp.mapping(function(fallback)
-  --     if cmp.visible() then
-  --       -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
-  --       cmp.select_next_item()
-  --     -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-  --     -- this way you will only jump inside the snippet region
-  --     elseif luasnip.expand_or_locally_jumpable() then
-  --       luasnip.expand_or_jump()
-  --     elseif has_words_before() then
-  --       cmp.complete()
-  --     else
-  --       fallback()
-  --     end
-  --   end, { "i", "s" }),
-  --   ["<S-Tab>"] = cmp.mapping(function(fallback)
-  --     if cmp.visible() then
-  --       cmp.select_prev_item()
-  --     elseif luasnip.jumpable(-1) then
-  --       luasnip.jump(-1)
-  --     else
-  --       fallback()
-  --     end
-  --   end, { "i", "s" }),
-  -- })
-  --     })
-  --   end,
-  -- },
-  -- {
-  --   "nvim-cmp",
-  --   opts = function(_, opts)
-  --     for _, source in ipairs(opts.sources) do
-  --       if source.name == "copilot" then
-  --         source.priority = -100
-  --       end
-  --     end
-  --   end,
-  --   keys = {
-  --     {
-  --       "<Tab>",
-  --       false,
-  --       expr = true,
-  --       silent = true,
-  --       mode = { "i", "s" },
-  --     },
-  --     {
-  --       "<S-Tab>",
-  --       false,
-  --       expr = true,
-  --       silent = true,
-  --       mode = { "i", "s" },
-  --     },
-  --   },
-  -- },
   {
     "nvim-treesitter/nvim-treesitter-context",
     init = function()
@@ -339,6 +274,26 @@ return {
     event = "VeryLazy",
     dependencies = {
       "epheien/outline-treesitter-provider.nvim",
+    },
+  },
+  {
+    "saghen/blink.cmp",
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+
+      keymap = {
+        ["<Tab>"] = {
+          "snippet_forward",
+          function() -- sidekick next edit suggestion
+            return require("sidekick").nes_jump_or_apply()
+          end,
+          function() -- if you are using Neovim's native inline completions
+            return vim.lsp.inline_completion.get()
+          end,
+          "fallback",
+        },
+      },
     },
   },
 }
