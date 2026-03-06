@@ -286,3 +286,6 @@ function ts::create () {
 
 source "${HOME}/.env"
 eval "$(atuin init zsh)"
+
+# Ox shell completions
+command -v ox &>/dev/null && source <(ox complete zsh)
