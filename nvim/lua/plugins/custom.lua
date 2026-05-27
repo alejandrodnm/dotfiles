@@ -29,7 +29,8 @@ return {
     "tpope/vim-fugitive",
     lazy = false,
     keys = {
-      { "<Leader>gs", ":Git<CR>", silent = true, desc = "Git status" },
+      -- Replaced by neo tree view
+      -- { "<Leader>gs", ":Git<CR>", silent = true, desc = "Git status" },
       { "<Leader>gd", ":Gvdiffsplit<CR>", silent = true, desc = "Git diff" },
       { "<Leader>gl", ":0Gclog<CR>", silent = true, desc = "Git log" },
       { "<Leader>gb", ":Git blame<CR>", silent = true, desc = "Git blame" },
@@ -164,4 +165,23 @@ return {
   },
   { "NoahTheDuke/vim-just" },
   { "kazhala/close-buffers.nvim" },
+  {
+    "dlyongemallo/diffview.nvim",
+    keys = {
+
+      { "<Leader>gw", ":DiffviewToggle<CR>", silent = true, desc = "Git diff review" },
+    },
+    opts = {
+      keymaps = {
+        disable_defaults = true,
+      },
+    },
+  },
+  {
+    "rickhowe/diffchar.vim",
+
+    init = function()
+      vim.g.DiffCharDoMapping = 0
+    end,
+  },
 }

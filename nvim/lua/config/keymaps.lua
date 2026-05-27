@@ -35,6 +35,11 @@ vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "Tab close" })
 -- Replace \n with enter
 vim.keymap.set("n", "<Leader>cn", ":'<,'>s/\\n/\r/g", { desc = "Replace \\n with new line" })
 
+-- Git status in Neo-tree
+vim.keymap.set("n", "<leader>gs", function()
+  require("neo-tree.command").execute({ source = "git_status", toggle = true })
+end, { desc = "Neo-tree git status" })
+
 -- Jumps and zz
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")

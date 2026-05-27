@@ -1,3 +1,6 @@
+brew "gum"
+brew "graphql-codegen" # web-cloud tiger data
+brew "googleworkspace-cli"
 brew "uv"
 brew "fswatch"
 tap "derailed/k9s"

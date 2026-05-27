@@ -52,6 +52,13 @@ alias sed=gsed
 
 alias ipython="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
 
+alias ccd="claude --dangerously-skip-permissions"
+
+alias tfd='TIMESCALE_DEV_URL="https://console.dev.timescale.com/api/query" tf'
+
+export TS_DEV='eih2ra6sar'
+export TS_PROD='j6aah7bc6s'
+
 # Postgres
 export DYLD_LIBRARY_PATH="$HOME/.asdf/installs/postgres/17.4/lib:$DYLD_LIBRARY_PATH"
 alias pg_start="$HOME/.asdf/installs/postgres/17.4/bin/pg_ctl -D $HOME/.asdf/installs/postgres/17.4/data -l /tmp/pg_log start"
@@ -92,6 +99,7 @@ alias gst='git stash'
 alias gstp='git stash pop'
 alias gstd='git stash drop'
 alias gprl='git log --pretty=format:"### %s %n %n %b" --reverse origin/main..HEAD | pbcopy'
+alias gdbot='git commit -m "chore: dependabot ci" --allow-empty'
 # Delete all the git branches except master
 function git::clean () {
   git checkout main > /dev/null 2>&1
@@ -284,8 +292,8 @@ function ts::create () {
   sc db console add dev@$REGION:$PROJECT_ID/$SERVICE_ID
 }
 
-source "${HOME}/.env"
-eval "$(atuin init zsh)"
-
 # Ox shell completions
 command -v ox &>/dev/null && source <(ox complete zsh)
+
+source "${HOME}/.env"
+eval "$(atuin init zsh)"
