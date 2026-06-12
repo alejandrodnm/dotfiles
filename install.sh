@@ -9,6 +9,7 @@ main() {
   install_tmux
   install_psqlrc
   install_kitty
+  install_ghostty
   install_zsh
   install_node
   install_rust
@@ -47,6 +48,14 @@ install_kitty() {
     rm "${HOME}/.config/kitty/kitty.conf"
   fi
   ln -s "${PWD}/kitty.conf" "${HOME}/.config/kitty/kitty.conf"
+}
+
+install_ghostty() {
+  mkdir -p "${HOME}/.config/ghostty"
+  if [ -e "${HOME}/.config/ghostty/config" ] || [ -L "${HOME}/.config/ghostty/config" ]; then
+    rm "${HOME}/.config/ghostty/config"
+  fi
+  ln -s "${PWD}/ghostty.conf" "${HOME}/.config/ghostty/config"
 }
 
 install_psqlrc() {

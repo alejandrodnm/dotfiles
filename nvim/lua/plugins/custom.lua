@@ -166,20 +166,37 @@ return {
   { "NoahTheDuke/vim-just" },
   { "kazhala/close-buffers.nvim" },
   {
-    "dlyongemallo/diffview.nvim",
+    "dlyongemallo/diffview-plus.nvim",
+    version = "*",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewToggle",
+      "DiffviewFileHistory",
+      "DiffviewDiffFiles",
+      "DiffviewLog",
+    },
     keys = {
-
-      { "<Leader>gw", ":DiffviewToggle<CR>", silent = true, desc = "Git diff review" },
+      { "<Leader>gw", ":DiffviewToggle origin/main<CR>", silent = true, desc = "Git diff review" },
     },
-    opts = {
-      keymaps = {
-        disable_defaults = true,
-      },
-    },
+    config = function()
+      require("diffview").setup({
+        enhanced_diff_hl = true,
+        use_icons = true,
+        view = {
+          default = { layout = "diff2_horizontal" },
+          merge_tool = { layout = "diff3_horizontal" },
+        },
+        file_panel = {
+          listing_style = "tree",
+          win_config = { position = "left", width = 35 }, -- Use "auto" to fit content
+        },
+        hooks = {}, -- See :h diffview-config-hooks
+        keymaps = {}, -- See :h diffview-config-keymaps
+      })
+    end,
   },
   {
     "rickhowe/diffchar.vim",
-
     init = function()
       vim.g.DiffCharDoMapping = 0
     end,
